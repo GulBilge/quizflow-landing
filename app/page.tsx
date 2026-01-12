@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, FileText, Zap, Brain, ArrowRight, Smartphone, UploadCloud, PlayCircle } from 'lucide-react';
+import { Sparkles, FileText, Zap, Brain, ArrowRight, Smartphone, UploadCloud, PlayCircle, Twitter } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 
+// Supabase istemcisini oluşturuyoruz
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -13,28 +14,60 @@ const supabase = createClient(
 export default function Home() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState(''); // Kullanıcıya gösterilecek mesaj state'i
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setStatus('loading');
-
-  const { error } = await supabase
-    .from('waitlist')
-    .insert({ email });
-
-  if (error) {
-    if (error.code === '23505') {
-       alert("Zaten bekleme listesindesin! 🎉"); // Veya UI'da mesaj göster
-       setStatus('success'); // Kullanıcıya başarılı gibi gösterebiliriz
-    } else {
-       console.error(error);
-       setStatus('error');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // 1. VALIDATION: Basit e-posta kontrolü
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      setStatus('error');
+      setMessage('Please enter a valid email address.');
+      
+      setTimeout(() => {
+        setStatus('idle');
+        setMessage('');
+      }, 3000);
+      
+      return; 
     }
-  } else {
-    setStatus('success');
-    setEmail('');
-  }
-};
+
+    setStatus('loading');
+    setMessage('');
+
+    try {
+      const { error } = await supabase
+        .from('waitlist')
+        .insert({ email });
+
+      if (error) {
+        // Unique Violation (Zaten kayıtlı)
+        if (error.code === '23505') {
+          setStatus('success');
+          setMessage("You're already on the list! 🎉");
+          setEmail(''); 
+        } else {
+          throw error;
+        }
+      } else {
+        // Başarılı
+        setStatus('success');
+        setMessage('You are in! 🚀');
+        setEmail('');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('error');
+      setMessage('Something went wrong. Try again.');
+    }
+
+    // 4 saniye sonra butonu sıfırla
+    setTimeout(() => {
+      setStatus('idle');
+      setMessage('');
+    }, 4000);
+  };
+
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-indigo-500 selection:text-white overflow-hidden">
       
@@ -111,14 +144,32 @@ const handleSubmit = async (e: React.FormEvent) => {
                 placeholder="Enter your email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-neutral-600 transition-all"
+                disabled={status === 'loading' || status === 'success'}
+                className="flex-1 bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-neutral-600 transition-all disabled:opacity-50"
               />
               <button 
                 disabled={status === 'loading' || status === 'success'}
-                className="bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-900 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-indigo-600/20"
+                className={`
+                  px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-lg 
+                  ${status === 'success' 
+                    ? 'bg-green-600 hover:bg-green-600 text-white cursor-default' 
+                    : status === 'error'
+                    ? 'bg-red-600 hover:bg-red-500 text-white'
+                    : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/20'
+                  }
+                `}
               >
-                {status === 'success' ? 'You are in! 🚀' : 'Join Waitlist'}
-                {status !== 'success' && <ArrowRight size={18} />}
+                {status === 'loading' ? (
+                  <span className="animate-pulse">Saving...</span>
+                ) : status === 'success' ? (
+                  message
+                ) : status === 'error' ? (
+                  message
+                ) : (
+                  <>
+                    Join Waitlist <ArrowRight size={18} />
+                  </>
+                )}
               </button>
             </form>
           </motion.div>
@@ -152,7 +203,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 
             {/* Step 2 */}
             <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors relative">
-               {/* Arrow for desktop */}
                <div className="hidden md:block absolute top-1/2 -left-3 -translate-y-1/2 text-neutral-700">
                   <ArrowRight size={24} />
                </div>
@@ -165,7 +215,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 
             {/* Step 3 */}
             <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors relative">
-               {/* Arrow for desktop */}
                <div className="hidden md:block absolute top-1/2 -left-3 -translate-y-1/2 text-neutral-700">
                   <ArrowRight size={24} />
                </div>
@@ -179,7 +228,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
 
         {/* FEATURES GRID */}
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
           <div className="col-span-1 lg:col-span-2 bg-gradient-to-br from-indigo-900/20 to-neutral-900 border border-white/5 p-8 rounded-3xl">
              <div className="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center mb-4">
                 <FileText className="text-white" />
@@ -217,13 +266,46 @@ const handleSubmit = async (e: React.FormEvent) => {
                   We use the latest AI models to ensure the questions generated are relevant, accurate, and context-aware. It's like having a private tutor analyzing your notes.
                 </p>
              </div>
-             {/* Abstract visual for AI */}
              <div className="w-full md:w-32 h-12 flex items-center justify-center gap-1">
                 <div className="w-2 h-8 bg-indigo-500 rounded-full animate-pulse"></div>
                 <div className="w-2 h-12 bg-indigo-400 rounded-full animate-pulse delay-75"></div>
                 <div className="w-2 h-6 bg-purple-500 rounded-full animate-pulse delay-150"></div>
              </div>
           </div>
+        </div>
+
+        {/* NEW: SOCIAL PROOF / BUILD IN PUBLIC SECTION */}
+        <div className="max-w-4xl mx-auto mb-32 px-4">
+           <a 
+            href="https://x.com/bilgegulko1" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="block group relative overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/50 hover:bg-neutral-900 hover:border-indigo-500/50 transition-all duration-300"
+           >
+             <div className="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-40 transition-opacity">
+                <Twitter size={120} className="text-indigo-500 -rotate-12 translate-x-10 -translate-y-10" />
+             </div>
+             
+             <div className="p-8 flex flex-col md:flex-row items-center gap-6 relative z-10">
+               <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center shrink-0 border-2 border-indigo-500 shadow-lg shadow-indigo-500/20">
+                 {/* Eğer profil fotoğrafın varsa buraya <img /> koyabiliriz, şimdilik ikon */}
+                 <Twitter className="text-white" size={28} />
+               </div>
+               <div className="text-center md:text-left">
+                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-indigo-400 transition-colors">
+                    Witness the Journey on X
+                  </h3>
+                  <p className="text-neutral-400 text-sm leading-relaxed">
+                    I'm building QuizFlow in public. Follow <strong>@bilgegulko1</strong> to see behind-the-scenes updates, vote on upcoming features, and be part of the story.
+                  </p>
+               </div>
+               <div className="ml-auto mt-4 md:mt-0">
+                  <span className="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-full font-bold text-sm hover:bg-indigo-50  transition-colors">
+                    Follow Me <ArrowRight size={16} />
+                  </span>
+               </div>
+             </div>
+           </a>
         </div>
 
         {/* FOOTER CTA */}
