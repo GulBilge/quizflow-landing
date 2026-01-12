@@ -1,65 +1,257 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles, FileText, Zap, Brain, ArrowRight, Smartphone, UploadCloud, PlayCircle } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export default function Home() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setStatus('loading');
+
+  const { error } = await supabase
+    .from('waitlist')
+    .insert({ email });
+
+  if (error) {
+    if (error.code === '23505') {
+       alert("Zaten bekleme listesindesin! 🎉"); // Veya UI'da mesaj göster
+       setStatus('success'); // Kullanıcıya başarılı gibi gösterebiliriz
+    } else {
+       console.error(error);
+       setStatus('error');
+    }
+  } else {
+    setStatus('success');
+    setEmail('');
+  }
+};
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-indigo-500 selection:text-white overflow-hidden">
+      
+      {/* Background Gradients */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/10 rounded-full blur-[100px]"></div>
+      </div>
+
+      {/* Navbar */}
+      <nav className="fixed w-full z-50 bg-neutral-950/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/30">
+              <Sparkles size={18} className="text-white" />
+            </div>
+            QuizFlow
+          </div>
+          <a href="#waitlist" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors">
+            Get Early Access
+          </a>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </nav>
+
+      <main className="relative z-10 pt-32 pb-20 px-4">
+        
+        {/* HERO SECTION */}
+        <div className="max-w-4xl mx-auto text-center space-y-8 mb-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            Waitlist is now open
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight"
           >
-            Documentation
-          </a>
+            <span className="bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">Don't just read PDFs.</span>
+            <br />
+            <span className="text-indigo-500">Interact with them.</span>
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed"
+          >
+            Upload your static PDF exams or lecture notes and instantly transform them into 
+            <span className="text-white font-medium"> interactive quizzes</span> with AI-powered feedback. 
+            Stop memorizing blindly, start learning actively.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+          >
+             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row w-full max-w-md gap-3">
+              <input 
+                type="email" 
+                required
+                placeholder="Enter your email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-neutral-600 transition-all"
+              />
+              <button 
+                disabled={status === 'loading' || status === 'success'}
+                className="bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-900 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-indigo-600/20"
+              >
+                {status === 'success' ? 'You are in! 🚀' : 'Join Waitlist'}
+                {status !== 'success' && <ArrowRight size={18} />}
+              </button>
+            </form>
+          </motion.div>
+          
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-xs text-neutral-500"
+          >
+            🔒 Secure your spot for the <strong>Lifetime Deal</strong>. No spam, just updates.
+          </motion.p>
+        </div>
+
+        {/* VISUAL DEMO / HOW IT WORKS */}
+        <div className="max-w-5xl mx-auto mb-32">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold text-white mb-2">From Static File to Active Learning</h2>
+            <p className="text-neutral-500">How QuizFlow works in 3 simple steps</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Step 1 */}
+            <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors">
+              <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 transition-transform">
+                <UploadCloud size={32} />
+              </div>
+              <h3 className="text-lg font-bold mb-2">1. Upload PDF</h3>
+              <p className="text-sm text-neutral-400">Drag & drop your lecture slides, past exams, or textbook chapters.</p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors relative">
+               {/* Arrow for desktop */}
+               <div className="hidden md:block absolute top-1/2 -left-3 -translate-y-1/2 text-neutral-700">
+                  <ArrowRight size={24} />
+               </div>
+              <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 transition-transform">
+                <Brain size={32} />
+              </div>
+              <h3 className="text-lg font-bold mb-2">2. AI Analysis</h3>
+              <p className="text-sm text-neutral-400">Gemini AI scans the content, identifies key concepts, and generates questions.</p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors relative">
+               {/* Arrow for desktop */}
+               <div className="hidden md:block absolute top-1/2 -left-3 -translate-y-1/2 text-neutral-700">
+                  <ArrowRight size={24} />
+               </div>
+              <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 transition-transform">
+                <PlayCircle size={32} />
+              </div>
+              <h3 className="text-lg font-bold mb-2">3. Start Quiz</h3>
+              <p className="text-sm text-neutral-400">Solve the interactive quiz, track your score, and review explanations.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* FEATURES GRID */}
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32">
+          <div className="col-span-1 lg:col-span-2 bg-gradient-to-br from-indigo-900/20 to-neutral-900 border border-white/5 p-8 rounded-3xl">
+             <div className="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center mb-4">
+                <FileText className="text-white" />
+             </div>
+             <h3 className="text-2xl font-bold mb-3">PDF to Interactive Exam</h3>
+             <p className="text-neutral-400 max-w-md">
+               The core superpower. Don't just read through boring PDF files. Let our AI convert them into a test format instantly, so you can practice actively instead of passively reading.
+             </p>
+          </div>
+
+          <div className="bg-neutral-900/30 border border-white/5 p-8 rounded-3xl">
+             <div className="h-10 w-10 bg-neutral-800 rounded-lg flex items-center justify-center mb-4 text-indigo-400">
+                <Zap />
+             </div>
+             <h3 className="text-xl font-bold mb-2">Instant Feedback</h3>
+             <p className="text-neutral-400 text-sm">
+               Get immediate explanations for every answer. Understand "Why" it's wrong, not just "What" is wrong.
+             </p>
+          </div>
+
+          <div className="bg-neutral-900/30 border border-white/5 p-8 rounded-3xl">
+             <div className="h-10 w-10 bg-neutral-800 rounded-lg flex items-center justify-center mb-4 text-indigo-400">
+                <Smartphone />
+             </div>
+             <h3 className="text-xl font-bold mb-2">Mobile First</h3>
+             <p className="text-neutral-400 text-sm">
+               Designed for your phone. Turn your commute or coffee break into a productive study session.
+             </p>
+          </div>
+          
+           <div className="col-span-1 lg:col-span-2 bg-neutral-900/30 border border-white/5 p-8 rounded-3xl flex flex-col md:flex-row items-center gap-8">
+             <div className="flex-1">
+                <h3 className="text-xl font-bold mb-2">Powered by Google Gemini</h3>
+                <p className="text-neutral-400 text-sm">
+                  We use the latest AI models to ensure the questions generated are relevant, accurate, and context-aware. It's like having a private tutor analyzing your notes.
+                </p>
+             </div>
+             {/* Abstract visual for AI */}
+             <div className="w-full md:w-32 h-12 flex items-center justify-center gap-1">
+                <div className="w-2 h-8 bg-indigo-500 rounded-full animate-pulse"></div>
+                <div className="w-2 h-12 bg-indigo-400 rounded-full animate-pulse delay-75"></div>
+                <div className="w-2 h-6 bg-purple-500 rounded-full animate-pulse delay-150"></div>
+             </div>
+          </div>
+        </div>
+
+        {/* FOOTER CTA */}
+        <div id="waitlist" className="max-w-3xl mx-auto text-center space-y-6 pt-20 border-t border-white/5">
+          <h2 className="text-3xl md:text-4xl font-bold">Ready to Upgrade Your Study Game?</h2>
+          <p className="text-neutral-400">
+            Join the waitlist today. We are building this in public, and early supporters get the best deal.
+          </p>
+          <div className="flex justify-center">
+             <button 
+               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+               className="bg-white text-black hover:bg-neutral-200 px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+              >
+               Join the Waitlist
+             </button>
+          </div>
         </div>
       </main>
+
+      <footer className="py-10 text-center text-neutral-600 text-sm">
+        <div className="flex flex-col items-center gap-4">
+          <p>© 2026 QuizFlow. All rights reserved.</p>
+          <p className="flex items-center gap-1.5 text-neutral-500 hover:text-indigo-400 transition-colors cursor-default select-none">
+            <span>Developed with love</span>
+            <span className="text-red-500 animate-pulse text-base">❤️</span>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
