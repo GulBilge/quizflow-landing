@@ -81,8 +81,9 @@ export default function Home() {
       <nav className="fixed w-full z-50 bg-neutral-950/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/30">
-              <Sparkles size={18} className="text-white" />
+<div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg" style={{backgroundColor: 'rgb(44 63 113)', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)'}}>
+            <img src="/webicon.jpg" alt="QuizFlow Logo" className="w-7 h-7" />
+              {/* <Sparkles size={18} className="text-white" /> */}
             </div>
             QuizFlow
           </div>
