@@ -69,7 +69,7 @@ export async function updateSession(request: NextRequest) {
 
             const adminEmails = (adminEmailsEnv || "")
                 .split(",")
-                .map((e) => e.trim().toLowerCase());
+                .map((e) => e.trim().replace(/['"]+/g, '').toLowerCase());
             const userEmail = (user.email || "").trim().toLowerCase();
 
             console.log("Admin Auth Check:", { userEmail, adminEmails });
