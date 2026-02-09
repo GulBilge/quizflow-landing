@@ -6,10 +6,10 @@ import { Sparkles, FileText, Zap, Brain, ArrowRight, Smartphone, UploadCloud, Pl
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase istemcisini oluşturuyoruz
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// Supabase istemcisini oluşturuyoruz
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Home() {
   const [email, setEmail] = useState('');
