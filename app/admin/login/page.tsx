@@ -10,16 +10,27 @@ export default function LoginPage() {
 
     const handleLogin = async () => {
         setIsLoading(true);
-        await supabase.auth.signInWithOAuth({
-            provider: "google",
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-                queryParams: {
-                    access_type: "offline",
-                    prompt: "consent",
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                    redirectTo: `${window.location.origin}/auth/callback`,
+                    queryParams: {
+                        access_type: "offline",
+                        prompt: "consent",
+                    },
                 },
-            },
-        });
+            });
+            if (error) {
+                console.error("Login error:", error);
+                alert("Login failed: " + error.message);
+                setIsLoading(false);
+            }
+        } catch (err) {
+            console.error("Unexpected error:", err);
+            alert("An unexpected error occurred.");
+            setIsLoading(false);
+        }
     };
 
     return (
