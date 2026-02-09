@@ -1,7 +1,8 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
+// import { createClient } from "@/utils/supabase/client";
 import { Database, Bookmark, PlayCircle, Users, RefreshCw, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { getKpiAndPopular, getContentFeed, getAttemptsFeed } from "./actions";
 import { useEffect, useState, useCallback } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
@@ -92,70 +93,48 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const supabase = createClient();
+    // const supabase = createClient(); // No longer needed
+
+    // Server Actions are imported at the top
 
     const fetchKpiAndPopular = useCallback(async () => {
         try {
-            const { data: kpiData, error: kpiError } = await supabase
-                .from("admin_kpi_summary")
-                .select("*")
-                .single();
-            if (kpiError) throw kpiError;
-            setKpi(kpiData);
-
-            const { data: popularData, error: popularError } = await supabase
-                .from("admin_popular_quizzes")
-                .select("*")
-                .limit(10); // Still limit popular quizzes to top 10 for the summary widget
-            if (popularError) throw popularError;
-            setPopularQuizzes(popularData || []);
+            const { kpi, popular } = await getKpiAndPopular();
+            setKpi(kpi);
+            setPopularQuizzes(popular || []);
         } catch (err: any) {
             console.error("Error fetching KPI/Popular:", err);
             setError(err.message);
         }
-    }, [supabase]);
+    }, []);
 
-    const fetchContentFeed = useCallback(async (page: number) => {
+    const fetchContentFeedData = useCallback(async (page: number) => {
         try {
-            const from = page * ITEMS_PER_PAGE;
-            const to = from + ITEMS_PER_PAGE - 1;
-            const { data, error } = await supabase
-                .from("admin_content_feed")
-                .select("*")
-                .range(from, to);
-
-            if (error) throw error;
-            setContentFeed(data || []);
+            const data = await getContentFeed(page);
+            setContentFeed(data as ContentFeedItem[] || []);
         } catch (err: any) {
             console.error("Error fetching Content Feed:", err);
         }
-    }, [supabase]);
+    }, []);
 
-    const fetchAttemptsFeed = useCallback(async (page: number) => {
+    const fetchAttemptsFeedData = useCallback(async (page: number) => {
         try {
-            const from = page * ITEMS_PER_PAGE;
-            const to = from + ITEMS_PER_PAGE - 1;
-            const { data, error } = await supabase
-                .from("admin_attempts_feed")
-                .select("*")
-                .range(from, to);
-
-            if (error) throw error;
-            setAttemptsFeed(data || []);
+            const data = await getAttemptsFeed(page);
+            setAttemptsFeed(data as AttemptFeedItem[] || []);
         } catch (err: any) {
             console.error("Error fetching Attempts Feed:", err);
         }
-    }, [supabase]);
+    }, []);
 
     const fetchAllData = useCallback(async () => {
         setLoading(true);
         await Promise.all([
             fetchKpiAndPopular(),
-            fetchContentFeed(contentPage),
-            fetchAttemptsFeed(attemptsPage)
+            fetchContentFeedData(contentPage),
+            fetchAttemptsFeedData(attemptsPage)
         ]);
         setLoading(false);
-    }, [fetchKpiAndPopular, fetchContentFeed, fetchAttemptsFeed, contentPage, attemptsPage]);
+    }, [fetchKpiAndPopular, fetchContentFeedData, fetchAttemptsFeedData, contentPage, attemptsPage]);
 
     useEffect(() => {
         fetchAllData();
