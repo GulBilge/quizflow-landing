@@ -80,3 +80,16 @@ export async function getAttemptsFeed(page: number) {
     if (error) throw new Error(error.message);
     return data;
 }
+
+export async function getUserEngagement() {
+    await checkAdminAccess();
+    const supabaseAdmin = createAdminClient();
+
+    const { data, error } = await supabaseAdmin
+        .from("user_daily_engagement")
+        .select("*")
+        .order("participation_rate", { ascending: false });
+
+    if (error) throw new Error(error.message);
+    return data;
+}

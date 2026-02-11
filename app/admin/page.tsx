@@ -2,7 +2,8 @@
 
 // import { createClient } from "@/utils/supabase/client";
 import { Database, Bookmark, PlayCircle, Users, RefreshCw, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
-import { getKpiAndPopular, getContentFeed, getAttemptsFeed } from "./actions";
+import { getKpiAndPopular, getContentFeed, getAttemptsFeed, getUserEngagement } from "./actions";
+import UserEngagementTable, { UserEngagement } from "./UserEngagementTable";
 import { useEffect, useState, useCallback } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
@@ -85,6 +86,7 @@ export default function AdminDashboard() {
     const [popularQuizzes, setPopularQuizzes] = useState<PopularQuiz[]>([]);
     const [contentFeed, setContentFeed] = useState<ContentFeedItem[]>([]);
     const [attemptsFeed, setAttemptsFeed] = useState<AttemptFeedItem[]>([]);
+    const [engagementData, setEngagementData] = useState<UserEngagement[]>([]);
 
     // Pagination states
     const [attemptsPage, setAttemptsPage] = useState(0);
@@ -126,15 +128,25 @@ export default function AdminDashboard() {
         }
     }, []);
 
+    const fetchEngagementData = useCallback(async () => {
+        try {
+            const data = await getUserEngagement();
+            setEngagementData(data as UserEngagement[] || []);
+        } catch (err: any) {
+            console.error("Error fetching Engagement Data:", err);
+        }
+    }, []);
+
     const fetchAllData = useCallback(async () => {
         setLoading(true);
         await Promise.all([
             fetchKpiAndPopular(),
             fetchContentFeedData(contentPage),
-            fetchAttemptsFeedData(attemptsPage)
+            fetchAttemptsFeedData(attemptsPage),
+            fetchEngagementData()
         ]);
         setLoading(false);
-    }, [fetchKpiAndPopular, fetchContentFeedData, fetchAttemptsFeedData, contentPage, attemptsPage]);
+    }, [fetchKpiAndPopular, fetchContentFeedData, fetchAttemptsFeedData, fetchEngagementData, contentPage, attemptsPage]);
 
     useEffect(() => {
         fetchAllData();
@@ -303,7 +315,12 @@ export default function AdminDashboard() {
                 </div>
             </div>
 
-            {/* 4. Bottom Section: Live Attempts Feed */}
+            {/* 4. User Engagement Tracking */}
+            <div className="mb-8">
+                <UserEngagementTable data={engagementData} loading={loading} />
+            </div>
+
+            {/* 5. Bottom Section: Live Attempts Feed */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center">
                     <SectionTitle title="Canlı Çözüm Hareketleri" />
