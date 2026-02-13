@@ -2,350 +2,497 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, FileText, Zap, Brain, ArrowRight, Smartphone, UploadCloud, PlayCircle, Twitter } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-// Supabase istemcisini oluşturuyoruz
-// Supabase istemcisini oluşturuyoruz
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseKey);
+import {
+  Sparkles,
+  FileText,
+  Zap,
+  Brain,
+  ArrowRight,
+  Smartphone,
+  UploadCloud,
+  PlayCircle,
+  Library,
+  BarChart,
+  Menu,
+  X,
+  ChevronRight,
+  CheckCircle2
+} from 'lucide-react';
+import Image from 'next/image';
 
 export default function Home() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState(''); // Kullanıcıya gösterilecek mesaj state'i
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Animation variants
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.5 }
+  };
 
-    // 1. VALIDATION: Basit e-posta kontrolü
-    if (!email || !email.includes('@') || !email.includes('.')) {
-      setStatus('error');
-      setMessage('Please enter a valid email address.');
-
-      setTimeout(() => {
-        setStatus('idle');
-        setMessage('');
-      }, 3000);
-
-      return;
-    }
-
-    setStatus('loading');
-    setMessage('');
-
-    try {
-      const { error } = await supabase
-        .from('waitlist')
-        .insert({ email });
-
-      if (error) {
-        // Unique Violation (Zaten kayıtlı)
-        if (error.code === '23505') {
-          setStatus('success');
-          setMessage("You're already on the list! 🎉");
-          setEmail('');
-        } else {
-          throw error;
-        }
-      } else {
-        // Başarılı
-        setStatus('success');
-        setMessage('You are in! 🚀');
-        setEmail('');
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setStatus('error');
-      setMessage('Something went wrong. Try again.');
     }
-
-    // 4 saniye sonra butonu sıfırla
-    setTimeout(() => {
-      setStatus('idle');
-      setMessage('');
-    }, 4000);
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-indigo-500 selection:text-white overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
 
-      {/* Background Gradients */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/10 rounded-full blur-[100px]"></div>
-      </div>
-
-      {/* Navbar */}
-      <nav className="fixed w-full z-50 bg-neutral-950/80 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg" style={{ backgroundColor: 'rgb(44 63 113)', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>
-              <img src="/webicon.jpg" alt="QuizFlow Logo" className="w-7 h-7" />
-              {/* <Sparkles size={18} className="text-white" /> */}
+      {/* NAVBAR */}
+      <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <div className="bg-indigo-600 p-1.5 rounded-lg text-white">
+                <Brain size={20} />
+              </div>
+              <span className="font-bold text-xl tracking-tight text-slate-900">QuizFlow</span>
             </div>
-            QuizFlow
+
+            {/* Desktop Links */}
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#features" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Özellikler</a>
+              <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Nasıl Çalışır?</a>
+              <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">SSS</a>
+              <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30">
+                Hemen İndir
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-600 hover:text-indigo-600">
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
-          <a href="#waitlist" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors">
-            Get Early Access
-          </a>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="md:hidden bg-white border-b border-slate-200 overflow-hidden"
+          >
+            <div className="px-4 py-4 space-y-4">
+              <a href="#features" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Özellikler</a>
+              <a href="#how-it-works" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Nasıl Çalışır?</a>
+              <a href="#faq" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>SSS</a>
+              <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">
+                Hemen İndir
+              </button>
+            </div>
+          </motion.div>
+        )}
       </nav>
 
-      <main className="relative z-10 pt-32 pb-20 px-4">
+      {/* HERO SECTION */}
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-slate-50 via-indigo-50/10 to-transparent">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-        {/* HERO SECTION */}
-        <div className="max-w-4xl mx-auto text-center space-y-8 mb-24">
+          {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl text-center lg:text-left mx-auto lg:mx-0"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-            </span>
-            Waitlist is now open
-          </motion.div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium mb-6">
+              <Sparkles size={14} />
+              <span>Yapay Zeka Destekli Öğrenme</span>
+            </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight"
-          >
-            <span className="bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">Don't just read PDFs.</span>
-            <br />
-            <span className="text-indigo-500">Interact with them.</span>
-          </motion.h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-6">
+              Ders Notlarınızı <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Saniyeler İçinde</span> Sınav Sorularına Dönüştürün.
+            </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed"
-          >
-            Upload your static PDF exams or lecture notes and instantly transform them into
-            <span className="text-white font-medium"> interactive quizzes</span> with AI-powered feedback.
-            Stop memorizing blindly, start learning actively.
-          </motion.p>
+            <p className="text-lg sm:text-xl text-slate-600 mb-8 leading-relaxed">
+              Yapay Zeka destekli QuizFlow ile PDF'lerinizi yükleyin, anında test çözmeye başlayın. Sınavlara hazırlanmanın en akıllı yolu.
+            </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-          >
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row w-full max-w-md gap-3">
-              <input
-                type="email"
-                required
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={status === 'loading' || status === 'success'}
-                className="flex-1 bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-neutral-600 transition-all disabled:opacity-50"
-              />
-              <button
-                disabled={status === 'loading' || status === 'success'}
-                className={`
-                  px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-lg 
-                  ${status === 'success'
-                    ? 'bg-green-600 hover:bg-green-600 text-white cursor-default'
-                    : status === 'error'
-                      ? 'bg-red-600 hover:bg-red-500 text-white'
-                      : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/20'
-                  }
-                `}
-              >
-                {status === 'loading' ? (
-                  <span className="animate-pulse">Saving...</span>
-                ) : status === 'success' ? (
-                  message
-                ) : status === 'error' ? (
-                  message
-                ) : (
-                  <>
-                    Join Waitlist <ArrowRight size={18} />
-                  </>
-                )}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <button className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-xl shadow-indigo-600/20 transition-all hover:scale-105 flex items-center justify-center gap-2">
+                <Smartphone size={20} />
+                Ücretsiz Dene
               </button>
-            </form>
+
+              <button className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-2">
+                <PlayCircle size={20} className="text-indigo-600" />
+                Nasıl Çalışır?
+              </button>
+            </div>
+
+            <div className="mt-10 flex items-center justify-center lg:justify-start gap-4 text-sm text-slate-500 font-medium">
+              <div className="flex -space-x-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="w-8 h-8 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center text-xs overflow-hidden">
+                    <img src={`https://ui-avatars.com/api/?name=User+${i}&background=random`} alt="User" />
+                  </div>
+                ))}
+              </div>
+              <p>1000+ Öğrenci Tarafından Kullanılıyor</p>
+            </div>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="text-xs text-neutral-500"
+          {/* Visual / Phone Mockup */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative mx-auto lg:mr-0"
           >
-            🔒 Secure your spot for the <strong>Lifetime Deal</strong>. No spam, just updates.
-          </motion.p>
-        </div>
+            {/* Background Decor */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-indigo-600/5 rounded-full blur-3xl -z-10"></div>
 
-        {/* VISUAL DEMO / HOW IT WORKS */}
-        <div className="max-w-5xl mx-auto mb-32">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold text-white mb-2">From Static File to Active Learning</h2>
-            <p className="text-neutral-500">How QuizFlow works in 3 simple steps</p>
+            {/* Phone Mockup Placeholder */}
+            <div className="relative w-[300px] h-[600px] bg-slate-900 rounded-[3rem] border-8 border-slate-900 shadow-2xl overflow-hidden transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500">
+              {/* Notch */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-900 rounded-b-xl z-20"></div>
+
+              {/* Screen Content */}
+              <div className="w-full h-full bg-white flex flex-col pt-12">
+                {/* Header */}
+                <div className="px-6 pb-6 border-b border-indigo-50">
+                  <h3 className="text-xl font-bold text-slate-900">Quiz Oluştur</h3>
+                  <p className="text-sm text-slate-500">PDF dosyanı seç ve başla</p>
+                </div>
+
+                {/* Body */}
+                <div className="flex-1 p-6 space-y-4">
+                  <div className="bg-indigo-50 rounded-2xl p-6 border border-indigo-100 flex flex-col items-center justify-center text-center gap-2">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-2">
+                      <UploadCloud size={24} />
+                    </div>
+                    <span className="font-semibold text-indigo-900">Dosya Yükle</span>
+                    <span className="text-xs text-indigo-600/70">PDF, DOCX veya TXT</span>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100 flex items-center gap-4">
+                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-500">
+                      <FileText size={20} />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-800 text-sm">Vize Notları.pdf</p>
+                      <p className="text-xs text-slate-500">2.4 MB • Hazır</p>
+                    </div>
+                    <div className="ml-auto">
+                      <CheckCircle2 size={20} className="text-green-500" />
+                    </div>
+                  </div>
+
+                  <button className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-600/20 mt-auto">
+                    Quiz Oluştur ✨
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating Elements */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="absolute top-20 -right-8 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden sm:block"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold">A</div>
+                <div>
+                  <p className="font-bold text-slate-800">Doğru!</p>
+                  <p className="text-xs text-slate-500">Harika gidiyorsun 🎉</p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* PROBLEM / SOLUTION */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            {...fadeIn}
+            className="grid md:grid-cols-2 gap-12 items-center"
+          >
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 text-indigo-600 font-semibold uppercase tracking-wide text-sm">
+                <span className="w-8 h-[2px] bg-indigo-600"></span>
+                Eski Yöntem
+              </div>
+              <h2 className="text-3xl font-bold text-slate-900">Yüzlerce sayfa PDF okumaktan sıkıldınız mı?</h2>
+              <p className="text-slate-600 text-lg">
+                Uzun ders notlarını pasif bir şekilde okumak verimsiz ve sıkıcıdır. Bilgiyi akılda tutmak zorlaşır ve sınav stresi artar.
+              </p>
+              <div className="flex items-start gap-4 opacity-50">
+                <FileText size={48} className="text-slate-400" />
+                <div className="h-2 w-full bg-slate-100 rounded-full mt-2"></div>
+                <div className="h-2 w-3/4 bg-slate-100 rounded-full mt-2"></div>
+              </div>
+            </div>
+
+            <div className="bg-indigo-900 text-white p-10 rounded-3xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+
+              <div className="relative z-10 space-y-6">
+                <div className="inline-flex items-center gap-2 text-indigo-300 font-semibold uppercase tracking-wide text-sm">
+                  <span className="w-8 h-[2px] bg-indigo-400"></span>
+                  Yeni Yöntem (QuizFlow)
+                </div>
+                <h2 className="text-3xl font-bold">QuizFlow sizin yerinize okur, özetler ve soru sorar.</h2>
+                <p className="text-indigo-100 text-lg">
+                  Yapay zeka içeriği analiz eder ve interaktif, öğretici bir deneyime dönüştürür. Aktif öğrenme ile hafızanızı güçlendirin.
+                </p>
+                <div className="inline-flex bg-white/10 backdrop-blur-sm p-4 rounded-xl items-center gap-4">
+                  <Sparkles className="text-yellow-400" size={32} />
+                  <span className="font-bold text-xl">Anında Üretim</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FEATURES (BENTO GRID) */}
+      <section id="features" className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
+              Öğrenme Sürecinizi Hızlandırın
+            </h2>
+            <p className="text-lg text-slate-600">
+              Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte QuizFlow'un süper güçleri.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Step 1 */}
-            <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors">
-              <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 transition-transform">
-                <UploadCloud size={32} />
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[300px]"
+          >
+            {/* Feature 1 (Large) */}
+            <motion.div variants={fadeIn} className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-8 overflow-hidden relative">
+              <div className="flex-1 space-y-4 relative z-10">
+                <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
+                  <UploadCloud size={24} />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900">PDF Analizi</h3>
+                <p className="text-slate-600">
+                  Herhangi bir ders notunu, kitabı veya makaleyi yükleyin. Gelişmiş okuma modülümüz içeriği saniyeler içinde tarar ve anlar.
+                </p>
               </div>
-              <h3 className="text-lg font-bold mb-2">1. Upload PDF</h3>
-              <p className="text-sm text-neutral-400">Drag & drop your lecture slides, past exams, or textbook chapters.</p>
+              <div className="flex-1 bg-slate-50 rounded-2xl h-full w-full relative overflow-hidden border border-slate-100">
+                {/* Visual placeholder */}
+                <div className="absolute inset-4 bg-white rounded-xl shadow-sm p-4 space-y-2 opacity-80">
+                  <div className="h-2 bg-slate-100 rounded w-full"></div>
+                  <div className="h-2 bg-slate-100 rounded w-5/6"></div>
+                  <div className="h-2 bg-slate-100 rounded w-full"></div>
+                  <div className="h-2 bg-slate-100 rounded w-4/5"></div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Feature 2 */}
+            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4">
+                <Sparkles size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Yapay Zeka Üretimi</h3>
+                <p className="text-slate-600 text-sm">
+                  AI, en önemli kısımları analiz eder ve sınav formatına uygun çoktan seçmeli sorular üretir.
+                </p>
+              </div>
+              <div className="mt-4 flex gap-1">
+                <div className="h-1.5 w-full bg-purple-200 rounded-full"></div>
+                <div className="h-1.5 w-2/3 bg-purple-100 rounded-full"></div>
+              </div>
+            </motion.div>
+
+            {/* Feature 3 */}
+            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
+                <Library size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Kişisel Kütüphane</h3>
+                <p className="text-slate-600 text-sm">
+                  Tüm sınavlarınız tek bir yerde. Derslerine göre klasörle, düzenle ve istediğin zaman tekrar et.
+                </p>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="h-10 bg-slate-50 rounded-lg border border-slate-100"></div>
+                <div className="h-10 bg-slate-50 rounded-lg border border-slate-100"></div>
+              </div>
+            </motion.div>
+
+            {/* Feature 4 (Large) */}
+            <motion.div variants={fadeIn} className="lg:col-span-2 bg-indigo-900 rounded-3xl p-8 shadow-sm border border-indigo-800 flex flex-col md:flex-row-reverse items-center gap-8 text-white relative overflow-hidden">
+              {/* Background Pattern */}
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+
+              <div className="flex-1 space-y-4 relative z-10">
+                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-indigo-300">
+                  <BarChart size={24} />
+                </div>
+                <h3 className="text-2xl font-bold">İlerleme Takibi</h3>
+                <p className="text-indigo-200">
+                  Hangi konuda eksiksiniz? Detaylı istatistiklerle performansınızı görün ve eksiklerinizi kapatın.
+                </p>
+              </div>
+              <div className="flex-1 w-full relative z-10">
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10">
+                  <div className="flex items-end gap-2 h-32 justify-between px-2">
+                    <div className="w-full bg-indigo-500/50 rounded-t-lg h-[40%]"></div>
+                    <div className="w-full bg-indigo-500/70 rounded-t-lg h-[70%]"></div>
+                    <div className="w-full bg-indigo-400 rounded-t-lg h-[50%]"></div>
+                    <div className="w-full bg-white rounded-t-lg h-[90%] shadow-[0_0_15px_rgba(255,255,255,0.3)]"></div>
+                    <div className="w-full bg-indigo-400 rounded-t-lg h-[60%]"></div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section id="how-it-works" className="py-24 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
+              Nasıl Çalışır?
+            </h2>
+            <p className="text-lg text-slate-600">
+              Karmaşık süreçler yok. Sadece 3 basit adım.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            {/* Connecting Line (Desktop) */}
+            <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-slate-200 z-0"></div>
+
+            {/* Step 1 */}
+            <div className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300">
+                <span className="text-4xl font-bold text-slate-200 group-hover:text-indigo-600 transition-colors">1</span>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Yükle</h3>
+              <p className="text-slate-600 max-w-xs">
+                Ders notlarınızı veya çıkmış sorularınızı PDF formatında sisteme yükleyin.
+              </p>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors relative">
-              <div className="hidden md:block absolute top-1/2 -left-3 -translate-y-1/2 text-neutral-700">
-                <ArrowRight size={24} />
+            <div className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300">
+                <span className="text-4xl font-bold text-slate-200 group-hover:text-indigo-600 transition-colors">2</span>
               </div>
-              <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 transition-transform">
-                <Brain size={32} />
-              </div>
-              <h3 className="text-lg font-bold mb-2">2. AI Analysis</h3>
-              <p className="text-sm text-neutral-400">Gemini AI scans the content, identifies key concepts, and generates questions.</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Üret</h3>
+              <p className="text-slate-600 max-w-xs">
+                Yapay zeka içeriği analiz etsin ve saniyeler içinde size özel bir sınav hazırlasın.
+              </p>
             </div>
 
             {/* Step 3 */}
-            <div className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl flex flex-col items-center text-center group hover:bg-neutral-900/60 transition-colors relative">
-              <div className="hidden md:block absolute top-1/2 -left-3 -translate-y-1/2 text-neutral-700">
-                <ArrowRight size={24} />
+            <div className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300">
+                <span className="text-4xl font-bold text-slate-200 group-hover:text-indigo-600 transition-colors">3</span>
               </div>
-              <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 transition-transform">
-                <PlayCircle size={32} />
-              </div>
-              <h3 className="text-lg font-bold mb-2">3. Start Quiz</h3>
-              <p className="text-sm text-neutral-400">Solve the interactive quiz, track your score, and review explanations.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* FEATURES GRID */}
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
-          <div className="col-span-1 lg:col-span-2 bg-gradient-to-br from-indigo-900/20 to-neutral-900 border border-white/5 p-8 rounded-3xl">
-            <div className="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center mb-4">
-              <FileText className="text-white" />
-            </div>
-            <h3 className="text-2xl font-bold mb-3">PDF to Interactive Exam</h3>
-            <p className="text-neutral-400 max-w-md">
-              The core superpower. Don't just read through boring PDF files. Let our AI convert them into a test format instantly, so you can practice actively instead of passively reading.
-            </p>
-          </div>
-
-          <div className="bg-neutral-900/30 border border-white/5 p-8 rounded-3xl">
-            <div className="h-10 w-10 bg-neutral-800 rounded-lg flex items-center justify-center mb-4 text-indigo-400">
-              <Zap />
-            </div>
-            <h3 className="text-xl font-bold mb-2">Instant Feedback</h3>
-            <p className="text-neutral-400 text-sm">
-              Get immediate explanations for every answer. Understand "Why" it's wrong, not just "What" is wrong.
-            </p>
-          </div>
-
-          <div className="bg-neutral-900/30 border border-white/5 p-8 rounded-3xl">
-            <div className="h-10 w-10 bg-neutral-800 rounded-lg flex items-center justify-center mb-4 text-indigo-400">
-              <Smartphone />
-            </div>
-            <h3 className="text-xl font-bold mb-2">Mobile First</h3>
-            <p className="text-neutral-400 text-sm">
-              Designed for your phone. Turn your commute or coffee break into a productive study session.
-            </p>
-          </div>
-
-          <div className="col-span-1 lg:col-span-2 bg-neutral-900/30 border border-white/5 p-8 rounded-3xl flex flex-col md:flex-row items-center gap-8">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">Powered by Google Gemini</h3>
-              <p className="text-neutral-400 text-sm">
-                We use the latest AI models to ensure the questions generated are relevant, accurate, and context-aware. It's like having a private tutor analyzing your notes.
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Çöz</h3>
+              <p className="text-slate-600 max-w-xs">
+                Bilginizi sınayın, anında geri bildirim alın ve eksiklerinizi kapatın.
               </p>
             </div>
-            <div className="w-full md:w-32 h-12 flex items-center justify-center gap-1">
-              <div className="w-2 h-8 bg-indigo-500 rounded-full animate-pulse"></div>
-              <div className="w-2 h-12 bg-indigo-400 rounded-full animate-pulse delay-75"></div>
-              <div className="w-2 h-6 bg-purple-500 rounded-full animate-pulse delay-150"></div>
-            </div>
           </div>
         </div>
+      </section>
 
-        {/* NEW: SOCIAL PROOF / BUILD IN PUBLIC SECTION */}
-        <div className="max-w-4xl mx-auto mb-32 px-4">
-          <a
-            href="https://x.com/bilgegulko1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block group relative overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/50 hover:bg-neutral-900 hover:border-indigo-500/50 transition-all duration-300"
-          >
-            <div className="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-40 transition-opacity">
-              <Twitter size={120} className="text-indigo-500 -rotate-12 translate-x-10 -translate-y-10" />
+      {/* CTA SECTION */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto bg-gradient-to-r from-indigo-600 to-violet-600 rounded-[2.5rem] p-12 sm:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-indigo-600/30">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+
+          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
+            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+              Sınavlara Çalışmayı Oyunlaştırın.
+            </h2>
+            <p className="text-xl text-indigo-100">
+              Hemen indirin ve öğrenme hızınızı ikiye katlayın. Ücretsiz başlayın.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <button className="bg-white text-indigo-600 hover:bg-slate-100 px-8 py-4 rounded-xl font-bold shadow-lg transition-transform hover:scale-105 flex items-center gap-3">
+                <Smartphone size={24} />
+                <span>App Store'dan İndir</span>
+              </button>
+              <button className="bg-indigo-800/40 hover:bg-indigo-800/60 text-white px-8 py-4 rounded-xl font-bold border border-indigo-400/30 backdrop-blur-sm transition-transform hover:scale-105 flex items-center gap-3">
+                <PlayCircle size={24} />
+                <span>Google Play</span>
+              </button>
             </div>
-
-            <div className="p-8 flex flex-col md:flex-row items-center gap-6 relative z-10">
-              <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center shrink-0 border-2 border-indigo-500 shadow-lg shadow-indigo-500/20">
-                {/* Eğer profil fotoğrafın varsa buraya <img /> koyabiliriz, şimdilik ikon */}
-                <Twitter className="text-white" size={28} />
-              </div>
-              <div className="text-center md:text-left">
-                <h3 className="text-xl font-bold text-white mb-1 group-hover:text-indigo-400 transition-colors">
-                  Witness the Journey on X
-                </h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  I'm building QuizFlow in public. Follow <strong>@bilgegulko1</strong> to see behind-the-scenes updates, vote on upcoming features, and be part of the story.
-                </p>
-              </div>
-              <div className="ml-auto mt-4 md:mt-0">
-                <span className="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-full font-bold text-sm hover:bg-indigo-50  transition-colors">
-                  Follow Me <ArrowRight size={16} />
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        {/* FOOTER CTA */}
-        <div id="waitlist" className="max-w-3xl mx-auto text-center space-y-6 pt-20 border-t border-white/5">
-          <h2 className="text-3xl md:text-4xl font-bold">Ready to Upgrade Your Study Game?</h2>
-          <p className="text-neutral-400">
-            Join the waitlist today. We are building this in public, and early supporters get the best deal.
-          </p>
-          <div className="flex justify-center">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="bg-white text-black hover:bg-neutral-200 px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
-            >
-              Join the Waitlist
-            </button>
+            <p className="text-sm opacity-60 mt-4">iOS çok yakında!</p>
           </div>
         </div>
-      </main>
+      </section>
 
-      <footer className="py-10 text-center text-neutral-600 text-sm">
-        <div className="flex flex-col items-center gap-4">
-          <p>© 2026 QuizFlow. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <a href="/privacy" className="text-neutral-500 hover:text-indigo-400 transition-colors">
-              Privacy Policy
-            </a>
-            <span className="text-neutral-700">•</span>
-            <a href="/delete-account" className="text-neutral-500 hover:text-red-400 transition-colors">
-              Delete Account
-            </a>
-            <span className="text-neutral-700">•</span>
-            <a href="https://x.com/bilgegulko1" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-indigo-400 transition-colors">
-              Twitter
-            </a>
+      {/* FOOTER */}
+      <footer className="bg-white border-t border-slate-200 pt-16 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+            <div className="col-span-1 md:col-span-1">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-indigo-600 p-1.5 rounded-lg text-white">
+                  <Brain size={18} />
+                </div>
+                <span className="font-bold text-lg text-slate-900">QuizFlow</span>
+              </div>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Yapay zeka ile öğrenme sürecinizi optimize edin. Daha az çalışın, daha çok öğrenin.
+              </p>
+            </div>
+
+            <div className="col-span-1">
+              <h4 className="font-bold text-slate-900 mb-4">Ürün</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><a href="#" className="hover:text-indigo-600">Özellikler</a></li>
+                <li><a href="#" className="hover:text-indigo-600">Fiyatlandırma</a></li>
+                <li><a href="#" className="hover:text-indigo-600">SSS</a></li>
+              </ul>
+            </div>
+
+            <div className="col-span-1">
+              <h4 className="font-bold text-slate-900 mb-4">Şirket</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><a href="#" className="hover:text-indigo-600">Hakkımızda</a></li>
+                <li><a href="#" className="hover:text-indigo-600">Blog</a></li>
+                <li><a href="#" className="hover:text-indigo-600">İletişim</a></li>
+              </ul>
+            </div>
+
+            <div className="col-span-1">
+              <h4 className="font-bold text-slate-900 mb-4">Yasal</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><a href="#" className="hover:text-indigo-600">Gizlilik Politikası</a></li>
+                <li><a href="#" className="hover:text-indigo-600">Kullanım Koşulları</a></li>
+              </ul>
+            </div>
           </div>
-          <p className="flex items-center gap-1.5 text-neutral-500 hover:text-indigo-400 transition-colors cursor-default select-none">
-            <span>Developed with love</span>
-            <span className="text-red-500 animate-pulse text-base">❤️</span>
-          </p>
+
+          <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-slate-400">© 2026 QuizFlow. Tüm hakları saklıdır.</p>
+            <div className="flex items-center gap-6">
+              {/* Social icons could go here */}
+            </div>
+          </div>
         </div>
       </footer>
     </div>

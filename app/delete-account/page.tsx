@@ -25,7 +25,7 @@ export default function DeleteAccount() {
                     </Link>
                     <Link href="/" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-2">
                         <ArrowLeft size={16} />
-                        Back to Home
+                        Ana Sayfaya Dön
                     </Link>
                 </div>
             </nav>
@@ -44,10 +44,10 @@ export default function DeleteAccount() {
                             <Trash2 className="text-red-400" size={32} />
                         </div>
                         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-                            <span className="bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">Delete Your Account</span>
+                            <span className="bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">Hesabınızı Silin</span>
                         </h1>
                         <p className="text-neutral-400 max-w-2xl mx-auto">
-                            We're sorry to see you go. Follow the instructions below to permanently delete your QuizFlow account and all associated data.
+                            Ayrıldığınızı görmek bizi üzüyor. QuizFlow hesabınızı ve ilişkili tüm verileri kalıcı olarak silmek için aşağıdaki talimatları izleyin.
                         </p>
                     </motion.div>
 
@@ -66,15 +66,15 @@ export default function DeleteAccount() {
                                     <AlertTriangle className="text-red-400" size={28} />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-white mb-2">⚠️ Important Notice</h2>
+                                    <h2 className="text-xl font-bold text-white mb-2">⚠️ Önemli Uyarı</h2>
                                     <p className="text-neutral-300 leading-relaxed mb-3">
-                                        Deleting your account is <strong className="text-white">permanent and irreversible</strong>. Once deleted, you will lose access to:
+                                        Hesabınızı silmek <strong className="text-white">kalıcıdır ve geri alınamaz</strong>. Silindikten sonra şunlara erişiminizi kaybedersiniz:
                                     </p>
                                     <ul className="space-y-2 list-disc list-inside ml-4 text-neutral-300">
-                                        <li>All your generated quizzes and quiz history</li>
-                                        <li>Your saved PDFs and uploaded documents</li>
-                                        <li>Your account settings and preferences</li>
-                                        <li>Any remaining subscription benefits (if applicable)</li>
+                                        <li>Tüm oluşturduğunuz quizler ve geçmişiniz</li>
+                                        <li>Kaydedilen PDF'leriniz ve yüklenen belgeler</li>
+                                        <li>Hesap ayarlarınız ve tercihleriniz</li>
+                                        <li>Varsa kalan abonelik avantajlarınız</li>
                                     </ul>
                                 </div>
                             </div>
@@ -86,11 +86,11 @@ export default function DeleteAccount() {
                                 <div className="w-12 h-12 bg-neutral-800 rounded-xl flex items-center justify-center">
                                     <Smartphone className="text-indigo-400" size={24} />
                                 </div>
-                                <h2 className="text-2xl font-bold text-white">Delete Account via Mobile App</h2>
+                                <h2 className="text-2xl font-bold text-white">Mobil Uygulama Üzerinden Silme</h2>
                             </div>
 
                             <p className="text-neutral-300 leading-relaxed mb-6">
-                                To delete your account directly from the QuizFlow mobile application:
+                                Hesabınızı doğrudan QuizFlow mobil uygulamasından silmek için:
                             </p>
 
                             <div className="space-y-4">
@@ -99,8 +99,8 @@ export default function DeleteAccount() {
                                         1
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-white mb-1">Open the QuizFlow App</h3>
-                                        <p className="text-neutral-400 text-sm">Launch the QuizFlow application on your mobile device</p>
+                                        <h3 className="font-semibold text-white mb-1">QuizFlow Uygulamasını Açın</h3>
+                                        <p className="text-neutral-400 text-sm">Mobil cihazınızda QuizFlow uygulamasını başlatın</p>
                                     </div>
                                 </div>
 
@@ -109,8 +109,8 @@ export default function DeleteAccount() {
                                         2
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-white mb-1">Tap the Menu Icon</h3>
-                                        <p className="text-neutral-400 text-sm">Tap the menu icon (☰) in the top right corner of the screen</p>
+                                        <h3 className="font-semibold text-white mb-1">Menü Simgesine Dokunun</h3>
+                                        <p className="text-neutral-400 text-sm">Ekranın sağ üst köşesindeki menü simgesine (☰) dokunun</p>
                                     </div>
                                 </div>
 
@@ -119,8 +119,8 @@ export default function DeleteAccount() {
                                         3
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-white mb-1">Select "My Profile"</h3>
-                                        <p className="text-neutral-400 text-sm">From the menu, tap on "My Profile" (Profilim) to access your profile settings</p>
+                                        <h3 className="font-semibold text-white mb-1">"Profilim"i Seçin</h3>
+                                        <p className="text-neutral-400 text-sm">Menüden profil ayarlarınıza erişmek için "Profilim" seçeneğine dokunun</p>
                                     </div>
                                 </div>
 
@@ -129,8 +129,8 @@ export default function DeleteAccount() {
                                         4
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-white mb-1">Tap "Delete My Account"</h3>
-                                        <p className="text-neutral-400 text-sm">Scroll down and tap on "Delete My Account" (Hesabımı Sil) button (displayed in red)</p>
+                                        <h3 className="font-semibold text-white mb-1">"Hesabımı Sil"e Dokunun</h3>
+                                        <p className="text-neutral-400 text-sm">Aşağı kaydırın ve kırmızı ile gösterilen "Hesabımı Sil" butonuna dokunun</p>
                                     </div>
                                 </div>
 
@@ -139,8 +139,8 @@ export default function DeleteAccount() {
                                         5
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-white mb-1">Confirm Deletion</h3>
-                                        <p className="text-neutral-400 text-sm">Read the warning message and confirm your decision to permanently delete your account</p>
+                                        <h3 className="font-semibold text-white mb-1">Silme İşlemini Onaylayın</h3>
+                                        <p className="text-neutral-400 text-sm">Uyarı mesajını okuyun ve hesabınızı kalıcı olarak silme kararınızı onaylayın</p>
                                     </div>
                                 </div>
 
@@ -149,8 +149,8 @@ export default function DeleteAccount() {
                                         ✓
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-white mb-1">Account Deleted</h3>
-                                        <p className="text-neutral-400 text-sm">Your account and all associated data will be permanently deleted within 24-48 hours</p>
+                                        <h3 className="font-semibold text-white mb-1">Hesap Silindi</h3>
+                                        <p className="text-neutral-400 text-sm">Hesabınız ve ilişkili tüm veriler 24-48 saat içinde kalıcı olarak silinecektir</p>
                                     </div>
                                 </div>
                             </div>
@@ -162,16 +162,16 @@ export default function DeleteAccount() {
                                 <div className="w-12 h-12 bg-neutral-800 rounded-xl flex items-center justify-center">
                                     <Mail className="text-indigo-400" size={24} />
                                 </div>
-                                <h2 className="text-2xl font-bold text-white">Alternative: Contact Support</h2>
+                                <h2 className="text-2xl font-bold text-white">Alternatif: Destek ile İletişime Geçin</h2>
                             </div>
 
                             <p className="text-neutral-300 leading-relaxed mb-6">
-                                If you're unable to delete your account through the app, or if you need assistance, please reach out to us:
+                                Hesabınızı uygulama üzerinden silemiyorsanız veya yardıma ihtiyacınız varsa, lütfen bize ulaşın:
                             </p>
 
                             <div className="space-y-4">
                                 <div className="bg-neutral-800/50 border border-white/5 p-6 rounded-xl text-center">
-                                    <p className="text-sm text-neutral-400 mb-3">Reach out on X (Twitter):</p>
+                                    <p className="text-sm text-neutral-400 mb-3">X (Twitter) üzerinden ulaşın:</p>
                                     <a href="https://x.com/bilgegulko1" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors font-medium text-xl">
                                         @bilgegulko1
                                     </a>
@@ -179,8 +179,8 @@ export default function DeleteAccount() {
 
                                 <div className="mt-6 p-4 bg-indigo-900/20 border border-indigo-500/20 rounded-xl">
                                     <p className="text-sm text-neutral-300">
-                                        <strong className="text-white">Please include:</strong> Your registered email address and a brief reason for deletion (optional).
-                                        We'll process your request within 48 hours.
+                                        <strong className="text-white">Lütfen şunları içerin:</strong> Kayıtlı e-posta adresiniz ve silme nedeniniz (isteğe bağlı).
+                                        Talebinizi 48 saat içinde işleme alacağız.
                                     </p>
                                 </div>
                             </div>
@@ -188,31 +188,31 @@ export default function DeleteAccount() {
 
                         {/* What Happens After Deletion */}
                         <section className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl">
-                            <h2 className="text-2xl font-bold text-white mb-4">What Happens After Deletion?</h2>
+                            <h2 className="text-2xl font-bold text-white mb-4">Silme İşleminden Sonra Ne Olur?</h2>
                             <div className="space-y-3 text-neutral-300">
                                 <p className="leading-relaxed">
-                                    Once you confirm account deletion:
+                                    Hesap silme işlemini onayladığınızda:
                                 </p>
                                 <ul className="space-y-2 list-disc list-inside ml-4">
-                                    <li>Your account will be immediately deactivated</li>
-                                    <li>All personal data will be permanently deleted from our servers within 48 hours</li>
-                                    <li>Your email will be removed from our waitlist and mailing lists</li>
-                                    <li>Any uploaded PDFs and generated quizzes will be permanently erased</li>
-                                    <li>You will receive a confirmation email once the deletion is complete</li>
+                                    <li>Hesabınız derhal devre dışı bırakılır</li>
+                                    <li>Tüm kişisel veriler sunucularımızdan 48 saat içinde kalıcı olarak silinir</li>
+                                    <li>E-posta adresiniz bekleme listesinden ve posta listelerinden kaldırılır</li>
+                                    <li>Yüklenen PDF'ler ve oluşturulan quizler kalıcı olarak silinir</li>
+                                    <li>Silme işlemi tamamlandığında bir onay e-postası alırsınız</li>
                                 </ul>
                                 <p className="leading-relaxed mt-4">
-                                    <strong className="text-white">Note:</strong> Some anonymized usage data may be retained for analytics purposes,
-                                    but it will not be linked to your identity in any way.
+                                    <strong className="text-white">Not:</strong> Bazı anonim kullanım verileri analiz amacıyla saklanabilir,
+                                    ancak bu veriler hiçbir şekilde kimliğinizle ilişkilendirilmez.
                                 </p>
                             </div>
                         </section>
 
                         {/* Changed Your Mind? */}
                         <section className="bg-gradient-to-br from-indigo-900/20 to-neutral-900 border border-indigo-500/20 p-8 rounded-2xl text-center">
-                            <h2 className="text-2xl font-bold text-white mb-4">Changed Your Mind?</h2>
+                            <h2 className="text-2xl font-bold text-white mb-4">Fikrinizi mi Değiştirdiniz?</h2>
                             <p className="text-neutral-300 leading-relaxed mb-6">
-                                We'd love to keep you as part of the QuizFlow community! If you're experiencing issues or have feedback,
-                                please reach out to us before deleting your account. We're here to help!
+                                Sizi QuizFlow topluluğunun bir parçası olarak görmekten mutluluk duyarız! Sorun yaşıyorsanız veya geri bildiriminiz varsa,
+                                lütfen hesabınızı silmeden önce bize ulaşın. Yardımcı olmak için buradayız!
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <Link
@@ -220,7 +220,7 @@ export default function DeleteAccount() {
                                     className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-600/20"
                                 >
                                     <ArrowLeft size={18} />
-                                    Back to Home
+                                    Ana Sayfaya Dön
                                 </Link>
                                 <a
                                     href="https://x.com/bilgegulko1"
@@ -229,7 +229,7 @@ export default function DeleteAccount() {
                                     className="inline-flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl font-bold transition-all border border-white/10"
                                 >
                                     <Mail size={18} />
-                                    Contact on X
+                                    X'te İletişime Geç
                                 </a>
                             </div>
                         </section>
@@ -242,18 +242,18 @@ export default function DeleteAccount() {
             {/* Footer */}
             <footer className="py-10 text-center text-neutral-600 text-sm border-t border-white/5">
                 <div className="flex flex-col items-center gap-4">
-                    <p>© 2026 QuizFlow. All rights reserved.</p>
+                    <p>© 2026 QuizFlow. Tüm hakları saklıdır.</p>
                     <div className="flex items-center gap-4">
                         <Link href="/privacy" className="text-neutral-500 hover:text-indigo-400 transition-colors">
-                            Privacy Policy
+                            Gizlilik Politikası
                         </Link>
                         <span className="text-neutral-700">•</span>
                         <Link href="/delete-account" className="text-neutral-500 hover:text-red-400 transition-colors">
-                            Delete Account
+                            Hesabı Sil
                         </Link>
                         <span className="text-neutral-700">•</span>
                         <Link href="/" className="text-neutral-500 hover:text-indigo-400 transition-colors">
-                            Home
+                            Ana Sayfa
                         </Link>
                     </div>
                 </div>

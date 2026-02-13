@@ -13,9 +13,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QuizFlow - Transform PDFs into Interactive Quizzes",
-  description: "Upload PDF exams and lecture notes, instantly transform them into interactive quizzes with AI-powered feedback",
-  keywords: ["quiz", "PDF", "AI", "study tool", "education", "learning"]
+  title: "QuizFlow - PDF'leri İnteraktif Quizlere Dönüştürün",
+  description: "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
+  keywords: ["quiz", "PDF", "YZ", "yapay zeka", "ders çalışma aracı", "eğitim", "öğrenme", "sınav hazırlık", "test çöz"],
+  openGraph: {
+    title: "QuizFlow - PDF'leri İnteraktif Quizlere Dönüştürün",
+    description: "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
+    url: "https://quizflow.app", // Replace with actual URL if known, or keep generic for now
+    siteName: "QuizFlow",
+    locale: "tr_TR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QuizFlow - PDF'leri İnteraktif Quizlere Dönüştürün",
+    description: "Yapay zeka ile PDF notlarınızdan quiz oluşturun.",
+    creator: "@bilgegulko1",
+  }
 };
 
 export default function RootLayout({
@@ -24,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
