@@ -166,7 +166,7 @@ export default function AdminDashboard() {
     });
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-12 font-sans md:p-8 p-4">
+        <div className="pb-12 md:p-8 p-4 max-w-7xl mx-auto">
             {/* 1. Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 md:mb-8 gap-4">
                 <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import AuthModal from '@/components/auth/AuthModal';
 import { motion } from 'framer-motion';
 import {
@@ -20,6 +20,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,6 +72,7 @@ export default function Home() {
             <div className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Özellikler</a>
               <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Nasıl Çalışır?</a>
+              <Link href="/blog" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Blog</Link>
               <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">SSS</a>
               <button
                 onClick={() => setIsAuthModalOpen(true)}
@@ -105,6 +107,7 @@ export default function Home() {
             <div className="px-4 py-4 space-y-4">
               <a href="#features" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Özellikler</a>
               <a href="#how-it-works" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Nasıl Çalışır?</a>
+              <Link href="/blog" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Blog</Link>
               <a href="#faq" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>SSS</a>
               <button
                 onClick={() => { setIsMenuOpen(false); setIsAuthModalOpen(true); }}
@@ -505,7 +508,7 @@ export default function Home() {
               <h4 className="font-bold text-slate-900 mb-4">Şirket</h4>
               <ul className="space-y-2 text-sm text-slate-500">
                 <li><a href="#" className="hover:text-indigo-600">Hakkımızda</a></li>
-                <li><a href="#" className="hover:text-indigo-600">Blog</a></li>
+                <li><Link href="/blog" className="hover:text-indigo-600">Blog</Link></li>
                 <li><a href="#" className="hover:text-indigo-600">İletişim</a></li>
               </ul>
             </div>
@@ -527,7 +530,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      <Suspense fallback={null}>
+        <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      </Suspense>
     </div>
   );
 }

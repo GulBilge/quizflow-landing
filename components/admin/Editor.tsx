@@ -42,8 +42,8 @@ const MenuButton = ({
         onClick={onClick}
         disabled={disabled}
         className={`p-2 rounded-md transition-colors ${isActive
-                ? "bg-indigo-100 text-indigo-600"
-                : "hover:bg-gray-100 text-gray-600"
+            ? "bg-indigo-100 text-indigo-600"
+            : "hover:bg-gray-100 text-gray-600"
             } disabled:opacity-50`}
     >
         {children}
@@ -72,6 +72,7 @@ export default function Editor({ content, onChange }: EditorProps) {
                 placeholder: "İçeriği buraya yazın...",
             }),
         ],
+        immediatelyRender: false,
         content: content,
         onUpdate: ({ editor }) => {
             onChange(editor.getHTML());

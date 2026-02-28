@@ -1,3 +1,5 @@
+import Sidebar from "@/components/admin/Sidebar";
+
 export default function AdminLayout({
     children,
 }: {
@@ -5,11 +7,12 @@ export default function AdminLayout({
 }) {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
-            {/* 
-        We could add a sidebar here later, 
-        but for now the dashboard is a single page as requested.
-      */}
-            <main>{children}</main>
+            <Sidebar />
+            <main className="md:pl-64 transition-all duration-300 min-h-screen">
+                <div className="pt-16 md:pt-0">
+                    {children}
+                </div>
+            </main>
         </div>
     );
 }
