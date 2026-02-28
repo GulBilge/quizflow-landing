@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://quizflow.app/sitemap.xml',
+        sitemap: 'https://quizyen.com/sitemap.xml',
     }
 }

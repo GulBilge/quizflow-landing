@@ -20,7 +20,7 @@ export default function Sidebar({ user }: { user: any }) {
                 <div className="bg-indigo-600 p-1.5 rounded-lg text-white">
                     <Brain size={20} />
                 </div>
-                <span className="font-bold text-xl tracking-tight">QuizFlow</span>
+                <span className="font-bold text-xl tracking-tight">Quizyen</span>
             </div>
 
             <nav className="flex-1 px-4 py-6 space-y-2">

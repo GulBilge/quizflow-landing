@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Quizyen - PDF'leri İnteraktif Quizlere Dönüştürün",
     description: "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
-    url: "https://quizflow.app", // Replace with actual URL if known, or keep generic for now
+    url: "https://quizyen.com", // Replace with actual URL if known, or keep generic for now
     siteName: "Quizyen",
     locale: "tr_TR",
     type: "website",

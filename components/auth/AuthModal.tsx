@@ -111,7 +111,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                             </button>
 
                             <div className="mb-2">
-                                <h2 className="text-3xl font-extrabold text-indigo-600 tracking-tight">QuizFlow</h2>
+                                <h2 className="text-3xl font-extrabold text-indigo-600 tracking-tight">Quizyen</h2>
                             </div>
 
                             <p className="text-slate-500 font-medium mb-10">Sınavlarına Akıllıca Çalış</p>

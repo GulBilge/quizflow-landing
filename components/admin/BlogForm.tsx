@@ -197,7 +197,7 @@ export default function BlogForm({ initialData, postId }: BlogFormProps) {
                             id="keywords"
                             value={formData.seo_keywords}
                             onChange={(e) => setFormData({ ...formData, seo_keywords: e.target.value })}
-                            placeholder="nextjs, seo, quizflow"
+                            placeholder="nextjs, seo, quizyen"
                         />
                     </div>
 
