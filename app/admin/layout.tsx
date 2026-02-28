@@ -1,4 +1,10 @@
 import Sidebar from "@/components/admin/Sidebar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Quizyen Admin | Yönetim Paneli",
+    description: "Quizyen Yönetim Paneli",
+};
 
 export default function AdminLayout({
     children,

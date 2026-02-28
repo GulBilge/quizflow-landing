@@ -37,14 +37,20 @@ export async function getKpiAndPopular() {
         .select("*")
         .single();
 
-    if (kpiError) throw new Error(kpiError.message);
+    if (kpiError) {
+        console.error("KPI Fetch Error:", kpiError);
+        throw new Error(`Database Error (KPI): ${kpiError.message}`);
+    }
 
     const { data: popular, error: popularError } = await supabaseAdmin
         .from("admin_popular_quizzes")
         .select("*")
         .limit(10);
 
-    if (popularError) throw new Error(popularError.message);
+    if (popularError) {
+        console.error("Popular Quizzes Fetch Error:", popularError);
+        throw new Error(`Database Error (Popular Quizzes): ${popularError.message}`);
+    }
 
     return { kpi, popular };
 }
@@ -61,7 +67,10 @@ export async function getContentFeed(page: number) {
         .select("*")
         .range(from, to);
 
-    if (error) throw new Error(error.message);
+    if (error) {
+        console.error("Content Feed Fetch Error:", error);
+        throw new Error(`Database Error (Content Feed): ${error.message}`);
+    }
     return data;
 }
 
@@ -77,7 +86,10 @@ export async function getAttemptsFeed(page: number) {
         .select("*")
         .range(from, to);
 
-    if (error) throw new Error(error.message);
+    if (error) {
+        console.error("Attempts Feed Fetch Error:", error);
+        throw new Error(`Database Error (Attempts Feed): ${error.message}`);
+    }
     return data;
 }
 
@@ -90,6 +102,9 @@ export async function getUserEngagement() {
         .select("*")
         .order("participation_rate", { ascending: false });
 
-    if (error) throw new Error(error.message);
+    if (error) {
+        console.error("User Engagement Fetch Error:", error);
+        throw new Error(`Database Error (Engagement): ${error.message}`);
+    }
     return data;
 }
