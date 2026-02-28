@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import AuthModal from '@/components/auth/AuthModal';
 import { motion } from 'framer-motion';
 import {
   Sparkles,
@@ -22,6 +23,16 @@ import Image from 'next/image';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get('login') === 'true') {
+        setIsAuthModalOpen(true);
+      }
+    }
+  }, []);
 
   // Animation variants
   const fadeIn = {
@@ -61,7 +72,16 @@ export default function Home() {
               <a href="#features" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Özellikler</a>
               <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Nasıl Çalışır?</a>
               <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">SSS</a>
-              <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30">
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
+              >
+                Giriş Yap
+              </button>
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30"
+              >
                 Hemen İndir
               </button>
             </div>
@@ -86,7 +106,16 @@ export default function Home() {
               <a href="#features" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Özellikler</a>
               <a href="#how-it-works" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Nasıl Çalışır?</a>
               <a href="#faq" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>SSS</a>
-              <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold">
+              <button
+                onClick={() => { setIsMenuOpen(false); setIsAuthModalOpen(true); }}
+                className="w-full bg-slate-100 text-slate-900 py-3 rounded-lg font-semibold mb-2"
+              >
+                Giriş Yap
+              </button>
+              <button
+                onClick={() => { setIsMenuOpen(false); setIsAuthModalOpen(true); }}
+                className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold"
+              >
                 Hemen İndir
               </button>
             </div>
@@ -119,7 +148,10 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <button className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-xl shadow-indigo-600/20 transition-all hover:scale-105 flex items-center justify-center gap-2">
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-xl shadow-indigo-600/20 transition-all hover:scale-105 flex items-center justify-center gap-2"
+              >
                 <Smartphone size={20} />
                 Ücretsiz Dene
               </button>
@@ -495,6 +527,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
   );
 }
