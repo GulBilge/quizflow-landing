@@ -170,7 +170,7 @@ export default function AdminDashboard() {
             {/* 1. Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 md:mb-8 gap-4">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">QuizFlow Admin</h1>
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Quizyen Admin</h1>
                     <p className="text-gray-500 mt-1 text-sm md:text-base">Topluluk Büyüme ve Etkileşim Raporu</p>
                 </div>
                 <div className="flex items-center space-x-3 md:space-x-4">

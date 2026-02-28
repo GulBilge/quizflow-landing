@@ -13,24 +13,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QuizFlow - PDF'leri İnteraktif Quizlere Dönüştürün",
+  title: "Quizyen - PDF'leri İnteraktif Quizlere Dönüştürün",
   description: "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
   keywords: ["quiz", "PDF", "YZ", "yapay zeka", "ders çalışma aracı", "eğitim", "öğrenme", "sınav hazırlık", "test çöz"],
   openGraph: {
-    title: "QuizFlow - PDF'leri İnteraktif Quizlere Dönüştürün",
+    title: "Quizyen - PDF'leri İnteraktif Quizlere Dönüştürün",
     description: "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
     url: "https://quizflow.app", // Replace with actual URL if known, or keep generic for now
-    siteName: "QuizFlow",
+    siteName: "Quizyen",
     locale: "tr_TR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "QuizFlow - PDF'leri İnteraktif Quizlere Dönüştürün",
+    title: "Quizyen - PDF'leri İnteraktif Quizlere Dönüştürün",
     description: "Yapay zeka ile PDF notlarınızdan quiz oluşturun.",
     creator: "@bilgegulko1",
   }
 };
+
+import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -43,6 +45,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

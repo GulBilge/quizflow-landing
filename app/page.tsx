@@ -53,7 +53,7 @@ export default function Home() {
               <div className="bg-indigo-600 p-1.5 rounded-lg text-white">
                 <Brain size={20} />
               </div>
-              <span className="font-bold text-xl tracking-tight text-slate-900">QuizFlow</span>
+              <span className="font-bold text-xl tracking-tight text-slate-900">Quizyen</span>
             </div>
 
             {/* Desktop Links */}
@@ -115,7 +115,7 @@ export default function Home() {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 mb-8 leading-relaxed">
-              Yapay Zeka destekli QuizFlow ile PDF'lerinizi yükleyin, anında test çözmeye başlayın. Sınavlara hazırlanmanın en akıllı yolu.
+              Yapay Zeka destekli Quizyen ile PDF'lerinizi yükleyin, anında test çözmeye başlayın. Sınavlara hazırlanmanın en akıllı yolu.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -242,9 +242,9 @@ export default function Home() {
               <div className="relative z-10 space-y-6">
                 <div className="inline-flex items-center gap-2 text-indigo-300 font-semibold uppercase tracking-wide text-sm">
                   <span className="w-8 h-[2px] bg-indigo-400"></span>
-                  Yeni Yöntem (QuizFlow)
+                  Yeni Yöntem (Quizyen)
                 </div>
-                <h2 className="text-3xl font-bold">QuizFlow sizin yerinize okur, özetler ve soru sorar.</h2>
+                <h2 className="text-3xl font-bold">Quizyen sizin yerinize okur, özetler ve soru sorar.</h2>
                 <p className="text-indigo-100 text-lg">
                   Yapay zeka içeriği analiz eder ve interaktif, öğretici bir deneyime dönüştürür. Aktif öğrenme ile hafızanızı güçlendirin.
                 </p>
@@ -266,7 +266,7 @@ export default function Home() {
               Öğrenme Sürecinizi Hızlandırın
             </h2>
             <p className="text-lg text-slate-600">
-              Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte QuizFlow'un süper güçleri.
+              Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte Quizyen'un süper güçleri.
             </p>
           </div>
 
@@ -453,7 +453,7 @@ export default function Home() {
                 <div className="bg-indigo-600 p-1.5 rounded-lg text-white">
                   <Brain size={18} />
                 </div>
-                <span className="font-bold text-lg text-slate-900">QuizFlow</span>
+                <span className="font-bold text-lg text-slate-900">Quizyen</span>
               </div>
               <p className="text-slate-500 text-sm leading-relaxed">
                 Yapay zeka ile öğrenme sürecinizi optimize edin. Daha az çalışın, daha çok öğrenin.
@@ -488,7 +488,7 @@ export default function Home() {
           </div>
 
           <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-slate-400">© 2026 QuizFlow. Tüm hakları saklıdır.</p>
+            <p className="text-sm text-slate-400">© 2026 Quizyen. Tüm hakları saklıdır.</p>
             <div className="flex items-center gap-6">
               {/* Social icons could go here */}
             </div>

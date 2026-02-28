@@ -19,9 +19,9 @@ export default function DeleteAccount() {
                 <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
                         <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg" style={{ backgroundColor: 'rgb(44 63 113)', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>
-                            <img src="/webicon.jpg" alt="QuizFlow Logo" className="w-7 h-7" />
+                            <img src="/webicon.jpg" alt="Quizyen Logo" className="w-7 h-7" />
                         </div>
-                        QuizFlow
+                        Quizyen
                     </Link>
                     <Link href="/" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-2">
                         <ArrowLeft size={16} />
@@ -47,7 +47,7 @@ export default function DeleteAccount() {
                             <span className="bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">Hesabınızı Silin</span>
                         </h1>
                         <p className="text-neutral-400 max-w-2xl mx-auto">
-                            Ayrıldığınızı görmek bizi üzüyor. QuizFlow hesabınızı ve ilişkili tüm verileri kalıcı olarak silmek için aşağıdaki talimatları izleyin.
+                            Ayrıldığınızı görmek bizi üzüyor. Quizyen hesabınızı ve ilişkili tüm verileri kalıcı olarak silmek için aşağıdaki talimatları izleyin.
                         </p>
                     </motion.div>
 
@@ -90,7 +90,7 @@ export default function DeleteAccount() {
                             </div>
 
                             <p className="text-neutral-300 leading-relaxed mb-6">
-                                Hesabınızı doğrudan QuizFlow mobil uygulamasından silmek için:
+                                Hesabınızı doğrudan Quizyen mobil uygulamasından silmek için:
                             </p>
 
                             <div className="space-y-4">
@@ -99,8 +99,8 @@ export default function DeleteAccount() {
                                         1
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-white mb-1">QuizFlow Uygulamasını Açın</h3>
-                                        <p className="text-neutral-400 text-sm">Mobil cihazınızda QuizFlow uygulamasını başlatın</p>
+                                        <h3 className="font-semibold text-white mb-1">Quizyen Uygulamasını Açın</h3>
+                                        <p className="text-neutral-400 text-sm">Mobil cihazınızda Quizyen uygulamasını başlatın</p>
                                     </div>
                                 </div>
 
@@ -211,7 +211,7 @@ export default function DeleteAccount() {
                         <section className="bg-gradient-to-br from-indigo-900/20 to-neutral-900 border border-indigo-500/20 p-8 rounded-2xl text-center">
                             <h2 className="text-2xl font-bold text-white mb-4">Fikrinizi mi Değiştirdiniz?</h2>
                             <p className="text-neutral-300 leading-relaxed mb-6">
-                                Sizi QuizFlow topluluğunun bir parçası olarak görmekten mutluluk duyarız! Sorun yaşıyorsanız veya geri bildiriminiz varsa,
+                                Sizi Quizyen topluluğunun bir parçası olarak görmekten mutluluk duyarız! Sorun yaşıyorsanız veya geri bildiriminiz varsa,
                                 lütfen hesabınızı silmeden önce bize ulaşın. Yardımcı olmak için buradayız!
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -242,7 +242,7 @@ export default function DeleteAccount() {
             {/* Footer */}
             <footer className="py-10 text-center text-neutral-600 text-sm border-t border-white/5">
                 <div className="flex flex-col items-center gap-4">
-                    <p>© 2026 QuizFlow. Tüm hakları saklıdır.</p>
+                    <p>© 2026 Quizyen. Tüm hakları saklıdır.</p>
                     <div className="flex items-center gap-4">
                         <Link href="/privacy" className="text-neutral-500 hover:text-indigo-400 transition-colors">
                             Gizlilik Politikası

@@ -19,9 +19,9 @@ export default function PrivacyPolicy() {
                 <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
                         <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg" style={{ backgroundColor: 'rgb(44 63 113)', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>
-                            <img src="/webicon.jpg" alt="QuizFlow Logo" className="w-7 h-7" />
+                            <img src="/webicon.jpg" alt="Quizyen Logo" className="w-7 h-7" />
                         </div>
-                        QuizFlow
+                        Quizyen
                     </Link>
                     <Link href="/" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-2">
                         <ArrowLeft size={16} />
@@ -62,7 +62,7 @@ export default function PrivacyPolicy() {
                             <section className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl">
                                 <h2 className="text-2xl font-bold text-white mb-4">Introduction</h2>
                                 <p className="leading-relaxed">
-                                    Welcome to QuizFlow. We respect your privacy and are committed to protecting your personal data.
+                                    Welcome to Quizyen. We respect your privacy and are committed to protecting your personal data.
                                     This privacy policy will inform you about how we look after your personal data when you visit our
                                     website or use our mobile application and tell you about your privacy rights and how the law protects you.
                                 </p>
@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
                                     <li>To provide customer support</li>
                                     <li>To gather analysis or valuable information to improve our service</li>
                                     <li>To detect, prevent and address technical issues</li>
-                                    <li>To send you updates about QuizFlow (only if you joined our waitlist)</li>
+                                    <li>To send you updates about Quizyen (only if you joined our waitlist)</li>
                                 </ul>
                             </section>
 
@@ -192,7 +192,7 @@ export default function PrivacyPolicy() {
             {/* Footer */}
             <footer className="py-10 text-center text-neutral-600 text-sm border-t border-white/5">
                 <div className="flex flex-col items-center gap-4">
-                    <p>© 2026 QuizFlow. All rights reserved.</p>
+                    <p>© 2026 Quizyen. All rights reserved.</p>
                     <div className="flex items-center gap-4">
                         <Link href="/privacy" className="text-neutral-500 hover:text-indigo-400 transition-colors">
                             Privacy Policy
