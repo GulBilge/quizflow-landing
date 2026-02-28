@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.blog_posts (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-
+  
 -- 2. Enable RLS
 ALTER TABLE public.blog_posts ENABLE ROW LEVEL SECURITY;
 
