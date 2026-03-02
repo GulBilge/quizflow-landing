@@ -1,4 +1,4 @@
-import BlogForm from "@/components/admin/BlogForm";
+import BlogForm from "@/components/features/admin/BlogForm";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

@@ -54,7 +54,12 @@ export async function updateSession(request: NextRequest) {
             // 1. Check if user is logged in
             if (!user) {
                 if (request.nextUrl.pathname !== "/admin/login") {
-                    return NextResponse.redirect(new URL("/admin/login", request.url));
+                    const redirectResponse = NextResponse.redirect(new URL("/admin/login", request.url));
+                    // Add refreshed cookies to the redirect response
+                    response.cookies.getAll().forEach((cookie) => {
+                        redirectResponse.cookies.set(cookie.name, cookie.value, cookie);
+                    });
+                    return redirectResponse;
                 }
                 return response;
             }
@@ -63,8 +68,11 @@ export async function updateSession(request: NextRequest) {
             const adminEmailsEnv = process.env.ADMIN_EMAILS;
             if (!adminEmailsEnv) {
                 console.error("Middleware: ADMIN_EMAILS is missing!");
-                // Fail safe: Redirect home if configuration is missing
-                return NextResponse.redirect(new URL("/", request.url));
+                const redirectResponse = NextResponse.redirect(new URL("/", request.url));
+                response.cookies.getAll().forEach((cookie) => {
+                    redirectResponse.cookies.set(cookie.name, cookie.value, cookie);
+                });
+                return redirectResponse;
             }
 
             const adminEmails = (adminEmailsEnv || "")
@@ -76,12 +84,20 @@ export async function updateSession(request: NextRequest) {
 
             if (!adminEmails.includes(userEmail)) {
                 console.log("User not authorized. Redirecting to home.");
-                return NextResponse.redirect(new URL("/", request.url));
+                const redirectResponse = NextResponse.redirect(new URL("/", request.url));
+                response.cookies.getAll().forEach((cookie) => {
+                    redirectResponse.cookies.set(cookie.name, cookie.value, cookie);
+                });
+                return redirectResponse;
             }
 
             // If user is logged in and is admin, and trying to go to login page, redirect to dashboard
             if (request.nextUrl.pathname === "/admin/login") {
-                return NextResponse.redirect(new URL("/admin", request.url));
+                const redirectResponse = NextResponse.redirect(new URL("/admin", request.url));
+                response.cookies.getAll().forEach((cookie) => {
+                    redirectResponse.cookies.set(cookie.name, cookie.value, cookie);
+                });
+                return redirectResponse;
             }
         }
 

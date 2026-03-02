@@ -1,14 +1,12 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import AuthModal from '@/components/auth/AuthModal';
+import AuthModal from '@/components/features/auth/AuthModal';
 import { motion } from 'framer-motion';
 import {
   Sparkles,
   FileText,
-  Zap,
   Brain,
-  ArrowRight,
   Smartphone,
   UploadCloud,
   PlayCircle,
@@ -16,7 +14,6 @@ import {
   BarChart,
   Menu,
   X,
-  ChevronRight,
   CheckCircle2
 } from 'lucide-react';
 import Image from 'next/image';
@@ -147,7 +144,7 @@ export default function Home() {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 mb-8 leading-relaxed">
-              Yapay Zeka destekli Quizyen ile PDF'lerinizi yükleyin, anında test çözmeye başlayın. Sınavlara hazırlanmanın en akıllı yolu.
+              Yapay Zeka destekli Quizyen ile PDF&apos;lerinizi yükleyin, anında test çözmeye başlayın. Sınavlara hazırlanmanın en akıllı yolu.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -301,7 +298,7 @@ export default function Home() {
               Öğrenme Sürecinizi Hızlandırın
             </h2>
             <p className="text-lg text-slate-600">
-              Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte Quizyen'un süper güçleri.
+              Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte Quizyen&apos;un süper güçleri.
             </p>
           </div>
 
@@ -467,7 +464,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <button className="bg-white text-indigo-600 hover:bg-slate-100 px-8 py-4 rounded-xl font-bold shadow-lg transition-transform hover:scale-105 flex items-center gap-3">
                 <Smartphone size={24} />
-                <span>App Store'dan İndir</span>
+                <span>App Store&apos;dan İndir</span>
               </button>
               <button className="bg-indigo-800/40 hover:bg-indigo-800/60 text-white px-8 py-4 rounded-xl font-bold border border-indigo-400/30 backdrop-blur-sm transition-transform hover:scale-105 flex items-center gap-3">
                 <PlayCircle size={24} />

@@ -4,9 +4,10 @@ import { createClient } from "@/utils/supabase/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
+const supabase = createClient();
+
 export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
-    const supabase = createClient();
 
     const handleLogin = async () => {
         setIsLoading(true);
@@ -14,10 +15,10 @@ export default function LoginPage() {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
-                    redirectTo: `${window.location.origin}/auth/callback`,
+                    redirectTo: `${window.location.origin}/auth/callback?next=/admin`,
                     queryParams: {
                         access_type: "offline",
-                        prompt: "consent",
+                        prompt: "select_account",
                     },
                 },
             });

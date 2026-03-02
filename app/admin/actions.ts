@@ -5,31 +5,44 @@ import { createClient } from "@/utils/supabase/server";
 
 const ITEMS_PER_PAGE = 10;
 
-// Security check helper
-const checkAdminAccess = async () => {
-    const supabase = await createClient();
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+import { env } from "@/utils/env";
 
-    if (!user) {
-        throw new Error("Unauthorized");
-    }
-
-    const adminEmails = (process.env.ADMIN_EMAILS || "")
-        .split(",")
-        .map((e) => e.trim().replace(/['"]+/g, '').toLowerCase());
-
-    const userEmail = (user.email || "").trim().toLowerCase();
-
-    if (!adminEmails.includes(userEmail)) {
-        throw new Error("Unauthorized Access");
-    }
-    return true;
+export type ActionResult<T> = {
+    data: T | null;
+    error: string | null;
 };
 
-export async function getKpiAndPopular() {
-    await checkAdminAccess();
+// Security check helper
+const checkAdminAccess = async (): Promise<ActionResult<boolean>> => {
+    try {
+        const supabase = await createClient();
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) {
+            return { data: null, error: "Unauthorized" };
+        }
+
+        const adminEmails = (env.ADMIN_EMAILS || "")
+            .split(",")
+            .map((e: string) => e.trim().replace(/['"]+/g, '').toLowerCase());
+
+        const userEmail = (user.email || "").trim().toLowerCase();
+
+        if (!adminEmails.includes(userEmail)) {
+            return { data: null, error: "Unauthorized Access" };
+        }
+        return { data: true, error: null };
+    } catch (e) {
+        return { data: null, error: "Security Check Failed" };
+    }
+};
+
+export async function getKpiAndPopular(): Promise<ActionResult<{ kpi: any; popular: any }>> {
+    const access = await checkAdminAccess();
+    if (access.error) return { data: null, error: access.error };
+
     const supabaseAdmin = createAdminClient();
 
     const { data: kpi, error: kpiError } = await supabaseAdmin
@@ -39,7 +52,7 @@ export async function getKpiAndPopular() {
 
     if (kpiError) {
         console.error("KPI Fetch Error:", kpiError);
-        throw new Error(`Database Error (KPI): ${kpiError.message}`);
+        return { data: null, error: `Database Error (KPI): ${kpiError.message}` };
     }
 
     const { data: popular, error: popularError } = await supabaseAdmin
@@ -49,14 +62,16 @@ export async function getKpiAndPopular() {
 
     if (popularError) {
         console.error("Popular Quizzes Fetch Error:", popularError);
-        throw new Error(`Database Error (Popular Quizzes): ${popularError.message}`);
+        return { data: null, error: `Database Error (Popular Quizzes): ${popularError.message}` };
     }
 
-    return { kpi, popular };
+    return { data: { kpi, popular }, error: null };
 }
 
-export async function getContentFeed(page: number) {
-    await checkAdminAccess();
+export async function getContentFeed(page: number): Promise<ActionResult<any[]>> {
+    const access = await checkAdminAccess();
+    if (access.error) return { data: null, error: access.error };
+
     const supabaseAdmin = createAdminClient();
 
     const from = page * ITEMS_PER_PAGE;
@@ -69,13 +84,15 @@ export async function getContentFeed(page: number) {
 
     if (error) {
         console.error("Content Feed Fetch Error:", error);
-        throw new Error(`Database Error (Content Feed): ${error.message}`);
+        return { data: null, error: `Database Error (Content Feed): ${error.message}` };
     }
-    return data;
+    return { data, error: null };
 }
 
-export async function getAttemptsFeed(page: number) {
-    await checkAdminAccess();
+export async function getAttemptsFeed(page: number): Promise<ActionResult<any[]>> {
+    const access = await checkAdminAccess();
+    if (access.error) return { data: null, error: access.error };
+
     const supabaseAdmin = createAdminClient();
 
     const from = page * ITEMS_PER_PAGE;
@@ -88,13 +105,15 @@ export async function getAttemptsFeed(page: number) {
 
     if (error) {
         console.error("Attempts Feed Fetch Error:", error);
-        throw new Error(`Database Error (Attempts Feed): ${error.message}`);
+        return { data: null, error: `Database Error (Attempts Feed): ${error.message}` };
     }
-    return data;
+    return { data, error: null };
 }
 
-export async function getUserEngagement() {
-    await checkAdminAccess();
+export async function getUserEngagement(): Promise<ActionResult<any[]>> {
+    const access = await checkAdminAccess();
+    if (access.error) return { data: null, error: access.error };
+
     const supabaseAdmin = createAdminClient();
 
     const { data, error } = await supabaseAdmin
@@ -104,7 +123,7 @@ export async function getUserEngagement() {
 
     if (error) {
         console.error("User Engagement Fetch Error:", error);
-        throw new Error(`Database Error (Engagement): ${error.message}`);
+        return { data: null, error: `Database Error (Engagement): ${error.message}` };
     }
-    return data;
+    return { data, error: null };
 }

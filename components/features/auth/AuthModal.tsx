@@ -1,10 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, Loader2, Github } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { getURL } from '@/utils/env';
+
+const supabase = createClient();
 
 export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const [isLogin, setIsLogin] = useState(true);
@@ -14,12 +17,6 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const searchParams = useSearchParams();
-
-    // Initialize Supabase client
-    const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -42,7 +39,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                     email,
                     password,
                     options: {
-                        emailRedirectTo: `${location.origin}/auth/callback`,
+                        emailRedirectTo: `${getURL()}/auth/callback`,
                     },
                 });
                 if (error) throw error;
@@ -64,7 +61,10 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${location.origin}/auth/callback?next=/dashboard`,
+                    redirectTo: `${getURL()}/auth/callback?next=/dashboard`,
+                    queryParams: {
+                        prompt: "select_account",
+                    }
                 },
             });
             if (error) throw error;

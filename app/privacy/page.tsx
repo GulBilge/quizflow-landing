@@ -88,6 +88,7 @@ export default function PrivacyPolicy() {
                                     <li>To provide and maintain our service</li>
                                     <li>To notify you about changes to our service</li>
                                     <li>To provide customer support</li>
+                                    <li>Hizmetlerimizi kullandığınız her an verilerinizin güvenliğini sağlamak Quizyen&apos;un önceliğidir.</li>
                                     <li>To gather analysis or valuable information to improve our service</li>
                                     <li>To detect, prevent and address technical issues</li>
                                     <li>To send you updates about Quizyen (only if you joined our waitlist)</li>
@@ -149,9 +150,8 @@ export default function PrivacyPolicy() {
                                 </p>
                             </section>
 
-                            {/* Children's Privacy */}
                             <section className="bg-neutral-900/40 border border-white/5 p-8 rounded-2xl">
-                                <h2 className="text-2xl font-bold text-white mb-4">Children's Privacy</h2>
+                                <h2 className="text-2xl font-bold text-white mb-4">Children&apos;s Privacy</h2>
                                 <p className="leading-relaxed">
                                     Our service is not intended for children under 13 years of age. We do not knowingly collect
                                     personally identifiable information from children under 13. If you are a parent or guardian and
