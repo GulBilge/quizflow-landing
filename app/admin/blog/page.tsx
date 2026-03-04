@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { Database } from "@/types/database.types";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit2, Trash2, Eye, FileText } from "lucide-react";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import { tr } from "date-fns/locale";
 import DeleteButton from "./DeleteButton";
 
 export default async function BlogListingPage() {
-    const supabase = await createClient();
+    const supabase = await createClient(); // Already has Database generic in server.ts
 
     const { data: posts, error } = await supabase
         .from("blog_posts")
@@ -46,7 +47,7 @@ export default async function BlogListingPage() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {posts?.map((post) => (
+                            {(posts as any)?.map((post: any) => (
                                 <tr key={post.id} className="hover:bg-gray-50 transition-colors">
                                     <td className="px-6 py-4">
                                         <div className="w-16 h-10 rounded bg-gray-100 overflow-hidden border border-gray-100 flex items-center justify-center">

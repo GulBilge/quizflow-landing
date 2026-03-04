@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { Database } from "@/types/database.types";
 import { User, Mail, LogOut, Trash2, Shield, Moon, Sun, Globe } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -13,7 +14,7 @@ export default async function ProfilePage() {
 
     // Fetch detailed profile if needed
     const { data: profile } = await supabase
-        .from('profiles')
+        .from('profiles' as any)
         .select('*')
         .eq('id', user.id)
         .single();
@@ -28,7 +29,7 @@ export default async function ProfilePage() {
                     <div className="w-24 h-24 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-3xl font-bold ring-4 ring-white dark:ring-slate-800 shadow-lg">
                         {user.email?.charAt(0).toUpperCase()}
                     </div>
-                    {profile?.is_pro && (
+                    {(profile as any)?.is_pro && (
                         <div className="absolute bottom-0 right-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm border-2 border-white dark:border-slate-800">
                             PRO
                         </div>
@@ -43,7 +44,7 @@ export default async function ProfilePage() {
                     </div>
                     <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-3">
                         <div className="bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300">
-                            Üyelik: <span className="font-bold text-indigo-600 dark:text-indigo-400">{profile?.is_pro ? 'Premium' : 'Ücretsiz'}</span>
+                            Üyelik: <span className="font-bold text-indigo-600 dark:text-indigo-400">{(profile as any)?.is_pro ? 'Premium' : 'Ücretsiz'}</span>
                         </div>
                         <div className="bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300">
                             ID: {user.id.substring(0, 8)}...

@@ -3,6 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
+import { Database } from "@/types/database.types";
 import { notFound } from "next/navigation";
 
 export default async function EditBlogPostPage({ params }: { params: { id: string } }) {

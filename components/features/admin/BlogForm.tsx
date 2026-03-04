@@ -8,18 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Editor from "./Editor";
 import { createClient } from "@/utils/supabase/client";
+import { Database } from "@/types/database.types";
 import { toast } from "sonner";
 import slugify from "slugify";
 import { Loader2, Save, Send, Image as ImageIcon, X } from "lucide-react";
 
 interface BlogFormProps {
-    initialData?: any;
+    initialData?: Database["public"]["Tables"]["blog_posts"]["Row"];
     postId?: string;
 }
 
 export default function BlogForm({ initialData, postId }: BlogFormProps) {
     const router = useRouter();
-    const supabase = createClient();
+    const supabase = createClient<Database>();
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
 
@@ -89,15 +90,15 @@ export default function BlogForm({ initialData, postId }: BlogFormProps) {
         try {
             let res;
             if (postId) {
-                res = await supabase
-                    .from("blog_posts")
+                res = await (supabase
+                    .from("blog_posts") as any)
                     .update(payload)
                     .eq("id", postId);
             } else {
                 // Get current user for author_id
                 const { data: { user } } = await supabase.auth.getUser();
-                res = await supabase
-                    .from("blog_posts")
+                res = await (supabase
+                    .from("blog_posts") as any)
                     .insert([{ ...payload, author_id: user?.id }]);
             }
 

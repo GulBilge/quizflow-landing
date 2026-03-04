@@ -101,9 +101,12 @@ export default function AdminDashboard() {
 
     const fetchKpiAndPopular = useCallback(async () => {
         try {
-            const { kpi, popular } = await getKpiAndPopular();
-            setKpi(kpi);
-            setPopularQuizzes(popular || []);
+            const { data, error } = await getKpiAndPopular();
+            if (error) throw new Error(error);
+            if (data) {
+                setKpi(data.kpi);
+                setPopularQuizzes(data.popular || []);
+            }
         } catch (err: any) {
             console.error("Error fetching KPI/Popular:", err);
             setError(err.message);
@@ -112,8 +115,8 @@ export default function AdminDashboard() {
 
     const fetchContentFeedData = useCallback(async (page: number) => {
         try {
-            const data = await getContentFeed(page);
-            setContentFeed(data as ContentFeedItem[] || []);
+            const { data } = await getContentFeed(page);
+            setContentFeed(data || []);
         } catch (err: any) {
             console.error("Error fetching Content Feed:", err);
         }
@@ -121,8 +124,8 @@ export default function AdminDashboard() {
 
     const fetchAttemptsFeedData = useCallback(async (page: number) => {
         try {
-            const data = await getAttemptsFeed(page);
-            setAttemptsFeed(data as AttemptFeedItem[] || []);
+            const { data } = await getAttemptsFeed(page);
+            setAttemptsFeed(data || []);
         } catch (err: any) {
             console.error("Error fetching Attempts Feed:", err);
         }
@@ -130,8 +133,8 @@ export default function AdminDashboard() {
 
     const fetchEngagementData = useCallback(async () => {
         try {
-            const data = await getUserEngagement();
-            setEngagementData(data as UserEngagement[] || []);
+            const { data } = await getUserEngagement();
+            setEngagementData(data || []);
         } catch (err: any) {
             console.error("Error fetching Engagement Data:", err);
         }

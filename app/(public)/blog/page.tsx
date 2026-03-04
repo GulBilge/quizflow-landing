@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { Database } from "@/types/database.types";
 import Link from "next/link";
 import { format } from "date-fns";
 import { tr } from "date-fns/locale";
@@ -71,7 +72,7 @@ export default async function BlogPage() {
             <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
                 {posts && posts.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {posts.map((post) => (
+                        {posts.map((post: any) => (
                             <BlogCard key={post.id} post={post} />
                         ))}
                     </div>

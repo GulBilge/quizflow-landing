@@ -9,6 +9,47 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          content: string
+          excerpt: string | null
+          cover_image_url: string | null
+          is_published: boolean | null
+          seo_keywords: string | null
+          author_id: string | null
+          created_at: string
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          slug: string
+          content: string
+          excerpt?: string | null
+          cover_image_url?: string | null
+          is_published?: boolean | null
+          seo_keywords?: string | null
+          author_id?: string | null
+          created_at?: string
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          slug?: string
+          content?: string
+          excerpt?: string | null
+          cover_image_url?: string | null
+          is_published?: boolean | null
+          seo_keywords?: string | null
+          author_id?: string | null
+          created_at?: string
+          updated_at?: string | null
+        }
+      }
       folders: {
         Row: {
           id: string
@@ -237,7 +278,50 @@ export interface Database {
       }
     }
     Views: {
-      [_ in never]: never
+      admin_kpi_summary: {
+        Row: {
+          total_users: number
+          pool_size: number
+          total_adoptions: number
+          total_plays: number
+          waitlist_count: number
+        }
+      }
+      admin_popular_quizzes: {
+        Row: {
+          title: string
+          adoption_count: number
+          play_count: number
+        }
+      }
+      admin_content_feed: {
+        Row: {
+          quiz_title: string
+          created_at: string
+          question_count: number
+          creator_email: string
+        }
+      }
+      admin_attempts_feed: {
+        Row: {
+          id: string
+          email: string
+          quiz_title: string
+          status: string
+          score: number | null
+          started_at: string
+          completed_at: string | null
+        }
+      }
+      user_daily_engagement: {
+        Row: {
+          full_name: string
+          email: string
+          participation_rate: number
+          active_days: string[]
+          missed_days: string[]
+        }
+      }
     }
     Functions: {
       [_ in never]: never

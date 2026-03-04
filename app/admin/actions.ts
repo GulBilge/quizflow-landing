@@ -2,6 +2,7 @@
 
 import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
+import { Database } from "@/types/database.types";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -39,7 +40,7 @@ const checkAdminAccess = async (): Promise<ActionResult<boolean>> => {
     }
 };
 
-export async function getKpiAndPopular(): Promise<ActionResult<{ kpi: any; popular: any }>> {
+export async function getKpiAndPopular(): Promise<ActionResult<{ kpi: Database["public"]["Views"]["admin_kpi_summary"]["Row"]; popular: Database["public"]["Views"]["admin_popular_quizzes"]["Row"][] }>> {
     const access = await checkAdminAccess();
     if (access.error) return { data: null, error: access.error };
 
@@ -65,10 +66,10 @@ export async function getKpiAndPopular(): Promise<ActionResult<{ kpi: any; popul
         return { data: null, error: `Database Error (Popular Quizzes): ${popularError.message}` };
     }
 
-    return { data: { kpi, popular }, error: null };
+    return { data: { kpi: kpi as Database["public"]["Views"]["admin_kpi_summary"]["Row"], popular: popular as Database["public"]["Views"]["admin_popular_quizzes"]["Row"][] }, error: null };
 }
 
-export async function getContentFeed(page: number): Promise<ActionResult<any[]>> {
+export async function getContentFeed(page: number): Promise<ActionResult<Database["public"]["Views"]["admin_content_feed"]["Row"][]>> {
     const access = await checkAdminAccess();
     if (access.error) return { data: null, error: access.error };
 
@@ -86,10 +87,10 @@ export async function getContentFeed(page: number): Promise<ActionResult<any[]>>
         console.error("Content Feed Fetch Error:", error);
         return { data: null, error: `Database Error (Content Feed): ${error.message}` };
     }
-    return { data, error: null };
+    return { data: data as Database["public"]["Views"]["admin_content_feed"]["Row"][], error: null };
 }
 
-export async function getAttemptsFeed(page: number): Promise<ActionResult<any[]>> {
+export async function getAttemptsFeed(page: number): Promise<ActionResult<Database["public"]["Views"]["admin_attempts_feed"]["Row"][]>> {
     const access = await checkAdminAccess();
     if (access.error) return { data: null, error: access.error };
 
@@ -107,10 +108,10 @@ export async function getAttemptsFeed(page: number): Promise<ActionResult<any[]>
         console.error("Attempts Feed Fetch Error:", error);
         return { data: null, error: `Database Error (Attempts Feed): ${error.message}` };
     }
-    return { data, error: null };
+    return { data: data as Database["public"]["Views"]["admin_attempts_feed"]["Row"][], error: null };
 }
 
-export async function getUserEngagement(): Promise<ActionResult<any[]>> {
+export async function getUserEngagement(): Promise<ActionResult<Database["public"]["Views"]["user_daily_engagement"]["Row"][]>> {
     const access = await checkAdminAccess();
     if (access.error) return { data: null, error: access.error };
 
@@ -125,5 +126,5 @@ export async function getUserEngagement(): Promise<ActionResult<any[]>> {
         console.error("User Engagement Fetch Error:", error);
         return { data: null, error: `Database Error (Engagement): ${error.message}` };
     }
-    return { data, error: null };
+    return { data: data as Database["public"]["Views"]["user_daily_engagement"]["Row"][], error: null };
 }
