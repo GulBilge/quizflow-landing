@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Plus, Play, Clock, BookOpen, Search, TrendingUp, CheckCircle2, Crown } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
+import QuizUpload from "./QuizUpload";
 
 interface DashboardContentProps {
     user: any;
@@ -14,6 +15,7 @@ interface DashboardContentProps {
 
 export default function DashboardContent({ user, recentActivity, lastAttempt }: DashboardContentProps) {
     const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
+    const [isUploadOpen, setIsUploadOpen] = useState(false);
 
     // If a quiz is selected, we show its stats, otherwise we show the last attempt stats
     const displayStats = selectedQuiz || lastAttempt;
@@ -40,7 +42,10 @@ export default function DashboardContent({ user, recentActivity, lastAttempt }: 
                             Notlarını yükle, yapay zeka senin için saniyeler içinde kişiselleştirilmiş bir çalışma planı ve sınav hazırlasın.
                         </p>
                         <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                            <button className="bg-white text-indigo-600 px-8 py-3.5 rounded-2xl font-bold text-base hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-black/10">
+                            <button
+                                onClick={() => setIsUploadOpen(true)}
+                                className="bg-white text-indigo-600 px-8 py-3.5 rounded-2xl font-bold text-base hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-black/10"
+                            >
                                 <Plus size={20} className="stroke-[3]" />
                                 Yeni Sınav Oluştur
                             </button>
@@ -79,8 +84,8 @@ export default function DashboardContent({ user, recentActivity, lastAttempt }: 
                                     key={item.id}
                                     onClick={() => setSelectedQuiz(item.quizzes)}
                                     className={`group cursor-pointer bg-white dark:bg-slate-800 p-5 rounded-2xl border transition-all duration-300 flex flex-col sm:flex-row items-center gap-5 ${selectedQuiz?.id === item.quizzes?.id
-                                            ? 'border-indigo-500 ring-2 ring-indigo-500/10 shadow-lg'
-                                            : 'border-slate-100 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-800 hover:shadow-md'
+                                        ? 'border-indigo-500 ring-2 ring-indigo-500/10 shadow-lg'
+                                        : 'border-slate-100 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-800 hover:shadow-md'
                                         }`}
                                 >
                                     <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0 group-hover:scale-110 transition-transform shadow-inner">
@@ -124,7 +129,10 @@ export default function DashboardContent({ user, recentActivity, lastAttempt }: 
                                 <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-8 leading-relaxed">
                                     Hemen yukarıdan ilk dökümanını yükleyerek yapay zeka ile öğrenmeye başlayabilirsin!
                                 </p>
-                                <button className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-indigo-700 transition-all flex items-center gap-2">
+                                <button
+                                    onClick={() => setIsUploadOpen(true)}
+                                    className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-indigo-700 transition-all flex items-center gap-2"
+                                >
                                     <Plus size={20} />
                                     İlk PDF'ini Yükle
                                 </button>
@@ -237,6 +245,10 @@ export default function DashboardContent({ user, recentActivity, lastAttempt }: 
                 </div>
 
             </div>
+            {/* Upload Modal */}
+            {isUploadOpen && (
+                <QuizUpload onClose={() => setIsUploadOpen(false)} />
+            )}
         </div>
     );
 }
