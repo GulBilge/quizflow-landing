@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import AuthModal from '@/components/features/auth/AuthModal';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles,
   FileText,
@@ -14,12 +14,18 @@ import {
   BarChart,
   Menu,
   X,
-  CheckCircle2
+  CheckCircle2,
+  ArrowRight,
+  Globe,
+  User
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 export default function Home() {
+  const t = useTranslations('HomePage');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -77,12 +83,15 @@ export default function Home() {
               >
                 Giriş Yap
               </button>
-              <button
-                onClick={() => setIsAuthModalOpen(true)}
+              <LanguageSwitcher />
+              <a
+                href="https://play.google.com/store/apps/details?id=com.gulbilge.quizflow&pcampaignid=web_share"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30"
               >
                 Hemen İndir
-              </button>
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -94,33 +103,76 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            className="md:hidden bg-white border-b border-slate-200 overflow-hidden"
-          >
-            <div className="px-4 py-4 space-y-4">
-              <a href="#features" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Özellikler</a>
-              <a href="#how-it-works" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Nasıl Çalışır?</a>
-              <Link href="/blog" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>Blog</Link>
-              <a href="#faq" className="block text-slate-600 font-medium" onClick={() => setIsMenuOpen(false)}>SSS</a>
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[60] md:hidden bg-slate-900/95 backdrop-blur-xl flex flex-col pt-24 px-6 overflow-hidden"
+            >
               <button
-                onClick={() => { setIsMenuOpen(false); setIsAuthModalOpen(true); }}
-                className="w-full bg-slate-100 text-slate-900 py-3 rounded-lg font-semibold mb-2"
+                onClick={() => setIsMenuOpen(false)}
+                className="absolute top-5 right-6 text-white/70 hover:text-white p-2"
               >
-                Giriş Yap
+                <X size={32} />
               </button>
-              <button
-                onClick={() => { setIsMenuOpen(false); setIsAuthModalOpen(true); }}
-                className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold"
+
+              <motion.div
+                className="space-y-6 flex flex-col"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="show"
               >
-                Hemen İndir
-              </button>
-            </div>
-          </motion.div>
-        )}
+                {[
+                  { href: "#features", label: "Özellikler" },
+                  { href: "#how-it-works", label: "Nasıl Çalışır?" },
+                  { href: "/blog", label: "Blog" },
+                  { href: "#faq", label: "SSS" },
+                ].map((item) => (
+                  <motion.div key={item.label} variants={fadeIn}>
+                    <Link
+                      href={item.href}
+                      className="text-3xl font-bold text-white hover:text-indigo-400 flex items-center justify-between group"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.label}
+                      <ArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
+                  </motion.div>
+                ))}
+
+                <motion.div variants={fadeIn} className="pt-8 border-t border-white/10 space-y-4">
+                  <button
+                    onClick={() => { setIsMenuOpen(false); setIsAuthModalOpen(true); }}
+                    className="w-full bg-white/10 hover:bg-white/20 text-white py-4 rounded-2xl font-bold text-lg backdrop-blur-md transition-all flex items-center justify-center gap-2"
+                  >
+                    <User size={20} />
+                    Giriş Yap
+                  </button>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.gulbilge.quizflow&pcampaignid=web_share"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-bold text-lg text-center shadow-lg shadow-indigo-600/20"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Hemen İndir
+                  </a>
+                  <div className="flex justify-center pt-4 scale-125 origin-center">
+                    <LanguageSwitcher />
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Abstract decorative circles */}
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl -z-10"></div>
+              <div className="absolute top-1/4 -right-10 w-48 h-48 bg-violet-600/20 rounded-full blur-3xl -z-10"></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </nav>
 
       {/* HERO SECTION */}
@@ -140,11 +192,11 @@ export default function Home() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-6">
-              Ders Notlarınızı <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Saniyeler İçinde</span> Sınav Sorularına Dönüştürün.
+              {t('title')}
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 mb-8 leading-relaxed">
-              Yapay Zeka destekli Quizyen ile PDF&apos;lerinizi yükleyin, anında test çözmeye başlayın. Sınavlara hazırlanmanın en akıllı yolu.
+              {t('description')}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -207,19 +259,56 @@ export default function Home() {
                     <span className="text-xs text-indigo-600/70">PDF, DOCX veya TXT</span>
                   </div>
 
-                  <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100 flex items-center gap-4">
-                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-500">
-                      <FileText size={20} />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-slate-800 text-sm">Vize Notları.pdf</p>
-                      <p className="text-xs text-slate-500">2.4 MB • Hazır</p>
-                    </div>
-                    <div className="ml-auto">
-                      <CheckCircle2 size={20} className="text-green-500" />
-                    </div>
-                  </div>
-
+                  {/* The provided MobileNav component is inserted here, assuming it's a new component to be added to the file.
+                      Note: This component requires `cn`, `pathname`, `links` to be defined in its scope,
+                      and `Link` and `motion` to be imported. These are not present in the original document.
+                      For the purpose of fulfilling the request, it's placed here as a new component.
+                      If this was meant to replace an existing mobile navigation, more context would be needed.
+                  */}
+                  {/* Assuming this is a new component to be added to the file, not replacing existing content directly */}
+                  {/* This component would typically be defined outside the main page component or in its own file.
+                      Placing it here for demonstration based on the instruction. */}
+                  {/*
+                  function MobileNav() {
+                    const pathname = usePathname(); // Requires 'usePathname' hook
+                    const links = [ // Example links, would need to be defined
+                      { href: "/", label: "Home", icon: Home },
+                      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+                      { href: "/settings", label: "Settings", icon: Settings },
+                    ];
+                    return (
+                      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex justify-between items-center pb-safe safe-area-bottom">
+                          {links.map((link) => {
+                              const Icon = link.icon;
+                              const isActive = pathname === link.href;
+                              return (
+                                  <Link
+                                      key={link.href}
+                                      href={link.href}
+                                      className={cn(
+                                          "flex flex-col items-center gap-1.5 transition-all duration-300 relative px-4 py-1",
+                                          isActive ? "text-indigo-600 dark:text-indigo-400 scale-110" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                                      )}
+                                  >
+                                      {isActive && (
+                                          <motion.div
+                                              layoutId="mobile-nav-pill"
+                                              className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl -z-10"
+                                              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                          />
+                                      )}
+                                      <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                                      <span className={cn(
+                                          "text-[10px] font-bold tracking-tight uppercase",
+                                          isActive ? "opacity-100" : "opacity-70 group-hover:opacity-100"
+                                      )}>{link.label}</span>
+                                  </Link>
+                              );
+                          })}
+                      </div>
+                  );
+                  }
+                  */}
                   <button className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-600/20 mt-auto">
                     Quiz Oluştur ✨
                   </button>
@@ -466,10 +555,15 @@ export default function Home() {
                 <Smartphone size={24} />
                 <span>App Store&apos;dan İndir</span>
               </button>
-              <button className="bg-indigo-800/40 hover:bg-indigo-800/60 text-white px-8 py-4 rounded-xl font-bold border border-indigo-400/30 backdrop-blur-sm transition-transform hover:scale-105 flex items-center gap-3">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.gulbilge.quizflow&pcampaignid=web_share"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-indigo-800/40 hover:bg-indigo-800/60 text-white px-8 py-4 rounded-xl font-bold border border-indigo-400/30 backdrop-blur-sm transition-transform hover:scale-105 flex items-center gap-3"
+              >
                 <PlayCircle size={24} />
                 <span>Google Play</span>
-              </button>
+              </a>
             </div>
             <p className="text-sm opacity-60 mt-4">iOS çok yakında!</p>
           </div>

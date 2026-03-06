@@ -322,6 +322,18 @@ export interface Database {
           missed_days: string[]
         }
       }
+      v_user_library: {
+        Row: {
+          id: string
+          user_id: string
+          quiz_id: string
+          added_at: string
+          last_accessed_at: string
+          folder_id: string
+          user_quiz_name: string
+          user_folder_name: string
+        }
+      }
     }
     Functions: {
       [_ in never]: never

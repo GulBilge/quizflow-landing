@@ -1,13 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, CheckCircle2, XCircle, Info, Trophy, RotateCcw, Home } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+    ChevronLeft,
+    ChevronRight,
+    CheckCircle2,
+    XCircle,
+    Info,
+    Trophy,
+    RotateCcw,
+    Home,
+    Target,
+    CheckCircle,
+    AlertCircle,
+    Type,
+    Flag,
+    User
+} from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { calculateQuizScore } from "@/utils/quiz";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
+import confetti from "canvas-confetti";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Question {
     question: string;
@@ -25,6 +42,8 @@ interface QuizPlayerProps {
     userId: string;
 }
 
+type FontSize = "small" | "medium" | "large";
+
 export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -33,7 +52,56 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     const [wrongCount, setWrongCount] = useState(0);
     const [isCompleted, setIsCompleted] = useState(false);
     const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
+    const [fontSize, setFontSize] = useState<FontSize>("medium");
+    const [userData, setUserData] = useState<{ name?: string; avatar?: string } | null>(null);
+    const explanationRef = useRef<HTMLDivElement>(null);
     const supabase = createClient();
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setUserData({
+                    name: user.user_metadata?.full_name || user.email?.split('@')[0],
+                    avatar: user.user_metadata?.avatar_url
+                });
+            }
+        };
+        fetchUser();
+    }, []);
+
+    useEffect(() => {
+        if (isAnswered && explanationRef.current) {
+            explanationRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    }, [isAnswered]);
+
+    useEffect(() => {
+        if (isCompleted) {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+
+            const interval: any = setInterval(function () {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 250);
+
+            return () => clearInterval(interval);
+        }
+    }, [isCompleted]);
 
     const currentQuestion = quiz.content[currentIndex];
     const progress = ((currentIndex) / quiz.content.length) * 100;
@@ -83,137 +151,321 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
         setIsCompleted(true);
     };
 
+    const getDynamicGrading = (score: number) => {
+        if (score === 100) return { title: "Efsanevi! 🏆", color: "text-emerald-600 dark:text-emerald-400" };
+        if (score >= 85) return { title: "Harika İş! 🌟", color: "text-indigo-600 dark:text-indigo-400" };
+        if (score >= 70) return { title: "Tebrikler! ✅", color: "text-blue-600 dark:text-blue-400" };
+        return { title: "Tamamlandı! 📝", color: "text-slate-600 dark:text-slate-400" };
+    };
+
+    const cycleFontSize = () => {
+        setFontSize(prev => {
+            if (prev === "small") return "medium";
+            if (prev === "medium") return "large";
+            return "small";
+        });
+    };
+
+    const getFontSizeClass = (type: "question" | "option") => {
+        if (type === "question") {
+            if (fontSize === "small") return "text-lg";
+            if (fontSize === "medium") return "text-xl sm:text-2xl";
+            return "text-3xl";
+        }
+        if (fontSize === "small") return "text-xs sm:text-sm";
+        if (fontSize === "medium") return "text-sm sm:text-base";
+        return "text-lg sm:text-xl";
+    };
+
     if (isCompleted) {
         const score = calculateQuizScore(correctCount, wrongCount, quiz.content.length);
+        const { title, color } = getDynamicGrading(score);
+
         return (
-            <div className="max-w-2xl mx-auto py-12 px-4 animate-in fade-in zoom-in duration-500">
-                <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-10 border border-slate-100 dark:border-slate-800 shadow-2xl text-center relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 to-violet-500"></div>
+            <div className="max-w-2xl mx-auto py-12 px-4 flex flex-col items-center justify-center min-h-[80vh]">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="w-full bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 sm:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center relative overflow-hidden"
+                >
+                    {/* Background decoration */}
+                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/5 rounded-full blur-3xl"></div>
+                    <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/5 rounded-full blur-3xl"></div>
 
-                    <div className="w-24 h-24 bg-indigo-50 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-8 text-indigo-600 dark:text-indigo-400">
-                        <Trophy size={48} />
+                    {/* User Identity Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="flex flex-col items-center mb-8"
+                    >
+                        <div className="w-20 h-20 rounded-full border-4 border-indigo-500/20 p-1 mb-3 relative">
+                            {userData?.avatar ? (
+                                <img src={userData.avatar} alt={userData.name} className="w-full h-full rounded-full object-cover" />
+                            ) : (
+                                <div className="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                                    <User size={32} className="text-slate-400" />
+                                </div>
+                            )}
+                            <div className="absolute -bottom-1 -right-1 bg-emerald-500 rounded-full p-1 border-2 border-white dark:border-slate-900">
+                                <CheckCircle2 size={14} className="text-white" />
+                            </div>
+                        </div>
+                        <span className="text-sm font-black text-slate-400 uppercase tracking-widest">{userData?.name}</span>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 15 }}
+                        className="w-20 h-20 bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-900/40 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner relative group"
+                    >
+                        <Trophy size={40} className="text-indigo-600 dark:text-indigo-400 group-hover:rotate-12 transition-transform duration-300" />
+                        <motion.div
+                            animate={{ opacity: [0, 1, 0], scale: [0.8, 1.2, 0.8] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="absolute inset-0 rounded-3xl bg-indigo-400/20 blur-xl -z-10"
+                        />
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                    >
+                        <h2 className={cn("text-3xl sm:text-4xl font-black mb-2 tracking-tight", color)}>
+                            {title}
+                        </h2>
+                        <p className="text-slate-500 dark:text-slate-400 text-lg mb-10 font-medium italic">
+                            {quiz.title}
+                        </p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+                        {[
+                            {
+                                label: "Başarı",
+                                value: `%${score}`,
+                                icon: Target,
+                                color: "text-indigo-600 dark:text-indigo-400",
+                                bg: "bg-indigo-50 dark:bg-indigo-900/10",
+                                border: "border-indigo-100 dark:border-indigo-900/20"
+                            },
+                            {
+                                label: "Doğru",
+                                value: correctCount,
+                                icon: CheckCircle,
+                                color: "text-emerald-600 dark:text-emerald-400",
+                                bg: "bg-emerald-50 dark:bg-emerald-900/10",
+                                border: "border-emerald-100 dark:border-emerald-900/20"
+                            },
+                            {
+                                label: "Yanlış",
+                                value: wrongCount,
+                                icon: AlertCircle,
+                                color: "text-rose-600 dark:text-rose-400",
+                                bg: "bg-rose-50 dark:bg-rose-900/10",
+                                border: "border-rose-100 dark:border-rose-900/20"
+                            },
+                        ].map((stat, i) => (
+                            <motion.div
+                                key={stat.label}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.5 + (i * 0.1) }}
+                                className={cn(
+                                    "p-6 rounded-[2rem] border flex flex-col items-center justify-center gap-2 transition-transform hover:scale-[1.02] duration-300",
+                                    stat.bg,
+                                    stat.border
+                                )}
+                            >
+                                <stat.icon size={20} className={stat.color} />
+                                <span className={cn("text-3xl font-black leading-none", stat.color)}>
+                                    {stat.value}
+                                </span>
+                                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">{stat.label}</span>
+                            </motion.div>
+                        ))}
                     </div>
 
-                    <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-2">Harika İş! 🎉</h2>
-                    <p className="text-slate-500 dark:text-slate-400 mb-10">Sınavı başarıyla tamamladın.</p>
-
-                    <div className="grid grid-cols-3 gap-4 mb-10">
-                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-100 dark:border-slate-800">
-                            <span className="block text-3xl font-black text-indigo-600 dark:text-indigo-400 leading-none mb-2">%{score}</span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Başarı</span>
-                        </div>
-                        <div className="p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-3xl border border-emerald-100 dark:border-emerald-900/20">
-                            <span className="block text-3xl font-black text-emerald-600 leading-none mb-2">{correctCount}</span>
-                            <span className="text-[10px] font-bold text-emerald-600/60 uppercase tracking-widest">Doğru</span>
-                        </div>
-                        <div className="p-6 bg-rose-50 dark:bg-rose-900/10 rounded-3xl border border-rose-100 dark:border-rose-900/20">
-                            <span className="block text-3xl font-black text-rose-600 leading-none mb-2">{wrongCount}</span>
-                            <span className="text-[10px] font-bold text-rose-600/60 uppercase tracking-widest">Yanlış</span>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        className="flex flex-col sm:flex-row gap-4 mb-8"
+                    >
                         <Button
                             onClick={() => window.location.reload()}
                             variant="outline"
-                            className="flex-1 h-14 rounded-2xl font-bold gap-2 text-base"
+                            className="flex-1 h-14 rounded-2xl font-bold gap-3 text-base border-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95"
                         >
-                            <RotateCcw size={20} />
+                            <RotateCcw size={20} className="text-indigo-600" />
                             Tekrar Dene
                         </Button>
                         <Link href="/dashboard" className="flex-1">
-                            <Button className="w-full h-14 rounded-2xl font-bold bg-indigo-600 hover:bg-indigo-700 gap-2 text-base shadow-lg shadow-indigo-600/20">
+                            <Button className="w-full h-14 rounded-2xl font-bold bg-indigo-600 hover:bg-indigo-700 gap-3 text-base shadow-xl shadow-indigo-600/20 transition-all active:scale-95">
                                 <Home size={20} />
                                 Panoya Dön
                             </Button>
                         </Link>
+                    </motion.div>
+
+                    <div className="flex items-center justify-center gap-2 pt-4 border-t border-slate-100 dark:border-slate-800 opacity-60">
+                        <img src="/favicon.ico" className="w-4 h-4" alt="Quizyen" />
+                        <span className="text-xs font-bold text-slate-500">Quizyen ile hazırlanmıştır</span>
                     </div>
-                </div>
+                </motion.div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-3xl mx-auto py-8 px-4 sm:px-6">
-            <div className="mb-8 space-y-4">
+        <div className="max-w-4xl mx-auto py-4 px-4 sm:px-6">
+            <div className="mb-6 space-y-4">
                 <div className="flex items-center justify-between">
-                    <Link href="/dashboard" className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors flex items-center gap-1 text-sm font-medium">
-                        <ChevronLeft size={16} />
+                    <Link href="/dashboard" className="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors flex items-center gap-2 text-sm font-semibold group">
+                        <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30">
+                            <ChevronLeft size={16} />
+                        </div>
                         Sınavdan Çık
                     </Link>
-                    <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-full">
-                        Soru {currentIndex + 1} / {quiz.content.length}
-                    </span>
+
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <button
+                            onClick={cycleFontSize}
+                            className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors group"
+                            title="Yazı Boyutu"
+                        >
+                            <Type size={18} className={cn("transition-all", fontSize === "large" ? "scale-125" : fontSize === "small" ? "scale-75" : "scale-100")} />
+                        </button>
+
+                        <div className="flex items-center gap-1.5 sm:gap-2 bg-emerald-50 dark:bg-emerald-900/20 px-3 sm:px-4 py-1.5 rounded-2xl border border-emerald-100 dark:border-emerald-900/20">
+                            <CheckCircle size={14} className="text-emerald-600 dark:text-emerald-400" />
+                            <span className="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400">{correctCount}</span>
+                        </div>
+
+                        <span className="text-xs sm:text-sm font-black text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 sm:px-4 py-1.5 rounded-2xl">
+                            {currentIndex + 1} / {quiz.content.length}
+                        </span>
+                    </div>
                 </div>
-                <Progress value={progress} className="h-2.5 rounded-full" />
+                <div className="relative pt-1">
+                    <Progress value={progress} className="h-3 rounded-full bg-slate-100 dark:bg-slate-800" />
+                    <div
+                        className="absolute top-0 h-3 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500"
+                        style={{ width: `${progress}%` }}
+                    />
+                </div>
             </div>
 
-            <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-500">
-                <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
-                    <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 leading-relaxed mb-10">
-                        {currentQuestion.question}
-                    </h2>
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-4"
+                >
+                    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-800 shadow-2xl shadow-indigo-200/20 dark:shadow-none min-h-[400px] flex flex-col">
+                        <div className="flex-1">
+                            <h2 className={cn("font-black text-slate-900 dark:text-slate-100 leading-tight mb-8 transition-all", getFontSizeClass("question"))}>
+                                {currentQuestion.question}
+                            </h2>
 
-                    <div className="space-y-4">
-                        {currentQuestion.options.map((option, index) => {
-                            const isSelected = selectedOption === index;
-                            const isCorrect = isAnswered && index === currentQuestion.correctAnswer;
-                            const isWrong = isAnswered && isSelected && index !== currentQuestion.correctAnswer;
+                            <div className="grid grid-cols-1 gap-3">
+                                {currentQuestion.options.map((option, index) => {
+                                    const isSelected = selectedOption === index;
+                                    const isCorrect = isAnswered && index === currentQuestion.correctAnswer;
+                                    const isWrong = isAnswered && isSelected && index !== currentQuestion.correctAnswer;
 
-                            return (
-                                <button
-                                    key={index}
-                                    disabled={isAnswered}
-                                    onClick={() => handleAnswer(index)}
-                                    className={cn(
-                                        "w-full p-5 rounded-2xl border-2 text-left transition-all flex items-center justify-between group",
-                                        !isAnswered && !isSelected && "border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-800 bg-slate-50/50 dark:bg-slate-800/30",
-                                        !isAnswered && isSelected && "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-900/10",
-                                        isAnswered && isCorrect && "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100",
-                                        isAnswered && isWrong && "border-rose-500 bg-rose-50 dark:bg-rose-900/20 text-rose-900 dark:text-rose-100",
-                                        isAnswered && !isSelected && !isCorrect && "border-slate-100 dark:border-slate-800 opacity-40"
-                                    )}
-                                >
-                                    <span className="font-semibold text-base flex-1 pr-4">{option}</span>
-                                    {isAnswered && isCorrect && <CheckCircle2 className="text-emerald-500 shrink-0" size={24} />}
-                                    {isAnswered && isWrong && <XCircle className="text-rose-500 shrink-0" size={24} />}
-                                    {!isAnswered && (
-                                        <div className={cn(
-                                            "w-6 h-6 rounded-full border-2 shrink-0 transition-colors",
-                                            isSelected ? "border-indigo-600 bg-indigo-600" : "border-slate-300 dark:border-slate-600 group-hover:border-indigo-400"
-                                        )}>
-                                            {isSelected && <div className="w-2 h-2 bg-white rounded-full m-auto mt-1.5" />}
-                                        </div>
-                                    )}
-                                </button>
-                            );
-                        })}
+                                    return (
+                                        <motion.button
+                                            key={index}
+                                            whileTap={{ scale: 0.98 }}
+                                            disabled={isAnswered}
+                                            onClick={() => handleAnswer(index)}
+                                            className={cn(
+                                                "w-full p-5 rounded-2xl border-2 text-left transition-all flex items-center justify-between group relative overflow-hidden",
+                                                !isAnswered && !isSelected && "border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-800 bg-slate-50/50 dark:bg-slate-800/30",
+                                                !isAnswered && isSelected && "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-900/10",
+                                                isAnswered && isCorrect && "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100 z-10",
+                                                isAnswered && isWrong && "border-rose-500 bg-rose-50 dark:bg-rose-900/20 text-rose-900 dark:text-rose-100 z-10",
+                                                isAnswered && !isSelected && !isCorrect && "border-slate-100 dark:border-slate-800 opacity-40"
+                                            )}
+                                        >
+                                            <span className={cn("font-bold flex-1 pr-6 transition-all", getFontSizeClass("option"))}>{option}</span>
+
+                                            {isAnswered && isCorrect && (
+                                                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="shrink-0 bg-emerald-500 rounded-full p-1">
+                                                    <CheckCircle2 className="text-white" size={16} />
+                                                </motion.div>
+                                            )}
+                                            {isAnswered && isWrong && (
+                                                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="shrink-0 bg-rose-500 rounded-full p-1">
+                                                    <XCircle className="text-white" size={16} />
+                                                </motion.div>
+                                            )}
+                                            {!isAnswered && (
+                                                <div className={cn(
+                                                    "w-6 h-6 rounded-full border-2 shrink-0 transition-all flex items-center justify-center",
+                                                    isSelected ? "border-indigo-600 bg-indigo-600" : "border-slate-300 dark:border-slate-600 group-hover:border-indigo-400"
+                                                )}>
+                                                    {isSelected && <div className="w-2 h-2 bg-white rounded-full shadow-sm" />}
+                                                </div>
+                                            )}
+                                        </motion.button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {isAnswered && currentQuestion.explanation && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                ref={explanationRef}
+                                className="mt-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-3xl"
+                            >
+                                <div className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-black mb-3 text-sm uppercase tracking-wider">
+                                    <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center">
+                                        <Info size={14} />
+                                    </div>
+                                    Açıklama
+                                </div>
+                                <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed font-semibold">
+                                    {currentQuestion.explanation}
+                                </p>
+                            </motion.div>
+                        )}
                     </div>
 
-                    {isAnswered && currentQuestion.explanation && (
-                        <div className="mt-10 p-6 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/20 rounded-3xl animate-in fade-in slide-in-from-top-4 duration-300">
-                            <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-bold mb-2">
-                                <Info size={18} />
-                                <span>Açıklama</span>
-                            </div>
-                            <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed leading-relaxed font-medium">
-                                {currentQuestion.explanation}
-                            </p>
-                        </div>
-                    )}
-                </div>
+                    <div className="flex items-center justify-between pt-2">
+                        <Button
+                            variant="ghost"
+                            className="h-14 px-4 sm:px-6 rounded-2xl font-black text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-900/20 gap-2 transition-all"
+                            onClick={() => alert("Soru bildirildi. Teşekkürler!")}
+                        >
+                            <Flag size={18} />
+                            <span className="hidden sm:inline">Soru Bildir</span>
+                        </Button>
 
-                <div className="flex justify-end">
-                    <Button
-                        disabled={!isAnswered}
-                        onClick={handleNext}
-                        className="h-14 px-10 rounded-2xl font-bold bg-indigo-600 hover:bg-indigo-700 text-lg shadow-lg shadow-indigo-600/20 transition-all gap-2"
-                    >
-                        {currentIndex === quiz.content.length - 1 ? "Sınavı Bitir" : "Sıradaki Soru"}
-                        <ChevronRight size={20} />
-                    </Button>
-                </div>
-            </div>
+                        <Button
+                            disabled={!isAnswered}
+                            onClick={handleNext}
+                            className={cn(
+                                "h-14 px-8 sm:px-10 rounded-2xl font-black text-base sm:text-lg shadow-2xl transition-all gap-3 active:scale-95",
+                                isAnswered ? "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30" : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 shadow-none"
+                            ) as string}
+                        >
+                            {currentIndex === quiz.content.length - 1 ? "Sınavı Bitir" : "Sıradaki Soru"}
+                            <ChevronRight size={22} />
+                        </Button>
+                    </div>
+                </motion.div>
+            </AnimatePresence>
         </div>
     );
 }

@@ -1,0 +1,46 @@
+{
+    "HomePage": {
+        "title": "Turn PDFs into Interactive Quizzes",
+        "description": "Upload your PDF exams and lecture notes, transform them into interactive quizzes instantly with AI-powered feedback.",
+        "keywords": "quiz, PDF, AI, artificial intelligence, study tool, education, learning, exam prep, take test"
+    },
+    "Common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
+    "Header": {
+        "welcome": "Welcome",
+        "student": "Student",
+        "search_placeholder": "Search quizzes...",
+        "toggle_theme": "Toggle Theme",
+        "toggle_language": "Change Language"
+    },
+    "Library": {
+        "title": "Library",
+        "subtitle": "Your exams and folders are stored here.",
+        "search_placeholder": "Search exams or folders...",
+        "back_button": "Back",
+        "new_folder": "New Folder",
+        "folders_title": "My Folders",
+        "folders_count": "{count} {count, plural, one {FOLDER} other {FOLDERS}}",
+        "folder_empty": "No folders found.",
+        "quizzes_title": "My Exams",
+        "uncategorized_quizzes": "Uncategorized Exams",
+        "search_results": "Search Results",
+        "quiz_count_label": "{count} {count, plural, one {EXAM} other {EXAMS}}",
+        "quiz_empty_title": "You don't have any exams yet",
+        "quiz_empty_desc": "You can create an exam immediately by uploading your lecture notes.",
+        "create_quiz_button": "Create Exam",
+        "delete_folder_confirm": "Are you sure you want to delete the \"{name}\" folder? Exams inside the folder won't be deleted, they will remain in the library.",
+        "delete_quiz_confirm": "Are you sure you want to remove this exam from your library?",
+        "folder_view_title": "{name} Exams",
+        "no_results": "No results found. Try changing your search or clearing filters.",
+        "loading": "Library Loading...",
+        "adsiz_klasor": "Untitled Folder",
+        "adsiz_sinav": "Untitled Exam",
+        "error_delete_folder": "Failed to delete folder.",
+        "error_delete_quiz": "Failed to delete exam."
+    }
+}

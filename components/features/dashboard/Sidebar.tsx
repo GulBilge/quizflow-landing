@@ -2,11 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Library, User, Brain } from 'lucide-react';
+import { Home, Library, User, Brain, LogOut } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 export default function Sidebar({ user }: { user: any }) {
     const pathname = usePathname();
+    const router = useRouter();
+    const supabase = createClient();
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.push('/');
+        router.refresh();
+    };
 
     const links = [
         { href: '/dashboard', label: 'Ana Sayfa', icon: Home },
@@ -46,14 +56,24 @@ export default function Sidebar({ user }: { user: any }) {
             </nav>
 
             <div className="p-4 border-t border-slate-800">
-                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-800">
-                    <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xs ring-2 ring-indigo-500/10">
-                        {user.email?.charAt(0).toUpperCase()}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-800">
+                        <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xs ring-2 ring-indigo-500/10">
+                            {user.email?.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-white truncate">{user.user_metadata?.full_name || 'Kullanıcı'}</p>
+                            <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                        </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-white truncate">{user.user_metadata?.full_name || 'Kullanıcı'}</p>
-                        <p className="text-xs text-slate-400 truncate">{user.email}</p>
-                    </div>
+
+                    <button
+                        onClick={handleSignOut}
+                        className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all font-medium text-sm"
+                    >
+                        <LogOut size={20} />
+                        Çıkış yap
+                    </button>
                 </div>
             </div>
         </div>

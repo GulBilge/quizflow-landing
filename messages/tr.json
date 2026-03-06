@@ -1,0 +1,46 @@
+{
+    "HomePage": {
+        "title": "PDF'leri İnteraktif Quizlere Dönüştürün",
+        "description": "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
+        "keywords": "quiz, PDF, YZ, yapay zeka, ders çalışma aracı, eğitim, öğrenme, sınav hazırlık, test çöz"
+    },
+    "Common": {
+        "loading": "Yükleniyor...",
+        "error": "Bir hata oluştu",
+        "save": "Kaydet",
+        "cancel": "İptal"
+    },
+    "Header": {
+        "welcome": "Hoş geldin",
+        "student": "Öğrenci",
+        "search_placeholder": "Sınav ara...",
+        "toggle_theme": "Tema Değiştir",
+        "toggle_language": "Dili Değiştir"
+    },
+    "Library": {
+        "title": "Kütüphane",
+        "subtitle": "Sınavların ve klasörlerin burada saklanır.",
+        "search_placeholder": "Sınav veya klasör ara...",
+        "back_button": "Geri Dön",
+        "new_folder": "Yeni Klasör",
+        "folders_title": "Klasörlerim",
+        "folders_count": "{count} KLASÖR",
+        "folder_empty": "Klasör bulunamadı.",
+        "quizzes_title": "Sınavlarım",
+        "uncategorized_quizzes": "Kategorisiz Sınavlar",
+        "search_results": "Arama Sonuçları",
+        "quiz_count_label": "{count} SINAV",
+        "quiz_empty_title": "Henüz Sınavın Yok",
+        "quiz_empty_desc": "Ders notlarını yükleyerek hemen bir sınav oluşturabilirsin.",
+        "create_quiz_button": "Sınav Oluştur",
+        "delete_folder_confirm": "\"{name}\" klasörünü silmek istediğine emin misin? Klasör içindeki sınavlar silinmez, kütüphanede kalmaya devam eder.",
+        "delete_quiz_confirm": "Bu sınavı kütüphanenden çıkarmak istediğine emin misin?",
+        "folder_view_title": "{name} Sınavları",
+        "no_results": "Sonuç Bulunamadı. Aramanı değiştirmeyi veya filtreleri temizlemeyi dene.",
+        "loading": "Kütüphane Yükleniyor...",
+        "adsiz_klasor": "Adsız Klasör",
+        "adsiz_sinav": "Adsız Sınav",
+        "error_delete_folder": "Klasör silinemedi.",
+        "error_delete_quiz": "Sınav silinemedi."
+    }
+}

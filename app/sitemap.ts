@@ -1,13 +1,21 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    return [
-        {
-            url: 'https://quizyen.com',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 1,
-        },
-        // Add other routes here if necessary, e.g. /blog, /about etc.
-    ]
+    const locales = ['en', 'tr']
+    const routes = ['', '/blog'] // Add more routes as needed
+
+    const entries: MetadataRoute.Sitemap = []
+
+    locales.forEach((locale) => {
+        routes.forEach((route) => {
+            entries.push({
+                url: `https://quizyen.com/${locale}${route}`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: route === '' ? 1 : 0.8,
+            })
+        })
+    })
+
+    return entries
 }

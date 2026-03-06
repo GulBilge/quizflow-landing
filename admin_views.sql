@@ -4,7 +4,7 @@ CREATE OR REPLACE VIEW admin_kpi_summary AS
 SELECT
   (SELECT count(*) FROM public.profiles) as total_users,
   (SELECT count(*) FROM public.quizzes) as pool_size, -- Havuzdaki toplam içerik (Fabrika Üretimi)
-  (SELECT count(*) FROM public.user_library) as total_adoptions, -- Kütüphaneye eklenme (Sahiplenme Oranı - EN ÖNEMLİSİ)
+  (SELECT count(*) FROM public.user_quizzes) as total_adoptions, -- Kütüphaneye eklenme (Sahiplenme Oranı - EN ÖNEMLİSİ)
   (SELECT count(*) FROM public.quiz_attempts) as total_plays, -- Toplam oynanma
   (SELECT count(*) FROM public.waitlist) as waitlist_count;
 
@@ -13,10 +13,10 @@ DROP VIEW IF EXISTS admin_popular_quizzes;
 CREATE OR REPLACE VIEW admin_popular_quizzes AS
 SELECT
   q.title,
-  count(ul.id) as adoption_count, -- Kaç kişinin kütüphanesinde
+  count(uq.id) as adoption_count, -- Kaç kişinin kütüphanesinde
   count(distinct qa.id) as play_count -- Kaç kere oynandı
 FROM public.quizzes q
-LEFT JOIN public.user_library ul ON q.id = ul.quiz_id
+LEFT JOIN public.user_quizzes uq ON q.id = uq.quiz_id
 LEFT JOIN public.quiz_attempts qa ON q.id = qa.quiz_id
 GROUP BY q.id, q.title
 ORDER BY adoption_count DESC;

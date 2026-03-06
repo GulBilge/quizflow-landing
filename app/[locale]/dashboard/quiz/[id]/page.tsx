@@ -26,7 +26,7 @@ export default async function QuizPage({ params }: QuizPageProps) {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+        <div className="bg-transparent">
             <QuizPlayer
                 quiz={quiz as any}
                 userId={user.id}
