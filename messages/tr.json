@@ -17,6 +17,13 @@
         "toggle_theme": "Tema Değiştir",
         "toggle_language": "Dili Değiştir"
     },
+    "Sidebar": {
+        "home": "Ana Sayfa",
+        "library": "Kütüphane",
+        "performance": "Performans",
+        "profile": "Profil",
+        "sign_out": "Çıkış Yap"
+    },
     "Library": {
         "title": "Kütüphane",
         "subtitle": "Sınavların ve klasörlerin burada saklanır.",
@@ -41,6 +48,28 @@
         "adsiz_klasor": "Adsız Klasör",
         "adsiz_sinav": "Adsız Sınav",
         "error_delete_folder": "Klasör silinemedi.",
-        "error_delete_quiz": "Sınav silinemedi."
+        "error_delete_quiz": "Sınav silinemedi.",
+        "edit_title": "Düzenle",
+        "move_to_folder": "Klasöre Taşı",
+        "view_stats": "İstatistikleri Gör",
+        "rename_quiz_title": "Sınavı Yeniden Adlandır",
+        "rename_quiz_placeholder": "Yeni isim girin..."
+    },
+    "Performance": {
+        "title": "Performans Analizi",
+        "subtitle": "Gelişimini ve sınav istatistiklerini takip et.",
+        "filter_exam": "Sınava Göre Filtrele",
+        "filter_folder": "Klasöre Göre Filtrele",
+        "all_quizzes": "Tüm Sınavlar",
+        "all_folders": "Tüm Klasörler",
+        "total_attempts": "Toplam Katılım",
+        "avg_score": "Ortalama Puan",
+        "success_rate": "Başarı Oranı",
+        "correct": "Doğru",
+        "wrong": "Yanlış",
+        "score_trend": "Puan Trendi",
+        "topic_distribution": "Konu Dağılımı",
+        "go_to_analysis": "Analize Git",
+        "no_data": "Seçili filtreler için performans verisi bulunamadı."
     }
 }

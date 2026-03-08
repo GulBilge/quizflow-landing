@@ -371,4 +371,72 @@ export const quizService = {
             return null;
         }
     },
+
+    /** Quiz başlığını güncelle (personalized). Mobil: updateQuizTitle */
+    async updateQuizTitle(userQuizId: string, userId: string, newTitle: string): Promise<boolean> {
+        const supabase = createClient();
+        const db = supabase as any;
+
+        const { error } = await db
+            .from('user_quizzes')
+            .update({ custom_title: newTitle })
+            .match({ id: userQuizId, user_id: userId });
+
+        if (error) {
+            console.error('[quizService] updateQuizTitle error:', error);
+            return false;
+        }
+        return true;
+    },
+
+    /** Quiz'i kütüphaneden sil (sadece kullanıcı bağını koparır). Mobil: deleteQuiz */
+    async deleteQuiz(userQuizId: string, userId: string): Promise<boolean> {
+        const supabase = createClient();
+        const db = supabase as any;
+
+        const { error } = await db
+            .from('user_quizzes')
+            .delete()
+            .match({ id: userQuizId, user_id: userId });
+
+        if (error) {
+            console.error('[quizService] deleteQuiz error:', error);
+            return false;
+        }
+        return true;
+    },
+
+    /** Quiz'i başka klasöre taşı. Mobil: moveQuizToFolder */
+    async moveQuizToFolder(userQuizId: string, userId: string, userFolderId: string | null): Promise<boolean> {
+        const supabase = createClient();
+        const db = supabase as any;
+
+        const { error } = await db
+            .from('user_quizzes')
+            .update({ user_folder_id: userFolderId })
+            .match({ id: userQuizId, user_id: userId });
+
+        if (error) {
+            console.error('[quizService] moveQuizToFolder error:', error);
+            return false;
+        }
+        return true;
+    },
+
+    /** Kullanıcının tüm klasörlerini getir. */
+    async getUserFolders(userId: string): Promise<{ id: string; custom_name: string }[]> {
+        const supabase = createClient();
+        const db = supabase as any;
+        const { data, error } = await db
+            .from('user_folders')
+            .select('id, custom_name')
+            .eq('user_id', userId)
+            .order('custom_name', { ascending: true });
+
+        if (error) {
+            console.error('[quizService] getUserFolders error:', error);
+            return [];
+        }
+        return data || [];
+    },
 };

@@ -2,167 +2,193 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Plus, Play, Clock, BookOpen, Search, TrendingUp, CheckCircle2, Crown } from "lucide-react";
+import { Plus, Play, Clock, BookOpen, Search, TrendingUp, CheckCircle2, Crown, Sparkles, LayoutGrid } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import QuizUpload from "./QuizUpload";
-
-interface Quiz {
-    id: string;
-    title: string;
-    question_count: number | null;
-}
-
-interface RecentActivityItem {
-    id: string;
-    last_accessed_at: string | null;
-    quizzes: Quiz | null;
-}
-
-interface LastAttempt {
-    id: string;
-    score: number | null;
-    correct_count: number | null;
-    wrong_count: number | null;
-    quiz_id: string;
-    status: string | null;
-    quizzes: {
-        title: string;
-    } | null;
-}
+import RecentQuizCard from "./RecentQuizCard";
+import { quizService } from "@/lib/quizService";
+import { useRouter } from "next/navigation";
+import EditQuizTitleModal from "./EditQuizTitleModal";
+import AdSidebar from "../ads/AdSidebar";
 
 interface DashboardContentProps {
-    user: any; // User type usually comes from custom auth hook or supabase
-    recentActivity: RecentActivityItem[];
-    lastAttempt: LastAttempt | null;
+    user: any;
+    recentActivity: any[];
+    lastAttempt: any;
+    userFolders: any[];
 }
 
-export default function DashboardContent({ user, recentActivity, lastAttempt }: DashboardContentProps) {
-    const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
+export default function DashboardContent({ user, recentActivity: initialActivity, lastAttempt, userFolders }: DashboardContentProps) {
+    const router = useRouter();
+    const [recentActivity, setRecentActivity] = useState(initialActivity);
+    const [selectedActivity, setSelectedActivity] = useState<any>(recentActivity[0] || null);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
 
-    // If a quiz is selected, we show its stats, otherwise we show the last attempt stats
-    const displayStats = selectedQuiz || lastAttempt;
+    // Edit Title States
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editingQuiz, setEditingQuiz] = useState<any>(null);
 
-    const calculateDoughnut = (correct: number, total: number) => {
-        if (total === 0) return { strokeDasharray: "0 100", percentage: 0 };
-        const percentage = Math.round((correct / total) * 100);
-        return { strokeDasharray: `${percentage} ${100 - percentage}`, percentage };
+    // Folder Move States
+    const [movingQuiz, setMovingQuiz] = useState<any>(null);
+    const [isFolderModalOpen, setIsFolderModalOpen] = useState(false);
+
+    // Dynamic Greeting
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? "Günaydın" : hour < 18 ? "Tünaydın" : "İyi Akşamlar";
+    const firstName = user?.user_metadata?.full_name?.split(' ')[0] || "Öğrenci";
+
+    // Handlers
+    const handleDelete = async (userQuizId: string) => {
+        if (!confirm("Bu sınavı kütüphanenden silmek istediğine emin misin?")) return;
+        const success = await quizService.deleteQuiz(userQuizId, user.id);
+        if (success) {
+            setRecentActivity(prev => prev.filter(a => a.id !== userQuizId));
+            if (selectedActivity?.id === userQuizId) setSelectedActivity(null);
+        }
     };
 
-    const isLastAttempt = (item: Quiz | LastAttempt): item is LastAttempt => {
-        return (item as LastAttempt).score !== undefined;
+    const handleRename = async (newTitle: string) => {
+        if (!editingQuiz) return;
+        const success = await quizService.updateQuizTitle(editingQuiz.id, user.id, newTitle);
+        if (success) {
+            setRecentActivity(prev => prev.map(a => a.id === editingQuiz.id ? { ...a, user_quiz_name: newTitle } : a));
+            if (selectedActivity?.id === editingQuiz.id) {
+                setSelectedActivity((prev: any) => ({ ...prev, user_quiz_name: newTitle }));
+            }
+        }
     };
 
-    const stats = displayStats && isLastAttempt(displayStats) ? calculateDoughnut(displayStats.correct_count || 0, (displayStats.correct_count || 0) + (displayStats.wrong_count || 0)) : null;
+    const handleMoveToFolder = async (userFolderId: string | null, folderName: string) => {
+        if (!movingQuiz) return;
+        const success = await quizService.moveQuizToFolder(movingQuiz.id, user.id, userFolderId);
+        if (success) {
+            setRecentActivity(prev => prev.map(a => a.id === movingQuiz.id ? { ...a, user_folder_name: folderName } : a));
+            setIsFolderModalOpen(false);
+            setMovingQuiz(null);
+            router.refresh(); // Refresh to sync potential sidebar changes
+        }
+    };
+
+    // Stats calculation for the right panel
+    const displayStats = selectedActivity?.lastAttempt || lastAttempt;
+    const calculateProgress = (correct: number, total: number) => {
+        if (total === 0) return 0;
+        return Math.round((correct / total) * 100);
+    };
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500 max-w-full overflow-x-hidden px-1">
-            {/* Create New Quiz Card */}
-            <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-3xl p-5 md:p-8 text-white shadow-xl shadow-indigo-600/20 relative overflow-hidden group border border-white/10">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-white/15 transition-all duration-700"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-400/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-full overflow-x-hidden px-1 pb-10">
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-                    <div className="text-center md:text-left">
-                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2 md:mb-3 tracking-tight">Potansiyelini Keşfet 🚀</h2>
-                        <p className="text-indigo-100 max-w-lg mb-6 md:mb-8 text-sm md:text-base lg:text-lg opacity-90 leading-relaxed">
-                            Notlarını yükle, yapay zeka senin için saniyeler içinde kişiselleştirilmiş bir çalışma planı ve sınav hazırlasın.
-                        </p>
-                        <div className="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
-                            <button
-                                onClick={() => setIsUploadOpen(true)}
-                                className="w-full sm:w-auto bg-white text-indigo-600 px-6 md:px-8 py-2.5 md:py-3.5 rounded-2xl font-bold text-sm md:text-base hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-black/10"
-                            >
-                                <Plus size={18} className="stroke-[3]" />
-                                <span>Yeni Sınav Oluştur</span>
-                            </button>
-                            <button className="w-full sm:w-auto bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 md:px-6 py-2.5 md:py-3.5 rounded-2xl font-bold text-sm md:text-base hover:bg-white/20 transition-all">
-                                Nasıl Çalışır?
-                            </button>
+            {/* Folder Selection Modal */}
+            {isFolderModalOpen && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-md shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+                        <div className="p-8 border-b border-slate-50 dark:border-slate-700">
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Klasöre Taşı</h3>
+                            <p className="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">
+                                <span className="text-indigo-600 dark:text-indigo-400 font-bold">"{movingQuiz?.user_quiz_name || movingQuiz?.quizzes?.title}"</span> için bir klasör seçin.
+                            </p>
                         </div>
-                    </div>
-                    <div className="hidden lg:block shrink-0">
-                        <div className="w-24 h-24 lg:w-32 lg:h-32 bg-white/15 rounded-[2rem] flex items-center justify-center backdrop-blur-md border border-white/20 rotate-12 group-hover:rotate-0 transition-transform duration-500 shadow-2xl">
-                            <Plus size={40} className="text-white lg:hidden" />
-                            <Plus size={48} className="text-white hidden lg:block" />
+                        <div className="p-4 max-h-[40vh] overflow-y-auto space-y-2">
+                            <button
+                                onClick={() => handleMoveToFolder(null, "Genel")}
+                                className="w-full text-left p-4 rounded-3xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-between group"
+                            >
+                                <span className="font-bold text-slate-700 dark:text-slate-200">Genel (Klasörsüz)</span>
+                                <Plus size={18} className="text-slate-300 group-hover:text-indigo-500" />
+                            </button>
+                            {userFolders.map((folder: any) => (
+                                <button
+                                    key={folder.id}
+                                    onClick={() => handleMoveToFolder(folder.id, folder.custom_name)}
+                                    className="w-full text-left p-4 rounded-3xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-between group"
+                                >
+                                    <span className="font-bold text-slate-700 dark:text-slate-200">{folder.custom_name}</span>
+                                    <Plus size={18} className="text-slate-300 group-hover:text-indigo-500" />
+                                </button>
+                            ))}
+                        </div>
+                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700">
+                            <button
+                                onClick={() => setIsFolderModalOpen(false)}
+                                className="w-full py-4 rounded-2xl font-bold bg-white dark:bg-slate-700 text-slate-500 dark:text-slate-300 border border-slate-100 dark:border-slate-600 hover:bg-slate-50 transition-all"
+                            >
+                                Vazgeç
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
 
-            {/* Stats & Activity Grid */}
-            <div className="grid lg:grid-cols-12 gap-6 md:gap-8">
+            {/* Main Content Grid */}
+            <div className="grid lg:grid-cols-12 gap-8 items-start">
 
                 {/* Left Column: Recent Activity (8 columns) */}
-                <div className="lg:col-span-8 space-y-4 md:space-y-6">
+                <div className="lg:col-span-8 space-y-6 order-2 lg:order-1">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <Clock className="text-indigo-600 dark:text-indigo-400" size={18} />
-                            <h3 className="font-bold text-lg md:text-xl text-slate-800 dark:text-slate-100">Son Çalışmaların</h3>
+                        <div className="flex items-center gap-2.5">
+                            <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl text-indigo-600 dark:text-indigo-400">
+                                <Clock size={20} />
+                            </div>
+                            <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100 italic">Son Çalışmaların</h3>
                         </div>
-                        <Link href="/dashboard/library" className="text-xs md:text-sm text-indigo-600 hover:text-indigo-700 font-bold bg-indigo-50 dark:bg-indigo-900/30 px-3 md:px-4 py-1.5 rounded-full transition-colors">
-                            Tümünü Gör
-                        </Link>
+
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={() => setIsUploadOpen(true)}
+                                className="flex shadow-lg shadow-indigo-600/10 items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-95 group"
+                            >
+                                <Plus size={18} className="stroke-[3] group-hover:rotate-90 transition-transform" />
+                                <span>Yeni Sınav</span>
+                            </button>
+
+                            <Link href="/dashboard/library" className="group flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline decoration-2 underline-offset-4">
+                                Tümünü Gör
+                                <LayoutGrid size={16} className="group-hover:rotate-12 transition-transform" />
+                            </Link>
+                        </div>
                     </div>
 
-                    <div className="grid gap-3 md:gap-4">
+                    <div className="flex flex-col gap-4">
                         {recentActivity && recentActivity.length > 0 ? (
-                            recentActivity.map((item) => (
-                                <div
+                            recentActivity.map((item, index) => (
+                                <RecentQuizCard
                                     key={item.id}
-                                    onClick={() => setSelectedQuiz(item.quizzes)}
-                                    className={`group cursor-pointer bg-white dark:bg-slate-800 p-4 rounded-2xl border transition-all duration-300 flex flex-col sm:flex-row items-center gap-4 ${selectedQuiz?.id === item.quizzes?.id
-                                        ? 'border-indigo-500 ring-2 ring-indigo-500/10 shadow-lg'
-                                        : 'border-slate-100 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-800 hover:shadow-md'
-                                        }`}
-                                >
-                                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0 group-hover:scale-110 transition-transform shadow-inner">
-                                        <BookOpen size={20} />
-                                    </div>
-                                    <div className="flex-1 min-w-0 text-center sm:text-left">
-                                        <h4 className="font-bold text-slate-900 dark:text-slate-100 text-base md:text-lg truncate mb-0.5 md:mb-1">
-                                            {item.quizzes?.title}
-                                        </h4>
-                                        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 md:gap-4 text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium">
-                                            <span className="flex items-center gap-1 bg-slate-100 dark:bg-slate-700/50 px-2 py-0.5 rounded-lg">
-                                                <TrendingUp size={12} className="text-emerald-500" />
-                                                {item.quizzes?.question_count || 0} Soru
-                                            </span>
-                                            <span className="flex items-center gap-1">
-                                                <Clock size={12} />
-                                                {item.last_accessed_at ? formatDistanceToNow(new Date(item.last_accessed_at), { addSuffix: true, locale: tr }) : 'Yeni'}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <Link
-                                        href={`/dashboard/quiz/${item.quizzes?.id}`}
-                                        className="sm:w-auto w-full"
-                                    >
-                                        <button className="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 md:px-6 py-2 rounded-xl font-bold text-xs md:text-sm hover:opacity-90 transition-all flex items-center justify-center gap-2 group/btn">
-                                            <span>Çöz</span>
-                                            <Play size={12} fill="currentColor" className="group-hover/btn:translate-x-0.5 transition-transform" />
-                                        </button>
-                                    </Link>
-                                </div>
+                                    item={item}
+                                    isFirst={index === 0}
+                                    isSelected={selectedActivity?.id === item.id}
+                                    onPress={() => setSelectedActivity(item)}
+                                    onDelete={(e) => { e.stopPropagation(); handleDelete(item.id); }}
+                                    onEditTitle={(e) => {
+                                        e.stopPropagation();
+                                        setEditingQuiz(item);
+                                        setIsEditModalOpen(true);
+                                    }}
+                                    onMoveToFolder={(e) => {
+                                        e.stopPropagation();
+                                        setMovingQuiz(item);
+                                        setIsFolderModalOpen(true);
+                                    }}
+                                />
                             ))
                         ) : (
-                            <div className="flex flex-col items-center justify-center py-10 md:py-16 px-4 bg-white dark:bg-slate-800/50 rounded-3xl border border-dashed border-slate-200 dark:border-slate-700 text-center">
-                                <div className="w-20 h-20 mb-4 md:mb-6 relative">
+                            <div className="flex flex-col items-center justify-center py-20 px-6 bg-slate-50/50 dark:bg-slate-800/30 rounded-[3rem] border border-dashed border-slate-200 dark:border-slate-700 text-center">
+                                <div className="w-24 h-24 mb-6 relative">
                                     <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full animate-ping opacity-25"></div>
-                                    <div className="relative w-full h-full bg-indigo-50 dark:bg-indigo-900/40 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                                        <Search size={32} />
+                                    <div className="relative w-full h-full bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-xl border border-slate-100 dark:border-slate-700">
+                                        <BookOpen size={40} />
                                     </div>
                                 </div>
-                                <h4 className="text-lg md:text-xl font-bold text-slate-800 dark:white mb-2">Henüz bir çalışman yok</h4>
-                                <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 max-w-xs mb-6 md:mb-8 leading-relaxed">
-                                    Hemen yukarıdan ilk dökümanını yükleyerek yapay zeka ile öğrenmeye başlayabilirsin!
+                                <h4 className="text-2xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">Henüz bir çalışman yok</h4>
+                                <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-8 font-medium leading-relaxed">
+                                    Notlarını veya PDF'lerini yükleyerek yapay zeka ile kişiselleştirilmiş sınavlar oluşturabilirsin.
                                 </p>
                                 <button
                                     onClick={() => setIsUploadOpen(true)}
-                                    className="bg-indigo-600 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-2xl font-bold text-sm md:text-base hover:bg-indigo-700 transition-all flex items-center gap-2"
+                                    className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-3.5 rounded-2xl font-bold hover:opacity-90 transition-all flex items-center gap-2 shadow-xl shadow-black/10"
                                 >
-                                    <Plus size={18} />
+                                    <Plus size={20} className="stroke-[3]" />
                                     İlk PDF'ini Yükle
                                 </button>
                             </div>
@@ -170,119 +196,23 @@ export default function DashboardContent({ user, recentActivity, lastAttempt }: 
                     </div>
                 </div>
 
-                {/* Right Column: Stats (4 columns) */}
-                <div className="lg:col-span-4 space-y-4 md:space-y-6">
-                    <div className="flex items-center gap-2">
-                        <TrendingUp className="text-indigo-600 dark:text-indigo-400" size={18} />
-                        <h3 className="font-bold text-lg md:text-xl text-slate-800 dark:text-slate-100">
-                            {selectedQuiz ? 'Seçili Sınav' : 'Son Deneme'} İstatistikleri
-                        </h3>
-                    </div>
-
-                    {displayStats ? (
-                        <div className="bg-slate-900 dark:bg-slate-800/50 backdrop-blur-xl text-white rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden border border-white/5">
-                            <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
-
-                            <h4 className="font-bold text-indigo-300 text-xs md:text-base mb-1.5 md:mb-2 uppercase tracking-widest flex items-center gap-2">
-                                <CheckCircle2 size={12} />
-                                {selectedQuiz ? 'Hızlı Bakış' : 'Genel Başarı'}
-                            </h4>
-                            <p className="font-bold text-base md:text-lg mb-6 md:mb-8 line-clamp-1 opacity-90">
-                                {isLastAttempt(displayStats) ? displayStats.quizzes?.title : displayStats.title}
-                            </p>
-
-                            <div className="flex items-center justify-between mb-8 md:mb-10">
-                                {isLastAttempt(displayStats) ? (
-                                    <div className="space-y-3 md:space-y-4">
-                                        <div className="flex items-end gap-1">
-                                            <span className="text-4xl md:text-6xl font-black tracking-tighter text-indigo-50">
-                                                {displayStats.score || 0}
-                                            </span>
-                                            <span className="text-lg md:text-xl text-indigo-300/60 font-medium mb-1 md:mb-1.5">/100</span>
-                                        </div>
-                                        <div className="flex flex-col gap-1.5 md:gap-2">
-                                            <div className="flex items-center gap-2 text-xs md:text-sm">
-                                                <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-400"></div>
-                                                <span className="text-indigo-100/70 font-medium">{displayStats.correct_count || 0} Doğru</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-xs md:text-sm">
-                                                <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-rose-400"></div>
-                                                <span className="text-indigo-100/70 font-medium">{displayStats.wrong_count || 0} Yanlış</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-2 md:space-y-4">
-                                        <div className="text-3xl md:text-4xl font-bold text-white tracking-tight">Cevap Bekliyor</div>
-                                        <p className="text-xs md:text-sm text-indigo-200/70">Sınavı çözerek performansını görebilirsin.</p>
-                                    </div>
-                                )}
-
-                                {/* Modern SVG Doughnut Chart */}
-                                {stats && (
-                                    <div className="relative w-24 h-24 lg:w-32 lg:h-32 flex items-center justify-center">
-                                        <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 36 36">
-                                            <circle
-                                                cx="18" cy="18" r="16"
-                                                fill="none"
-                                                className="stroke-white/5"
-                                                strokeWidth="3.5"
-                                            />
-                                            <circle
-                                                cx="18" cy="18" r="16"
-                                                fill="none"
-                                                className="stroke-indigo-500 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]"
-                                                strokeWidth="3.5"
-                                                strokeDasharray={stats.strokeDasharray}
-                                                strokeLinecap="round"
-                                            />
-                                        </svg>
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                            <span className="text-lg md:text-xl font-black text-white leading-none">%{stats.percentage}</span>
-                                            <span className="text-[8px] md:text-[10px] font-bold text-indigo-300/60 uppercase tracking-tighter mt-0.5 md:mt-1">BAŞARI</span>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            <Link
-                                href={selectedQuiz ? `/dashboard/quiz/${selectedQuiz.id}` : lastAttempt ? `/dashboard/quiz/${lastAttempt.quiz_id}/result/${lastAttempt.id}` : '#'}
-                                className="block group/link"
-                            >
-                                <div className="w-full bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/10 p-3.5 md:p-4 rounded-2xl text-center text-xs md:text-sm font-bold transition-all flex items-center justify-center gap-2">
-                                    {selectedQuiz ? 'Hemen Çözmeye Başla' : 'Sonuçları Analiz Et'}
-                                    <TrendingUp size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                                </div>
-                            </Link>
-
-                            {/* Ad Banner Area */}
-                            {!user?.is_premium && (
-                                <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-white/5">
-                                    <div className="bg-white/5 rounded-2xl p-4 border border-white/5 flex flex-col items-center justify-center min-h-[120px] md:min-h-[150px] group/ad relative overflow-hidden">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent"></div>
-                                        <span className="text-[10px] absolute top-2 right-2 bg-white/10 px-1.5 py-0.5 rounded uppercase tracking-widest opacity-50 font-bold">REKLAM</span>
-                                        <div className="w-8 h-8 md:w-10 md:h-10 bg-white/5 rounded-full flex items-center justify-center mb-2 md:mb-3 text-white/30 group-hover/ad:scale-110 transition-transform">
-                                            <Crown size={16} />
-                                        </div>
-                                        <p className="text-[10px] md:text-xs text-indigo-200/50 text-center font-medium">Reklamları kaldırmak için Premium'a geçin</p>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 md:p-10 border border-slate-100 dark:border-slate-700 text-center flex flex-col items-center shadow-sm">
-                            <div className="w-12 h-12 md:w-16 md:h-16 bg-slate-50 dark:bg-slate-700/50 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 text-slate-300 dark:text-slate-500">
-                                <TrendingUp size={24} />
-                            </div>
-                            <h4 className="font-bold text-slate-800 dark:text-white mb-2">Veri Bulunamadı</h4>
-                            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-[180px] md:max-w-[200px]">
-                                Grafiklerin oluşması için ilk sınavını tamamlamalısın.
-                            </p>
-                        </div>
-                    )}
+                {/* Right Column: AD/Placeholder (4 columns) */}
+                <div className="lg:col-span-4 lg:sticky lg:top-24 order-1 lg:order-2">
+                    <AdSidebar isPremium={user?.is_premium} />
                 </div>
-
             </div>
+
+            {/* Edit Title Modal */}
+            <EditQuizTitleModal
+                isOpen={isEditModalOpen}
+                onClose={() => {
+                    setIsEditModalOpen(false);
+                    setEditingQuiz(null);
+                }}
+                onSuccess={handleRename}
+                currentTitle={editingQuiz?.user_quiz_name || editingQuiz?.quizzes?.title || ""}
+            />
+
             {/* Upload Modal */}
             {isUploadOpen && (
                 <QuizUpload onClose={() => setIsUploadOpen(false)} />

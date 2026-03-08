@@ -17,6 +17,13 @@
         "toggle_theme": "Toggle Theme",
         "toggle_language": "Change Language"
     },
+    "Sidebar": {
+        "home": "Home",
+        "library": "Library",
+        "performance": "Performance",
+        "profile": "Profile",
+        "sign_out": "Sign Out"
+    },
     "Library": {
         "title": "Library",
         "subtitle": "Your exams and folders are stored here.",
@@ -41,6 +48,28 @@
         "adsiz_klasor": "Untitled Folder",
         "adsiz_sinav": "Untitled Exam",
         "error_delete_folder": "Failed to delete folder.",
-        "error_delete_quiz": "Failed to delete exam."
+        "error_delete_quiz": "Failed to delete exam.",
+        "edit_title": "Edit",
+        "move_to_folder": "Move to Folder",
+        "view_stats": "View Stats",
+        "rename_quiz_title": "Rename Quiz",
+        "rename_quiz_placeholder": "Enter new name..."
+    },
+    "Performance": {
+        "title": "Performance Analysis",
+        "subtitle": "Track your progress and exam statistics.",
+        "filter_exam": "Filter by Exam",
+        "filter_folder": "Filter by Folder",
+        "all_quizzes": "All Quizzes",
+        "all_folders": "All Folders",
+        "total_attempts": "Total Attempts",
+        "avg_score": "Average Score",
+        "success_rate": "Success Rate",
+        "correct": "Correct",
+        "wrong": "Wrong",
+        "score_trend": "Score Trend",
+        "topic_distribution": "Topic Distribution",
+        "go_to_analysis": "Go to Analysis",
+        "no_data": "No performance data found for the selected filters."
     }
 }

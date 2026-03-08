@@ -2,15 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Library, User, Brain, LogOut } from 'lucide-react';
+import { Home, Library, User, Brain, LogOut, Activity } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Sidebar({ user }: { user: any }) {
     const pathname = usePathname();
     const router = useRouter();
     const supabase = createClient();
+    const t = useTranslations('Sidebar');
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -19,10 +21,12 @@ export default function Sidebar({ user }: { user: any }) {
     };
 
     const links = [
-        { href: '/dashboard', label: 'Ana Sayfa', icon: Home },
-        { href: '/dashboard/library', label: 'Kütüphane', icon: Library },
-        { href: '/dashboard/profile', label: 'Profil', icon: User },
+        { href: '/dashboard', label: t('home'), icon: Home },
+        { href: '/dashboard/library', label: t('library'), icon: Library },
+        { href: '/dashboard/performance', label: t('performance'), icon: Activity },
+        { href: '/dashboard/profile', label: t('profile'), icon: User },
     ];
+
 
     return (
         <div className="flex flex-col h-full bg-slate-900 text-white border-r border-slate-800">
@@ -72,8 +76,9 @@ export default function Sidebar({ user }: { user: any }) {
                         className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all font-medium text-sm"
                     >
                         <LogOut size={20} />
-                        Çıkış yap
+                        {t('sign_out')}
                     </button>
+
                 </div>
             </div>
         </div>

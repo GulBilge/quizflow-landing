@@ -41,12 +41,8 @@ export default function Header({ user }: HeaderProps) {
                     <Menu size={22} strokeWidth={2.5} />
                 </button>
 
-                {/* Left Side: Welcome Text (Visible on desktop) */}
-                <div className="hidden lg:block">
-                    <h2 className="text-lg font-bold text-slate-800 dark:text-white">
-                        {t('welcome')}, {user?.user_metadata?.full_name?.split(' ')[0] || t('student')}
-                    </h2>
-                </div>
+                {/* Left Side: Empty or Logo (Currently handled by Layout Sidebar for desktop) */}
+                <div className="hidden lg:block w-48" />
 
                 {/* Right Side: Search & Actions */}
                 <div className="flex flex-1 items-center justify-end gap-2 sm:gap-4">

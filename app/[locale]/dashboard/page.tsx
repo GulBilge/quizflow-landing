@@ -9,13 +9,17 @@ export default async function DashboardPage() {
 
   if (!user) return null;
 
-  // 1. Fetch Recent Activity (Limit 5)
+  // 1. Fetch Recent Activity from v_user_library (includes custom names)
   const { data: recentActivity } = await supabase
-    .from('user_quizzes' as any)
+    .from('v_user_library')
     .select(`
       id,
+      quiz_id,
+      added_at,
       last_accessed_at,
-      quizzes (
+      user_quiz_name,
+      user_folder_name,
+      quizzes:quiz_id (
         id,
         title,
         question_count
@@ -25,29 +29,37 @@ export default async function DashboardPage() {
     .order('last_accessed_at', { ascending: false })
     .limit(5);
 
-  // 2. Fetch Last Attempt
-  const { data: lastAttempt } = await supabase
+  // 2. Fetch Last Attempts for these quizzes to show in cards
+  const quizIds = (recentActivity || []).map((a: any) => a.quiz_id).filter(Boolean);
+  const { data: lastAttempts } = quizIds.length > 0 ? await (supabase as any)
     .from('quiz_attempts')
-    .select(`
-        id,
-        score,
-        correct_count,
-        wrong_count,
-        quiz_id,
-        status,
-        quizzes (title)
-      `)
+    .select('id, quiz_id, score, correct_count, wrong_count, status, completed_at')
     .eq('user_id', user.id)
+    .in('quiz_id', quizIds)
     .eq('status', 'completed')
-    .order('completed_at', { ascending: false })
-    .limit(1)
-    .single();
+    .order('completed_at', { ascending: false }) : { data: [] };
+
+  // Combine data
+  const activityWithStats = (recentActivity || []).map((item: any) => ({
+    ...item,
+    lastAttempt: (lastAttempts || []).find((a: any) => a.quiz_id === item.quiz_id)
+  }));
+
+  // 3. Overall Last Attempt (for the stats panel)
+  const lastOverallAttempt = lastAttempts && (lastAttempts as any[]).length > 0 ? lastAttempts[0] : null;
+
+  // 4. Fetch User Folders
+  const { data: userFoldersData } = await (supabase as any)
+    .from('user_folders')
+    .select('id, custom_name')
+    .eq('user_id', user.id);
 
   return (
     <DashboardContent
       user={user}
-      recentActivity={recentActivity || []}
-      lastAttempt={lastAttempt}
+      recentActivity={activityWithStats as any}
+      lastAttempt={lastOverallAttempt as any}
+      userFolders={userFoldersData || []}
     />
   );
 }

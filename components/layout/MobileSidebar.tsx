@@ -1,11 +1,12 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { Brain, ChevronRight, Home, Library, LogOut, User, X } from "lucide-react";
+import { Brain, ChevronRight, Home, Library, LogOut, User, X, Activity } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface MobileSidebarProps {
     isOpen: boolean;
@@ -17,12 +18,15 @@ export default function MobileSidebar({ isOpen, onClose, user }: MobileSidebarPr
     const pathname = usePathname();
     const router = useRouter();
     const supabase = createClient();
+    const t = useTranslations('Sidebar');
 
     const links = [
-        { href: "/dashboard", label: "Ana Sayfa", icon: Home },
-        { href: "/dashboard/library", label: "Kütüphane", icon: Library },
-        { href: "/dashboard/profile", label: "Profil", icon: User },
+        { href: "/dashboard", label: t('home'), icon: Home },
+        { href: "/dashboard/library", label: t('library'), icon: Library },
+        { href: "/dashboard/performance", label: t('performance'), icon: Activity },
+        { href: "/dashboard/profile", label: t('profile'), icon: User },
     ];
+
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -167,8 +171,9 @@ export default function MobileSidebar({ isOpen, onClose, user }: MobileSidebarPr
                                     className="flex w-full items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all font-bold text-base border border-rose-500/20"
                                 >
                                     <LogOut size={20} />
-                                    Çıkış yap
+                                    {t('sign_out')}
                                 </button>
+
                             </div>
                         </motion.div>
                     </div>
