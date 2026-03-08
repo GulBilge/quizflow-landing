@@ -20,16 +20,16 @@ export default async function DashboardLayout({
     return (
         <div className="flex h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300">
             {/* Desktop Sidebar */}
-            <div className="hidden md:flex w-64 flex-col fixed inset-y-0 z-50">
+            <div className="hidden lg:flex w-64 flex-col fixed inset-y-0 z-50">
                 <Sidebar user={user} />
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 md:pl-64 flex flex-col min-h-0 relative">
+            <div className="flex-1 lg:pl-64 flex flex-col min-h-0 relative">
                 <Header user={user} />
 
                 <main className="flex-1 flex flex-col min-h-0 overflow-y-auto">
-                    <div className="flex-1 p-3 sm:p-4 md:p-8">
+                    <div className="flex-1 p-3 sm:p-4 lg:p-8">
                         {children}
                     </div>
                 </main>

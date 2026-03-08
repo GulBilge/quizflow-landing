@@ -231,7 +231,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative mx-auto lg:mr-0"
+            className="relative mx-auto lg:mr-0 hidden sm:block"
           >
             {/* Background Decor */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-indigo-600/5 rounded-full blur-3xl -z-10"></div>
@@ -396,10 +396,10 @@ export default function Home() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[300px]"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-auto"
           >
             {/* Feature 1 (Large) */}
-            <motion.div variants={fadeIn} className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-8 overflow-hidden relative">
+            <motion.div variants={fadeIn} className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-8 overflow-hidden relative min-h-[250px]">
               <div className="flex-1 space-y-4 relative z-10">
                 <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
                   <UploadCloud size={24} />
@@ -421,7 +421,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 2 */}
-            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between">
+            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[250px]">
               <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4">
                 <Sparkles size={24} />
               </div>
@@ -438,7 +438,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 3 */}
-            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between">
+            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[250px]">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
                 <Library size={24} />
               </div>
@@ -455,7 +455,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 4 (Large) */}
-            <motion.div variants={fadeIn} className="lg:col-span-2 bg-indigo-900 rounded-3xl p-8 shadow-sm border border-indigo-800 flex flex-col md:flex-row-reverse items-center gap-8 text-white relative overflow-hidden">
+            <motion.div variants={fadeIn} className="lg:col-span-2 bg-indigo-900 rounded-3xl p-8 shadow-sm border border-indigo-800 flex flex-col md:flex-row-reverse items-center gap-8 text-white relative overflow-hidden min-h-[250px]">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
 
@@ -538,7 +538,7 @@ export default function Home() {
 
       {/* CTA SECTION */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto bg-gradient-to-r from-indigo-600 to-violet-600 rounded-[2.5rem] p-12 sm:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-indigo-600/30">
+        <div className="max-w-5xl mx-auto bg-gradient-to-r from-indigo-600 to-violet-600 rounded-[2.5rem] p-6 sm:p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-indigo-600/30">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
@@ -573,7 +573,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="bg-white border-t border-slate-200 pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             <div className="col-span-1 md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
                 <div className="bg-indigo-600 p-1.5 rounded-lg text-white">

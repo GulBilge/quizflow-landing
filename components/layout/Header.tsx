@@ -53,7 +53,7 @@ export default function Header({ user }: HeaderProps) {
                     {/* Search Bar */}
                     <div className={cn(
                         "relative flex items-center transition-all duration-300",
-                        isSearchFocused ? "flex-1 max-w-[200px] sm:max-w-md" : "w-10 sm:w-48 lg:w-64"
+                        isSearchFocused ? "flex-1 max-w-xs sm:max-w-sm lg:max-w-md" : "w-10 lg:w-48 xl:w-64"
                     )}>
                         <div className="absolute left-3 text-slate-400 pointer-events-none">
                             <Search size={18} />

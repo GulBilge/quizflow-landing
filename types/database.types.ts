@@ -259,6 +259,9 @@ export interface Database {
           user_folder_name?: string | null
         }
       }
+      // NOTE: user_quizzes and user_folders types are managed via 'as any' casts
+      // in quizService.ts because they reference migrated columns not in the generated types.
+      // Run schema_migration.sql and regenerate types to resolve this.
       waitlist: {
         Row: {
           id: number

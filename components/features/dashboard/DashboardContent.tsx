@@ -75,7 +75,7 @@ export default function DashboardContent({ user, recentActivity, lastAttempt }: 
                                 className="w-full sm:w-auto bg-white text-indigo-600 px-6 md:px-8 py-2.5 md:py-3.5 rounded-2xl font-bold text-sm md:text-base hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-black/10"
                             >
                                 <Plus size={18} className="stroke-[3]" />
-                                <span className="whitespace-nowrap">Yeni Sınav Oluştur</span>
+                                <span>Yeni Sınav Oluştur</span>
                             </button>
                             <button className="w-full sm:w-auto bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 md:px-6 py-2.5 md:py-3.5 rounded-2xl font-bold text-sm md:text-base hover:bg-white/20 transition-all">
                                 Nasıl Çalışır?
@@ -195,7 +195,7 @@ export default function DashboardContent({ user, recentActivity, lastAttempt }: 
                                 {isLastAttempt(displayStats) ? (
                                     <div className="space-y-3 md:space-y-4">
                                         <div className="flex items-end gap-1">
-                                            <span className="text-5xl md:text-6xl font-black tracking-tighter text-indigo-50">
+                                            <span className="text-4xl md:text-6xl font-black tracking-tighter text-indigo-50">
                                                 {displayStats.score || 0}
                                             </span>
                                             <span className="text-lg md:text-xl text-indigo-300/60 font-medium mb-1 md:mb-1.5">/100</span>

@@ -187,7 +187,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                     initial={{ opacity: 0, scale: 0.9, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="w-full bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 sm:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center relative overflow-hidden"
+                    className="w-full bg-white dark:bg-slate-900 rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center relative overflow-hidden"
                 >
                     {/* Background decoration */}
                     <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>

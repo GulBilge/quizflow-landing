@@ -5,6 +5,7 @@ import { Upload, FileText, X, AlertCircle, CheckCircle2, Loader2 } from "lucide-
 import { createClient } from "@/utils/supabase/client";
 import { generateFileHash } from "@/utils/quiz";
 import { useRouter } from "next/navigation";
+import { quizService } from "@/lib/quizService";
 
 interface QuizUploadProps {
     onClose: () => void;
@@ -21,16 +22,11 @@ interface GenerateQuizResponse {
     title?: string;
 }
 
-interface DbResult {
-    id: string;
-}
-
 type Status = "idle" | "hashing" | "uploading" | "analyzing" | "saving" | "error" | "success";
 
 export default function QuizUpload({ onClose }: QuizUploadProps) {
     const [file, setFile] = useState<File | null>(null);
     const [status, setStatus] = useState<Status>("idle");
-    const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const fileRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
@@ -56,27 +52,56 @@ export default function QuizUpload({ onClose }: QuizUploadProps) {
         if (!file) return;
 
         try {
+            // ── ADIM 1: Hash hesapla ──────────────────────────────────────────
             setStatus("hashing");
             const arrayBuffer = await file.arrayBuffer();
             const hash = await generateFileHash(arrayBuffer);
 
-            // Check if quiz already exists
-            const { data: existingQuiz } = await supabase
-                .from("quizzes")
-                .select("id")
-                .eq("file_hash", hash)
-                .single();
-
-            if (existingQuiz) {
-                // Link already existing quiz to user library
-                await addToLibrary((existingQuiz as DbResult).id);
-                return;
-            }
-
-            setStatus("uploading");
+            // ── ADIM 2: Kullanıcı oturumunu al ───────────────────────────────
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) throw new Error("Oturum bulunamadı.");
 
+            // ── ADIM 3: LocalStorage kontrolü ────────────────────────────────
+            const cached = quizService.getLocalQuiz(hash);
+            if (cached) {
+                // Cache'de var → DB'de last_accessed_at güncelle ve yönlendir
+                await quizService.checkUserLibrary(cached.id, user.id);
+                setStatus("success");
+                setTimeout(() => { onClose(); router.push(`/dashboard/quiz/${cached.id}`); }, 1200);
+                return;
+            }
+
+            // ── ADIM 4: Global DB'de hash var mı? ────────────────────────────
+            const existingQuiz = await quizService.getQuizByHash(hash);
+
+            if (existingQuiz) {
+                // Kullanıcı kütüphanesinde var mı?
+                const alreadyOwned = await quizService.checkUserLibrary(existingQuiz.id, user.id);
+
+                if (!alreadyOwned) {
+                    // Quiz var ama kullanıcıda yoksa → kütüphaneye ekle (folder kalıtımıyla)
+                    setStatus("saving");
+                    await quizService.addQuizToLibrary(existingQuiz.id, user.id);
+                }
+
+                // LocalStorage'a cache'le
+                const { localCache } = await import("@/lib/quizService");
+                localCache.saveQuiz(hash, {
+                    id: existingQuiz.id,
+                    title: existingQuiz.title,
+                    file_hash: hash,
+                    question_count: existingQuiz.question_count ?? 0,
+                    questions: Array.isArray(existingQuiz.content) ? existingQuiz.content : [],
+                    created_at: new Date().toISOString(),
+                });
+
+                setStatus("success");
+                setTimeout(() => { onClose(); router.push(`/dashboard/quiz/${existingQuiz.id}`); }, 1200);
+                return;
+            }
+
+            // ── ADIM 5: Yeni quiz → PDF'yi Storage'a yükle ──────────────────
+            setStatus("uploading");
             const fileName = `quiz-doc-${Date.now()}.pdf`;
             const filePath = `${user.id}/${fileName}`;
 
@@ -86,123 +111,38 @@ export default function QuizUpload({ onClose }: QuizUploadProps) {
 
             if (uploadError) throw uploadError;
 
+            // ── ADIM 6: Edge Function → AI ile quiz oluştur ──────────────────
             setStatus("analyzing");
             const { data, error: functionError } = await supabase.functions.invoke<GenerateQuizResponse>("generate-quiz", {
                 body: { filePath }
             });
 
             if (functionError || !data) throw new Error(functionError?.message || "Sınav oluşturulamadı.");
+            if (!data.questions || data.questions.length === 0) throw new Error("AI sınav soruları oluşturamadı.");
 
+            // ── ADIM 7: DB'ye kaydet (quizService — tam mobil akış) ──────────
             setStatus("saving");
             const aiTitle = data.metadata?.title || data.title || file.name.replace(".pdf", "");
-            const topic = data.metadata?.topic || "Genel";
+            const topicName = data.metadata?.topic || undefined;
 
-            // 1. Get or Create Folder
-            let folderId: string;
-            const { data: existingFolder } = await supabase
-                .from("folders" as any)
-                .select("id")
-                .eq("name", topic)
-                .eq("created_by", user.id)
-                .maybeSingle();
+            const quizId = await quizService.saveQuizToDatabase({
+                title: aiTitle,
+                fileHash: hash,
+                questions: data.questions,
+                topicName,
+                userId: user.id,
+            });
 
-            if (existingFolder) {
-                folderId = (existingFolder as DbResult).id;
-            } else {
-                const { data: newFolder, error: folderError } = await supabase
-                    .from("folders" as any)
-                    .insert({ name: topic, created_by: user.id } as any)
-                    .select("id")
-                    .single();
-                if (folderError) throw folderError;
-                folderId = (newFolder as DbResult).id;
-            }
-
-            // Ensure folder is in user_folders (Personalization layer)
-            await supabase
-                .from("user_folders" as any)
-                .upsert({ user_id: user.id, folder_id: folderId } as any, { onConflict: 'user_id,folder_id' });
-
-            // The user_folder_id we need for user_quizzes is the ID from user_folders table
-            const { data: userFolder } = await supabase
-                .from("user_folders" as any)
-                .select("id")
-                .eq("user_id", user.id)
-                .eq("folder_id", folderId)
-                .single();
-
-            const userFolderEntryId = (userFolder as any)?.id;
-
-            // 2. Save Quiz
-            const { data: newQuiz, error: insertError } = await supabase
-                .from("quizzes" as any)
-                .insert({
-                    title: aiTitle,
-                    file_hash: hash,
-                    content: data.questions,
-                    question_count: data.questions.length,
-                    description: topic,
-                    created_by: user.id
-                } as any)
-                .select("id")
-                .single();
-
-            if (insertError) throw insertError;
-            const quizId = (newQuiz as DbResult).id;
-
-            // 3. Link Quiz to Folder (Logic layer)
-            await supabase.from("quiz_folders" as any).insert({
-                quiz_id: quizId,
-                folder_id: folderId,
-                created_by: user.id
-            } as any);
-
-            // 4. Add to User Quizzes (Personalization layer)
-            const { data: { user: currentUser } } = await supabase.auth.getUser();
-            if (currentUser) {
-                await supabase
-                    .from("user_quizzes" as any)
-                    .upsert({
-                        user_id: currentUser.id,
-                        quiz_id: quizId,
-                        user_folder_id: userFolderEntryId,
-                        last_accessed_at: new Date().toISOString()
-                    } as any, { onConflict: 'user_id,quiz_id' });
-            }
+            if (!quizId) throw new Error("Sınav veritabanına kaydedilemedi.");
 
             setStatus("success");
-            setTimeout(() => {
-                onClose();
-                router.push(`/dashboard/quiz/${quizId}`);
-            }, 1500);
+            setTimeout(() => { onClose(); router.push(`/dashboard/quiz/${quizId}`); }, 1200);
 
         } catch (err: any) {
-            console.error("Sınav oluşturma hatası:", err);
-            setError(err.message || "Bir hata oluştu.");
+            console.error("[QuizUpload] Hata:", err);
+            setError(err.message || "Bir hata oluştu. Lütfen tekrar deneyin.");
             setStatus("error");
         }
-    };
-
-    const addToLibrary = async (quizId: string) => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        // Using user_quizzes instead of user_library
-        const { error: libError } = await supabase
-            .from("user_quizzes" as any)
-            .upsert({
-                user_id: user.id,
-                quiz_id: quizId,
-                last_accessed_at: new Date().toISOString()
-            } as any, { onConflict: 'user_id,quiz_id' });
-
-        if (libError) throw libError;
-
-        setStatus("success");
-        setTimeout(() => {
-            onClose();
-            router.push(`/dashboard/quiz/${quizId}`);
-        }, 1500);
     };
 
     return (

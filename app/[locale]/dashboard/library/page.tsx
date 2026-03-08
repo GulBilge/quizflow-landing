@@ -378,7 +378,7 @@ export default function LibraryPage() {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-20 bg-slate-50/50 dark:bg-slate-800/20 rounded-[40px] border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center">
+                    <div className="text-center py-12 md:py-20 bg-slate-50/50 dark:bg-slate-800/20 rounded-[40px] border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center">
                         <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-3xl flex items-center justify-center shadow-xl shadow-slate-200/50 dark:shadow-none mb-6">
                             <AlertTriangle size={40} className="text-slate-300 dark:text-slate-600" />
                         </div>
