@@ -24,6 +24,6 @@ export const config = {
          * - api/ (handled separately if needed)
          * - public assets
          */
-        "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+        "/((?!api|_next/static|_next/image|favicon.ico|ads.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
     ],
 };
