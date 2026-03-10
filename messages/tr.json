@@ -71,5 +71,19 @@
         "topic_distribution": "Konu Dağılımı",
         "go_to_analysis": "Analize Git",
         "no_data": "Seçili filtreler için performans verisi bulunamadı."
+    },
+    "MobilePage": {
+        "title": "Quizyen Mobil",
+        "hero_title": "Sınav Hazırlığını Cebine Taşı",
+        "hero_description": "PDF'lerini saniyeler içinde interaktif quizlere dönüştür ve dilediğin zaman, dilediğin yerde çöz.",
+        "feature_offline_title": "Çevrimdışı Erişim",
+        "feature_offline_desc": "Sınavlarını indir ve internet bağlantısı olmadan her yerde çalış.",
+        "feature_sync_title": "Anında Senkronizasyon",
+        "feature_sync_desc": "Web ve mobil arasında tüm verilerin anında eşitlensin.",
+        "feature_ui_title": "Mobil Odaklı Tasarım",
+        "feature_ui_desc": "Göz yormayan karanlık mod ve öğrenci dostu arayüz.",
+        "download_cta": "Hemen Ücretsiz İndir",
+        "play_store": "Google Play'den İndir",
+        "app_store": "App Store (Yakında)"
     }
 }

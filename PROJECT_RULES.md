@@ -2,7 +2,7 @@
 
 ## 1. Shared Infrastructure & Ecosystem
 > [!IMPORTANT]
-> **Shared Database**: This web application shares the SAME Supabase database and infrastructure as the **QuizFlow Mobile** project. Any database schema changes, view updates, or RLS modifications WILL directly impact both platforms.
+> **Shared Database**: This web application shares the SAME Supabase database and infrastructure as the **Quizyen Mobile** project. Any database schema changes, view updates, or RLS modifications WILL directly impact both platforms.
 
 - **Project Name**: Always use **Quizyen**. Replace any legacy "QuizFlow" references in UI, metadata, and code comments.
 - **Aesthetics**: Follow "Rich Aesthetics" principles. Use harmonious color palettes (avoid plain red/blue/green), smooth gradients, and micro-animations. Glassmorphism and dark mode support are prioritized.

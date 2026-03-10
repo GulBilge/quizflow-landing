@@ -71,5 +71,19 @@
         "topic_distribution": "Topic Distribution",
         "go_to_analysis": "Go to Analysis",
         "no_data": "No performance data found for the selected filters."
+    },
+    "MobilePage": {
+        "title": "Quizyen Mobile",
+        "hero_title": "Take Your Exam Prep Anywhere",
+        "hero_description": "Convert your PDFs into interactive quizzes in seconds and solve them anytime, anywhere.",
+        "feature_offline_title": "Offline Access",
+        "feature_offline_desc": "Download your quizzes and study anywhere without an internet connection.",
+        "feature_sync_title": "Instant Sync",
+        "feature_sync_desc": "All your data is instantly synced between web and mobile.",
+        "feature_ui_title": "Mobile-First Design",
+        "feature_ui_desc": "Eye-friendly dark mode and student-centric interface.",
+        "download_cta": "Download for Free Now",
+        "play_store": "Get it on Google Play",
+        "app_store": "App Store (Coming Soon)"
     }
 }
