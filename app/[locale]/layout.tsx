@@ -72,6 +72,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <meta name="google-adsense-account" content="ca-pub-8863410308164779"></meta>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
