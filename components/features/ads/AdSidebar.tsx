@@ -11,7 +11,7 @@ interface AdSidebarProps {
 export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
     if (isPremium) {
         return (
-            <div className="bg-gradient-to-br from-indigo-500/5 to-violet-500/5 dark:from-indigo-500/10 dark:to-violet-500/10 rounded-[2.5rem] p-8 border border-indigo-100/50 dark:border-indigo-900/30 flex flex-col items-center text-center justify-center min-h-[420px] relative overflow-hidden group transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/5">
+            <div className="w-full bg-gradient-to-br from-indigo-500/5 to-violet-500/5 dark:from-indigo-500/10 dark:to-violet-500/10 rounded-[2.5rem] p-5 sm:p-8 border border-indigo-100/50 dark:border-indigo-900/30 flex flex-col items-center text-center justify-center min-h-[420px] relative overflow-hidden group transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/5">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl" />
                 <div className="relative z-10 space-y-4">
                     <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl shadow-lg flex items-center justify-center mx-auto border border-slate-50 dark:border-slate-700">
@@ -34,7 +34,7 @@ export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
             </div>
 
             {/* Ad Container */}
-            <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 rounded-[2.5rem] border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center justify-center min-h-[420px] relative overflow-hidden group transition-all duration-500 hover:shadow-xl">
+            <div className="w-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 rounded-[2.5rem] border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center justify-center min-h-[420px] relative overflow-hidden group transition-all duration-500 hover:shadow-xl p-5 sm:p-8">
 
                 {/* Ad Content - Placeholder for Google AdSense or House Ad */}
                 <div className="relative z-10 w-full p-4">
@@ -52,7 +52,7 @@ export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
                         </div>
 
                         <Link href="/premium" className="block w-full px-4">
-                            <button className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-600 transition-colors">
+                            <button className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 sm:px-8 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-600 transition-colors shrink-0">
                                 <Crown size={18} />
                                 <span>Premium'a Geç</span>
                             </button>

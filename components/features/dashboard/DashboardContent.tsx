@@ -121,36 +121,57 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                 </div>
             )}
 
+            {/* Header & Greeting Section */}
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                            {greeting}, <span className="text-indigo-600 dark:text-indigo-400">{firstName}!</span>
+                        </h1>
+                        <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium mt-1">
+                            Bugün ne öğrenmek istersin? Çalışmalarına kaldığın yerden devam et.
+                        </p>
+                    </div>
+
+                    <button
+                        onClick={() => setIsUploadOpen(true)}
+                        className="flex md:hidden items-center justify-center w-11 h-11 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-600/20 active:scale-90 transition-transform"
+                    >
+                        <Plus size={24} />
+                    </button>
+                </div>
+
+                <div className="hidden md:flex gap-3">
+                    <button
+                        onClick={() => setIsUploadOpen(true)}
+                        className="flex items-center gap-2 px-6 py-3.5 bg-indigo-600 text-white rounded-2xl font-bold text-sm hover:bg-indigo-700 transition-all hover:shadow-lg hover:shadow-indigo-600/20 active:scale-95"
+                    >
+                        <Plus size={18} />
+                        <span>Yeni Sınav Oluştur</span>
+                    </button>
+                </div>
+            </div>
+
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-12 gap-8 items-start">
 
                 {/* Left Column: Recent Activity (8 columns) */}
-                <div className="lg:col-span-8 space-y-6 order-2 lg:order-1">
+                <div className="lg:col-span-8 space-y-6 order-1 lg:order-1 min-w-0 overflow-hidden">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
                             <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl text-indigo-600 dark:text-indigo-400">
                                 <Clock size={20} />
                             </div>
-                            <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100 italic">Son Çalışmaların</h3>
+                            <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100 uppercase tracking-tight">Son Çalışmaların</h3>
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => setIsUploadOpen(true)}
-                                className="flex shadow-lg shadow-indigo-600/10 items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-95 group"
-                            >
-                                <Plus size={18} className="stroke-[3] group-hover:rotate-90 transition-transform" />
-                                <span>Yeni Sınav</span>
-                            </button>
-
-                            <Link href="/dashboard/library" className="group flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline decoration-2 underline-offset-4">
-                                Tümünü Gör
-                                <LayoutGrid size={16} className="group-hover:rotate-12 transition-transform" />
-                            </Link>
-                        </div>
+                        <Link href="/dashboard/library" className="group flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline decoration-2 underline-offset-4">
+                            Tümünü Gör
+                            <LayoutGrid size={16} className="group-hover:rotate-12 transition-transform" />
+                        </Link>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 w-full overflow-hidden">
                         {recentActivity && recentActivity.length > 0 ? (
                             recentActivity.map((item, index) => (
                                 <RecentQuizCard
@@ -197,7 +218,7 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                 </div>
 
                 {/* Right Column: AD/Placeholder (4 columns) */}
-                <div className="lg:col-span-4 lg:sticky lg:top-24 order-1 lg:order-2">
+                <div className="lg:col-span-4 lg:sticky lg:top-24 order-2 lg:order-2">
                     <AdSidebar isPremium={user?.is_premium} />
                 </div>
             </div>

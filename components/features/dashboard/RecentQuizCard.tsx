@@ -47,7 +47,7 @@ export default function RecentQuizCard({
             <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-indigo-600 rounded-l-full" />
 
             <div className="p-4 md:p-5">
-                <div className="flex items-start justify-between gap-4 mb-3">
+                <div className="flex items-start md:items-center justify-between gap-3 mb-3">
                     <div className="flex-1 min-w-0">
                         {isFirst && (
                             <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2">
@@ -71,7 +71,7 @@ export default function RecentQuizCard({
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                         <button
                             onClick={onEditTitle}
                             className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl text-slate-400 hover:text-indigo-600 transition-all"
@@ -99,7 +99,7 @@ export default function RecentQuizCard({
                 {/* Attempt Stats (if available) */}
                 {lastAttempt && (
                     <div className="flex flex-wrap items-center justify-between gap-3 py-3 border-t border-slate-50 dark:border-slate-700/50 mt-2 mb-4">
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-1.5 min-w-0">
                             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-xs font-bold ring-1 ring-emerald-500/10">
                                 <CheckCircle2 size={12} strokeWidth={3} />
                                 {lastAttempt.correct_count} Doğru

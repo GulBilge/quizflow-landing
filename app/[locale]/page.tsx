@@ -350,14 +350,16 @@ export default function Home() {
               <p className="text-slate-600 text-lg">
                 Uzun ders notlarını pasif bir şekilde okumak verimsiz ve sıkıcıdır. Bilgiyi akılda tutmak zorlaşır ve sınav stresi artar.
               </p>
-              <div className="flex items-start gap-4 opacity-50">
-                <FileText size={48} className="text-slate-400" />
-                <div className="h-2 w-full bg-slate-100 rounded-full mt-2"></div>
-                <div className="h-2 w-3/4 bg-slate-100 rounded-full mt-2"></div>
+              <div className="flex items-center gap-4 opacity-50">
+                <FileText size={48} className="text-slate-400 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-2 w-full bg-slate-100 rounded-full"></div>
+                  <div className="h-2 w-3/4 bg-slate-100 rounded-full"></div>
+                </div>
               </div>
             </div>
 
-            <div className="bg-indigo-900 text-white p-10 rounded-3xl relative overflow-hidden">
+            <div className="bg-indigo-900 text-white p-6 sm:p-10 rounded-3xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
               <div className="relative z-10 space-y-6">
@@ -399,7 +401,7 @@ export default function Home() {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-auto"
           >
             {/* Feature 1 (Large) */}
-            <motion.div variants={fadeIn} className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-8 overflow-hidden relative min-h-[250px]">
+            <motion.div variants={fadeIn} className="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-8 overflow-hidden relative min-h-[250px]">
               <div className="flex-1 space-y-4 relative z-10">
                 <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
                   <UploadCloud size={24} />
@@ -421,7 +423,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 2 */}
-            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[250px]">
+            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[250px]">
               <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4">
                 <Sparkles size={24} />
               </div>
@@ -438,7 +440,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 3 */}
-            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[250px]">
+            <motion.div variants={fadeIn} className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100 flex flex-col justify-between min-h-[250px]">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
                 <Library size={24} />
               </div>
@@ -455,7 +457,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 4 (Large) */}
-            <motion.div variants={fadeIn} className="lg:col-span-2 bg-indigo-900 rounded-3xl p-8 shadow-sm border border-indigo-800 flex flex-col md:flex-row-reverse items-center gap-8 text-white relative overflow-hidden min-h-[250px]">
+            <motion.div variants={fadeIn} className="lg:col-span-2 bg-indigo-900 rounded-3xl p-6 sm:p-8 shadow-sm border border-indigo-800 flex flex-col md:flex-row-reverse items-center gap-8 text-white relative overflow-hidden min-h-[250px]">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
 
