@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, Loader2, Github } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import { createClient } from '@/utils/supabase/client';
 import { getURL } from '@/utils/env';
+import { useLocale } from 'next-intl';
 
 const supabase = createClient();
 
@@ -17,6 +19,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const searchParams = useSearchParams();
+    const locale = useLocale();
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,7 +64,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${getURL()}/auth/callback?next=/dashboard`,
+                    redirectTo: `${getURL()}/auth/callback?next=/dashboard&locale=${locale}`,
                     queryParams: {
                         prompt: "select_account",
                     }
