@@ -57,7 +57,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900 overflow-x-hidden">
 
       {/* NAVBAR */}
       <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
@@ -191,11 +191,11 @@ export default function Home() {
               <span>Yapay Zeka Destekli Öğrenme</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-6">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-6">
               {t('title')}
             </h1>
 
-            <p className="text-lg sm:text-xl text-slate-600 mb-8 leading-relaxed">
+            <p className="text-base sm:text-xl text-slate-600 mb-8 leading-relaxed">
               {t('description')}
             </p>
 
@@ -335,7 +335,7 @@ export default function Home() {
       </section>
 
       {/* PROBLEM / SOLUTION */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             {...fadeIn}
@@ -380,7 +380,7 @@ export default function Home() {
       </section>
 
       {/* FEATURES (BENTO GRID) */}
-      <section id="features" className="py-24 bg-slate-50">
+      <section id="features" className="py-24 bg-slate-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
@@ -469,14 +469,12 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex-1 w-full relative z-10">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10">
-                  <div className="flex items-end gap-2 h-32 justify-between px-2">
-                    <div className="w-full bg-indigo-500/50 rounded-t-lg h-[40%]"></div>
-                    <div className="w-full bg-indigo-500/70 rounded-t-lg h-[70%]"></div>
-                    <div className="w-full bg-indigo-400 rounded-t-lg h-[50%]"></div>
-                    <div className="w-full bg-white rounded-t-lg h-[90%] shadow-[0_0_15px_rgba(255,255,255,0.3)]"></div>
-                    <div className="w-full bg-indigo-400 rounded-t-lg h-[60%]"></div>
-                  </div>
+                <div className="flex items-end gap-2 h-32 justify-between px-2">
+                  <div className="flex-1 bg-indigo-500/50 rounded-t-lg h-[40%]"></div>
+                  <div className="flex-1 bg-indigo-500/70 rounded-t-lg h-[70%]"></div>
+                  <div className="flex-1 bg-indigo-400 rounded-t-lg h-[50%]"></div>
+                  <div className="flex-1 bg-white rounded-t-lg h-[90%] shadow-[0_0_15px_rgba(255,255,255,0.3)]"></div>
+                  <div className="flex-1 bg-indigo-400 rounded-t-lg h-[60%]"></div>
                 </div>
               </div>
             </motion.div>
