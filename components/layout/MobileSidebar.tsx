@@ -66,7 +66,7 @@ export default function MobileSidebar({ isOpen, onClose, user }: MobileSidebarPr
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 lg:hidden"
+                    className="fixed inset-0 z-[100] lg:hidden"
                 >
                     {/* Background with heavy blur */}
                     <motion.div
@@ -82,7 +82,7 @@ export default function MobileSidebar({ isOpen, onClose, user }: MobileSidebarPr
                     <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
                     <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
 
-                    <div className="relative h-full flex flex-col p-6 overflow-y-auto">
+                    <div className="relative h-full flex flex-col p-6 overflow-y-auto pb-safe">
                         {/* Header */}
                         <div className="flex items-center justify-between pb-8 pt-4">
                             <motion.div

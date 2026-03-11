@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Library, User } from 'lucide-react';
+import { Home, Library, User, Activity } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { motion } from 'framer-motion';
 
@@ -13,6 +13,7 @@ export default function MobileNav() {
     const links = [
         { href: '/dashboard', label: 'Ana Sayfa', icon: Home },
         { href: '/dashboard/library', label: 'Kütüphane', icon: Library },
+        { href: '/dashboard/performance', label: 'Performans', icon: Activity },
         { href: '/dashboard/profile', label: 'Profil', icon: User },
     ];
 
