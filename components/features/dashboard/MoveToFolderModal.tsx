@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, FolderPlus, Loader2, Check } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface MoveToFolderModalProps {
     isOpen: boolean;
@@ -21,6 +22,8 @@ export default function MoveToFolderModal({ isOpen, onClose, onSuccess, quiz }: 
     const [loading, setLoading] = useState(false);
     const [actionLoading, setActionLoading] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const t = useTranslations('Library');
+    const ct = useTranslations('Common');
     const supabase = createClient();
 
     useEffect(() => {
@@ -48,7 +51,7 @@ export default function MoveToFolderModal({ isOpen, onClose, onSuccess, quiz }: 
             const folderMap = new Map<string, string>();
             (data || []).forEach((item: any) => {
                 if (item.folder_id) {
-                    folderMap.set(item.folder_id, item.folder_name || 'Adsız Klasör');
+                    folderMap.set(item.folder_id, item.folder_name || ct('unnamed_folder'));
                 }
             });
 
@@ -67,7 +70,7 @@ export default function MoveToFolderModal({ isOpen, onClose, onSuccess, quiz }: 
         setActionLoading(folderId || "uncategorized");
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error("Oturum bulunamadı.");
+            if (!user) throw new Error(ct("no_session_error"));
 
             const { error: updateError } = await (supabase as any)
                 .from("user_quizzes")
@@ -83,7 +86,7 @@ export default function MoveToFolderModal({ isOpen, onClose, onSuccess, quiz }: 
             onSuccess();
             onClose();
         } catch (err: any) {
-            setError(err.message || "Taşıma işlemi başarısız.");
+            setError(err.message || t("move_failed_error"));
         } finally {
             setActionLoading(null);
         }
@@ -99,7 +102,7 @@ export default function MoveToFolderModal({ isOpen, onClose, onSuccess, quiz }: 
                 <div className="p-6">
                     <div className="flex items-center justify-between mb-6">
                         <div>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Klasöre Taşı</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">{t("move_to_folder_title")}</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 truncate max-w-[300px]">
                                 {quiz.title}
                             </p>
@@ -119,7 +122,7 @@ export default function MoveToFolderModal({ isOpen, onClose, onSuccess, quiz }: 
                                 : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-700'
                                 }`}
                         >
-                            <span className="font-medium text-slate-700 dark:text-slate-200">Kategorisiz</span>
+                            <span className="font-medium text-slate-700 dark:text-slate-200">{t("uncategorized")}</span>
                             {quiz.currentFolderId === null ? <Check size={18} className="text-indigo-600" /> : null}
                             {actionLoading === "uncategorized" && <Loader2 size={18} className="animate-spin text-indigo-600" />}
                         </button>
@@ -153,7 +156,7 @@ export default function MoveToFolderModal({ isOpen, onClose, onSuccess, quiz }: 
 
                     {!folders.length && !loading && (
                         <p className="text-sm text-slate-400 text-center py-8">
-                            Henüz başka klasörün yok.
+                            {t("empty_folder_desc")}
                         </p>
                     )}
                 </div>

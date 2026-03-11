@@ -73,7 +73,7 @@ export default function PerformanceContent({
         const quizMap = new Map();
         filteredAttempts.forEach(att => {
             const libItem = library.find(l => l.quiz_id === att.quiz_id);
-            const name = libItem?.user_quiz_name || "Sınav";
+            const name = libItem?.user_quiz_name || t("unnamed_quiz");
             quizMap.set(name, (quizMap.get(name) || 0) + 1);
         });
         const distribution = Array.from(quizMap.entries())
@@ -175,7 +175,7 @@ export default function PerformanceContent({
                         className="md:col-span-2 bg-indigo-600 rounded-[2rem] p-6 md:p-8 text-white shadow-xl shadow-indigo-500/20 relative overflow-hidden"
                     >
                         <div className="absolute top-0 right-0 p-8 opacity-10">
-                            <Trophy size={140} weight="fill" />
+                            <Trophy size={140} fill="currentColor" />
                         </div>
 
                         <div className="relative z-10 flex flex-col md:flex-row gap-8 justify-between">
@@ -254,7 +254,7 @@ export default function PerformanceContent({
                             </div>
 
                             <div className="bg-slate-50 dark:bg-slate-900/40 p-6 rounded-3xl h-full flex flex-col justify-center">
-                                <h4 className="text-xs font-black uppercase text-slate-400 mb-6 text-center">SON 10 SINAV PUANI</h4>
+                                <h4 className="text-xs font-black uppercase text-slate-400 mb-6 text-center">{t("last_10_scores")}</h4>
                                 <div className="flex items-end justify-center gap-3 h-24">
                                     {stats.trend.map((val, i) => (
                                         <div key={i} className="relative group flex-1">

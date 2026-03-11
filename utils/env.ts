@@ -32,14 +32,15 @@ if (!parsed.success && !isTest) {
 export const env = parsed.success ? parsed.data : (envData as any);
 
 export const getURL = () => {
+    // For development, we want to be flexible with the origin
     if (process.env.NODE_ENV === "development") {
-        return "http://localhost:3000";
+        return ""; 
     }
 
     let url =
         process.env.NEXT_PUBLIC_SITE_URL ??
         process.env.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set on Vercel.
-        "http://localhost:3000";
+        "";
 
     // Make sure to include `https://` when not localhost.
     url = url.includes("http") ? url : `https://${url}`;

@@ -2,13 +2,84 @@
     "HomePage": {
         "title": "PDF'leri İnteraktif Quizlere Dönüştürün",
         "description": "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
-        "keywords": "quiz, PDF, YZ, yapay zeka, ders çalışma aracı, eğitim, öğrenme, sınav hazırlık, test çöz"
+        "keywords": "quiz, PDF, YZ, yapay zeka, ders çalışma aracı, eğitim, öğrenme, sınav hazırlık, test çöz",
+        "nav": {
+            "features": "Özellikler",
+            "how_it_works": "Nasıl Çalışır?",
+            "blog": "Blog",
+            "faq": "SSS",
+            "login": "Giriş Yap",
+            "download_now": "Hemen İndir"
+        },
+        "hero": {
+            "ai_badge": "Yapay Zeka Destekli Öğrenme",
+            "try_free": "Ücretsiz Dene",
+            "how_it_works_btn": "Nasıl Çalışır?",
+            "users_count": "1000+ Öğrenci Tarafından Kullanılıyor"
+        },
+        "problem": {
+            "old_way": "Eski Yöntem",
+            "problem_title": "Yüzlerce sayfa PDF okumaktan sıkıldınız mı?",
+            "problem_desc": "Uzun ders notlarını pasif bir şekilde okumak verimsiz ve sıkıcıdır. Bilgiyi akılda tutmak zorlaşır ve sınav stresi artar.",
+            "new_way": "Yeni Yöntem (Quizyen)",
+            "solution_title": "Quizyen sizin yerinize okur, özetler ve soru sorar.",
+            "solution_desc": "Yapay zeka içeriği analiz eder ve interaktif, öğretici bir deneyime dönüştürür. Aktif öğrenme ile hafızanızı güçlendirin.",
+            "instant_generation": "Anında Üretim"
+        },
+        "features": {
+            "title": "Öğrenme Sürecinizi Hızlandırın",
+            "subtitle": "Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte Quizyen'un süper güçleri.",
+            "f1_title": "PDF Analizi",
+            "f1_desc": "Herhangi bir ders notunu, kitabı veya makaleyi yükleyin. Gelişmiş okuma modülümüz içeriği saniyeler içinde tarar ve anlar.",
+            "f2_title": "Yapay Zeka Üretimi",
+            "f2_desc": "AI, en önemli kısımları analiz eder ve sınav formatına uygun çoktan seçmeli sorular üretir.",
+            "f3_title": "Kişisel Kütüphane",
+            "f3_desc": "Tüm sınavlarınız tek bir yerde. Derslerine göre klasörle, düzenle ve istediğin zaman tekrar et.",
+            "f4_title": "İlerleme Takibi",
+            "f4_desc": "Hangi konuda eksiksiniz? Detaylı istatistiklerle performansınızı görün ve eksiklerinizi kapatın."
+        },
+        "how_it_works": {
+            "title": "Nasıl Çalışır?",
+            "subtitle": "Karmaşık süreçler yok. Sadece 3 basit adım.",
+            "s1_title": "Yükle",
+            "s1_desc": "Ders notlarınızı veya çıkmış sorularınızı PDF formatında sisteme yükleyin.",
+            "s2_title": "Üret",
+            "s2_desc": "Yapay zeka içeriği analiz etsin ve saniyeler içinde size özel bir sınav hazırlasın.",
+            "s3_title": "Çöz",
+            "s3_desc": "Bilginizi sınayın, anında geri bildirim alın ve eksiklerinizi kapatın."
+        },
+        "cta": {
+            "title": "Sınavlara Çalışmayı Oyunlaştırın.",
+            "subtitle": "Hemen indirin ve öğrenme hızınızı ikiye katlayın. Ücretsiz başlayın.",
+            "app_store": "App Store'dan İndir",
+            "google_play": "Google Play",
+            "ios_soon": "iOS çok yakında!"
+        },
+        "footer": {
+            "desc": "Yapay zeka ile öğrenme sürecinizi optimize edin. Daha az çalışın, daha çok öğrenin.",
+            "product": "Ürün",
+            "pricing": "Fiyatlandırma",
+            "company": "Şirket",
+            "about_us": "Hakkımızda",
+            "contact": "İletişim",
+            "legal": "Yasal",
+            "privacy_policy": "Gizlilik Politikası",
+            "terms_of_service": "Kullanım Koşulları",
+            "copyright": "© 2026 Quizyen. Tüm hakları saklıdır."
+        }
     },
     "Common": {
         "loading": "Yükleniyor...",
         "error": "Bir hata oluştu",
         "save": "Kaydet",
-        "cancel": "İptal"
+        "cancel": "İptal",
+        "vazgec": "Vazgeç",
+        "no_session_error": "Oturum bulunamadı.",
+        "unnamed_folder": "Adsız Klasör",
+        "save_changes": "Değişiklikleri Kaydet",
+        "create_folder": "Klasör Oluştur",
+        "correct": "Doğru",
+        "wrong": "Yanlış"
     },
     "Header": {
         "welcome": "Hoş geldin",
@@ -22,7 +93,8 @@
         "library": "Kütüphane",
         "performance": "Performans",
         "profile": "Profil",
-        "sign_out": "Çıkış Yap"
+        "sign_out": "Çıkış Yap",
+        "user_fallback": "Kullanıcı"
     },
     "Library": {
         "title": "Kütüphane",
@@ -46,14 +118,30 @@
         "no_results": "Sonuç Bulunamadı. Aramanı değiştirmeyi veya filtreleri temizlemeyi dene.",
         "loading": "Kütüphane Yükleniyor...",
         "adsiz_klasor": "Adsız Klasör",
-        "adsiz_sinav": "Adsız Sınav",
         "error_delete_folder": "Klasör silinemedi.",
         "error_delete_quiz": "Sınav silinemedi.",
+        "quiz_rename_success": "Sınav başarıyla güncellendi.",
+        "quiz_delete_success": "Sınav başarıyla silindi.",
+        "folder_delete_success": "Klasör başarıyla silindi.",
+        "no_results_desc": "Aramanı değiştirmeyi veya filtreleri temizlemeyi dene.",
         "edit_title": "Düzenle",
         "move_to_folder": "Klasöre Taşı",
         "view_stats": "İstatistikleri Gör",
         "rename_quiz_title": "Sınavı Yeniden Adlandır",
-        "rename_quiz_placeholder": "Yeni isim girin..."
+        "rename_quiz_placeholder": "Yeni isim girin...",
+        "adsiz_sinav": "Adsız Sınav",
+        "genel": "Genel",
+        "yeni": "Yeni",
+        "soru_sayisi": "{count} Soru",
+        "sinavi_coz": "Sınavı Çöz",
+        "uncategorized": "Kategorisiz",
+        "empty_folder_desc": "Henüz başka klasörün yok.",
+        "move_to_folder_title": "Klasöre Taşı",
+        "move_failed_error": "Taşıma işlemi başarısız.",
+        "rename_folder_title": "Klasörü Düzenle",
+        "new_folder_title": "Yeni Klasör",
+        "folder_name_label": "Klasör Adı",
+        "folder_name_placeholder": "Örn: Matematik, Tarih..."
     },
     "Performance": {
         "title": "Performans Analizi",
@@ -70,7 +158,9 @@
         "score_trend": "Puan Trendi",
         "topic_distribution": "Konu Dağılımı",
         "go_to_analysis": "Analize Git",
-        "no_data": "Seçili filtreler için performans verisi bulunamadı."
+        "no_data": "Seçili filtreler için performans verisi bulunamadı.",
+        "unnamed_quiz": "Sınav",
+        "last_10_scores": "SON 10 SINAV PUANI"
     },
     "MobilePage": {
         "title": "Quizyen Mobil",
@@ -85,5 +175,112 @@
         "download_cta": "Hemen Ücretsiz İndir",
         "play_store": "Google Play'den İndir",
         "app_store": "App Store (Yakında)"
+    },
+    "Auth": {
+        "title": "Quizyen",
+        "subtitle": "Sınavlarına Akıllıca Çalış",
+        "google_login": "Google ile Devam Et",
+        "terms_accept": "Tıklayarak kullanım koşullarımızı kabul etmiş olursunuz.",
+        "signup_success": "Hesap oluşturuldu! Lütfen giriş yapın."
+    },
+    "Dashboard": {
+        "greeting_morning": "Günaydın",
+        "greeting_afternoon": "Tünaydın",
+        "greeting_evening": "İyi Akşamlar",
+        "firstName_fallback": "Öğrenci",
+        "search_prompt": "Bugün ne öğrenmek istersin? Çalışmalarına kaldığın yerden devam et.",
+        "new_quiz": "Yeni Sınav Oluştur",
+        "recent_activity": "Son Çalışmaların",
+        "see_all": "Tümünü Gör",
+        "empty_state_title": "Henüz bir çalışman yok",
+        "empty_state_desc": "Notlarını veya PDF'lerini yükleyerek yapay zeka ile kişiselleştirilmiş sınavlar oluşturabilirsin.",
+        "upload_first_pdf": "İlk PDF'ini Yükle",
+        "last_studied": "Son Çalışılan",
+        "move_to_folder_desc": "\"{name}\" için bir klasör seçin.",
+        "genel_klasorsuz": "Genel (Klasörsüz)",
+        "delete": "Sil"
+    },
+    "Ads": {
+        "sponsored": "Sponsorlu / Tanıtım",
+        "premium_status": "Premium Üyesiniz",
+        "premium_desc": "Tüm özelliklere sınırsız erişiminizin tadını çıkarın.",
+        "upgrade_title": "Potansiyelini Artır",
+        "upgrade_desc": "Sınırsız sınav, reklamlara veda ve gelişmiş yapay zeka analizleri sadece bir adım uzağında.",
+        "upgrade_btn": "Premium'a Geç"
+    },
+    "Quiz": {
+        "upload_title": "Yeni Sınav Oluştur",
+        "upload_subtitle": "Yapay zeka notlarını analiz etsin.",
+        "select_pdf": "PDF Dosyası Seç",
+        "drag_drop": "veya sürükle bırak (Max 10MB)",
+        "start_magic": "Sihri Başlat ✨",
+        "please_wait": "Lütfen Bekleyin...",
+        "success_ready": "Başarıyla Hazırlandı!",
+        "redirecting": "Sınava yönlendiriliyorsunuz...",
+        "status_hashing": "Dosya İnceleniyor...",
+        "status_uploading": "Buluta Aktarılıyor...",
+        "status_analyzing": "Yapay Zeka Tarafından Okunuyor...",
+        "status_saving": "Sınav Hazırlanıyor...",
+        "analyzing_long": "Bu işlem PDF içeriğine göre biraz sürebilir.",
+        "pencereyi_kapatmayin": "Lütfen pencereyi kapatmayın.",
+        "only_pdf_error": "Lütfen sadece PDF dosyası yükleyin.",
+        "file_size_error": "Dosya boyutu 10MB'dan küçük olmalıdır.",
+        "no_session_error": "Oturum bulunamadı.",
+        "gen_failed_error": "Sınav oluşturulamadı.",
+        "ai_gen_error": "AI sınav soruları oluşturamadı.",
+        "db_save_error": "Sınav veritabanına kaydedilemedi.",
+        "tip_1": "Biliyor muydunuz? Bu quizleri mobil uygulamamızda da çözebilirsiniz!",
+        "tip_2": "Yapay zeka, en alakalı soruları oluşturmak için notlarınızı analiz ediyor.",
+        "tip_3": "Çalışma ipucu: Aktif geri çağırma (Active Recall), öğrenmenin en etkili yoludur.",
+        "tip_4": "Quizlerinizi kütüphanede klasörler halinde düzenleyebilirsiniz.",
+        "next_question": "Sonraki Soru",
+        "prev_question": "Önceki",
+        "see_explanation": "Açıklamayı Gör",
+        "finish_quiz": "Sınavı Bitir",
+        "explanation_title": "Açıklama",
+        "exit_quiz": "Sınavdan Çık",
+        "font_size": "Yazı Boyutu",
+        "stat_success": "Başarı",
+        "grading_legendary": "Efsanevi!",
+        "grading_great": "Harika!",
+        "grading_congrats": "Tebrikler!",
+        "grading_completed": "Tamamlandı",
+        "try_again": "Tekrar Dene",
+        "return_dashboard": "Dashboard'a Dön",
+        "built_with_quizyen": "Quizyen ile hazırlandı"
+    },
+    "Report": {
+        "report_question": "Soruyu Bildir",
+        "btn_title": "Soruyu Bildir",
+        "modal_title": "Soruyu Bildir",
+        "reason_wrong_answer": "Hatalı Cevap",
+        "reason_typo": "Yazım Hatası",
+        "reason_irrelevant": "Mantıksız / Alakasız Soru",
+        "reason_other": "Diğer",
+        "description_placeholder": "Varsa ek açıklama...",
+        "success_msg": "Geri bildiriminiz alındı, teşekkürler!",
+        "submit": "Bildir"
+    },
+    "QuizStarter": {
+        "title": "Sınav Başlatılıyor",
+        "message": "\"{title}\" sınavını nasıl çözmek istersin?",
+        "original": "Orijinal Sıra",
+        "shuffle": "Soruları Karıştır",
+        "original_desc": "Sınavı hazırlandığı sırayla çözün.",
+        "shuffle_desc": "Soruları ve şıkları karıştırarak kendinizi zorlayın.",
+        "vazgec": "Vazgeç"
+    },
+    "Profile": {
+        "title": "Profil & Ayarlar",
+        "membership_label": "Üyelik:",
+        "premium": "Premium",
+        "free": "Ücretsiz",
+        "app_settings": "Uygulama Ayarları",
+        "dark_mode": "Karanlık Mod",
+        "language": "Dil",
+        "account_actions": "Hesap İşlemleri",
+        "sign_out": "Çıkış Yap",
+        "delete_account": "Hesabımı Sil",
+        "irreversible_action": "Bu işlem geri alınamaz"
     }
 }

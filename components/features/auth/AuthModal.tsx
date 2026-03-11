@@ -7,11 +7,12 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/routing';
 import { createClient } from '@/utils/supabase/client';
 import { getURL } from '@/utils/env';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const supabase = createClient();
 
 export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+    const t = useTranslations('Auth');
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -48,7 +49,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                 if (error) throw error;
 
                 // Sign up successful - check if email confirmation is needed
-                setError('Hesap oluşturuldu! Lütfen giriş yapın.');
+                setError(t('signup_success'));
                 setIsLogin(true);
             }
         } catch (err: any) {
@@ -64,7 +65,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${getURL()}/auth/callback?next=/dashboard&locale=${locale}`,
+                    redirectTo: `${window.location.origin}/auth/callback?next=/dashboard&locale=${locale}`,
                     queryParams: {
                         prompt: "select_account",
                     }
@@ -114,10 +115,10 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                             </button>
 
                             <div className="mb-2">
-                                <h2 className="text-3xl font-extrabold text-indigo-600 tracking-tight">Quizyen</h2>
+                                <h2 className="text-3xl font-extrabold text-indigo-600 tracking-tight">{t('title')}</h2>
                             </div>
 
-                            <p className="text-slate-500 font-medium mb-10">Sınavlarına Akıllıca Çalış</p>
+                            <p className="text-slate-500 font-medium mb-10">{t('subtitle')}</p>
 
                             {error && (
                                 <div className="mb-4 p-3 bg-red-50 text-red-600 text-xs rounded-lg w-full text-left">
@@ -152,13 +153,13 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                                                 fill="#EA4335"
                                             />
                                         </svg>
-                                        <span>Google ile Devam Et</span>
+                                        <span>{t('google_login')}</span>
                                     </>
                                 )}
                             </button>
 
                             <p className="text-[10px] text-slate-400 leading-tight px-4">
-                                Tıklayarak kullanım koşullarımızı kabul etmiş olursunuz.
+                                {t('terms_accept')}
                             </p>
                         </motion.div>
                     </div>

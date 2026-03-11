@@ -54,12 +54,13 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
             <nav className="fixed top-0 w-full z-50 bg-[#0b121f]/50 backdrop-blur-xl border-b border-white/5">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
                     <Link href={`/${locale}`} className="flex items-center gap-3 group">
-                        <div className="relative w-10 h-10 bg-[#314170] rounded-xl overflow-hidden shadow-2xl group-hover:scale-110 transition-transform flex items-center justify-center p-1.5">
-                            {/* Logo SVG matching the user's provided logo (Bird in Q) */}
-                            <svg viewBox="0 0 100 100" className="w-full h-full text-white fill-current">
-                                <path d="M50 10 C27.9 10 10 27.9 10 50 C10 72.1 27.9 90 50 90 C55.3 90 60.3 89 64.9 87.1 L82 90 L78 74 C85.6 67.5 90 59.2 90 50 C90 27.9 72.1 10 50 10 Z M50 78 C34.5 78 22 65.5 22 50 C22 34.5 34.5 22 50 22 C65.5 22 78 34.5 78 50 C78 55.4 76.5 60.4 73.9 64.6 L61.5 52.2 C65.2 46.2 61 38.2 53.5 38.2 C51 38.2 48.5 39.2 46.5 41.2 C40.5 47.2 48.5 58.2 58.5 58.2 L70.5 70.2 C65 74.9 57.8 77.7 50 77.7 Z" />
-                                <circle cx="50" cy="50" r="4.5" />
-                            </svg>
+                        <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-2xl group-hover:scale-110 transition-transform">
+                            <Image
+                                src="/appicon.png"
+                                alt="Quizyen Logo"
+                                fill
+                                className="object-cover"
+                            />
                         </div>
                         <span className="font-bold text-2xl tracking-tight text-white italic">Quizyen</span>
                     </Link>
@@ -102,7 +103,7 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                             className="px-8 py-5 bg-[#5e5ce6] hover:bg-[#4d4bbd] text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-4 transition-all hover:scale-105 shadow-[0_20px_40px_-10px_rgba(94,92,230,0.4)]"
                         >
                             <Image
-                                src="https://www.gstatic.com/images/branding/product/2x/google_play_96dp.png"
+                                src="/google_play_icon.png"
                                 alt="Play Store"
                                 width={32}
                                 height={32}
@@ -292,7 +293,7 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                                 className="px-12 py-6 bg-[#5e5ce6] hover:bg-[#4d4bbd] text-white rounded-[2rem] font-black text-2xl transition-all hover:scale-105 shadow-2xl flex items-center gap-5 group"
                             >
                                 <Image
-                                    src="https://www.gstatic.com/images/branding/product/2x/google_play_96dp.png"
+                                    src="/google_play_icon.png"
                                     alt=""
                                     width={40}
                                     height={40}
@@ -319,10 +320,13 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
             <footer className="py-24 px-6 border-t border-white/5 bg-[#0b121f]">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-[#314170] rounded-xl flex items-center justify-center p-2">
-                            <svg viewBox="0 0 100 100" className="w-full h-full text-white fill-current opacity-50">
-                                <path d="M50 10 C27.9 10 10 27.9 10 50 C10 72.1 27.9 90 50 90 C55.3 90 60.3 89 64.9 87.1 L82 90 L78 74 C85.6 67.5 90 59.2 90 50 C90 27.9 72.1 10 50 10 Z M50 78 C34.5 78 22 65.5 22 50 C22 34.5 34.5 22 50 22 C65.5 22 78 34.5 78 50 C78 55.4 76.5 60.4 73.9 64.6 L61.5 52.2 C65.2 46.2 61 38.2 53.5 38.2 C51 38.2 48.5 39.2 46.5 41.2 C40.5 47.2 48.5 58.2 58.5 58.2 L70.5 70.2 C65 74.9 57.8 77.7 50 77.7 Z" />
-                            </svg>
+                        <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-xl">
+                            <Image
+                                src="/appicon.png"
+                                alt="Quizyen Logo"
+                                fill
+                                className="object-cover opacity-80"
+                            />
                         </div>
                         <div className="text-left">
                             <span className="font-bold text-2xl tracking-tighter text-white block leading-none italic">Quizyen</span>

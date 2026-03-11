@@ -3,8 +3,10 @@ import { Database } from "@/types/database.types";
 import { User, Mail, LogOut, Trash2, Shield, Moon, Sun, Globe } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 export default async function ProfilePage() {
+    const t = await getTranslations('Profile');
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -21,7 +23,7 @@ export default async function ProfilePage() {
 
     return (
         <div className="max-w-3xl mx-auto space-y-8">
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Profil & Ayarlar</h1>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('title')}</h1>
 
             {/* User Info Card */}
             <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-center gap-6">
@@ -44,7 +46,7 @@ export default async function ProfilePage() {
                     </div>
                     <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-3">
                         <div className="bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300">
-                            Üyelik: <span className="font-bold text-indigo-600 dark:text-indigo-400">{(profile as any)?.is_pro ? 'Premium' : 'Ücretsiz'}</span>
+                            {t('membership_label')} <span className="font-bold text-indigo-600 dark:text-indigo-400">{(profile as any)?.is_pro ? t('premium') : t('free')}</span>
                         </div>
                         <div className="bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300">
                             ID: {user.id.substring(0, 8)}...
@@ -59,7 +61,7 @@ export default async function ProfilePage() {
                 <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
                     <h3 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                         <Globe size={18} />
-                        Uygulama Ayarları
+                        {t('app_settings')}
                     </h3>
 
                     <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-700/30">
@@ -67,7 +69,7 @@ export default async function ProfilePage() {
                             <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
                                 <Moon size={18} />
                             </div>
-                            <span className="font-medium text-sm">Karanlık Mod</span>
+                            <span className="font-medium text-sm">{t('dark_mode')}</span>
                         </div>
                         <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-slate-200 dark:bg-indigo-600 transition-colors">
                             <span className="translate-x-1 dark:translate-x-6 inline-block h-4 w-4 transform rounded-full bg-white transition-transform" />
@@ -79,7 +81,7 @@ export default async function ProfilePage() {
                             <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
                                 <Globe size={18} />
                             </div>
-                            <span className="font-medium text-sm">Dil</span>
+                            <span className="font-medium text-sm">{t('language')}</span>
                         </div>
                         <span className="text-xs font-bold text-slate-500 bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-600">TR</span>
                     </div>
@@ -89,7 +91,7 @@ export default async function ProfilePage() {
                 <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
                     <h3 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                         <Shield size={18} />
-                        Hesap İşlemleri
+                        {t('account_actions')}
                     </h3>
 
                     <form action="/auth/signout" method="post">
@@ -97,7 +99,7 @@ export default async function ProfilePage() {
                             <div className="p-2 bg-slate-100 dark:bg-slate-700 rounded-lg text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-200">
                                 <LogOut size={18} />
                             </div>
-                            <span className="font-medium text-sm">Çıkış Yap</span>
+                            <span className="font-medium text-sm">{t('sign_out')}</span>
                         </button>
                     </form>
 
@@ -106,8 +108,8 @@ export default async function ProfilePage() {
                             <Trash2 size={18} />
                         </div>
                         <div className="flex-1">
-                            <span className="font-medium text-sm block">Hesabımı Sil</span>
-                            <span className="text-[10px] opacity-70">Bu işlem geri alınamaz</span>
+                            <span className="font-medium text-sm block">{t('delete_account')}</span>
+                            <span className="text-[10px] opacity-70">{t('irreversible_action')}</span>
                         </div>
                     </button>
                 </div>

@@ -5,16 +5,18 @@ import { usePathname } from 'next/navigation';
 import { Home, Library, User, Activity } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 
 export default function MobileNav() {
     const pathname = usePathname();
-
+    const t = useTranslations('Sidebar');
+ 
     const links = [
-        { href: '/dashboard', label: 'Ana Sayfa', icon: Home },
-        { href: '/dashboard/library', label: 'Kütüphane', icon: Library },
-        { href: '/dashboard/performance', label: 'Performans', icon: Activity },
-        { href: '/dashboard/profile', label: 'Profil', icon: User },
+        { href: '/dashboard', label: t('home'), icon: Home },
+        { href: '/dashboard/library', label: t('library'), icon: Library },
+        { href: '/dashboard/performance', label: t('performance'), icon: Activity },
+        { href: '/dashboard/profile', label: t('profile'), icon: User },
     ];
 
     return (

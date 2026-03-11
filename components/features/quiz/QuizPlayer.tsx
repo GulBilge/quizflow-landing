@@ -20,11 +20,13 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
-import { calculateQuizScore } from "@/utils/quiz";
+import { calculateQuizScore, randomizeQuizData } from "@/utils/quiz";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
 import confetti from "canvas-confetti";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
+import ReportQuestionModal from "./ReportQuestionModal";
 
 interface Question {
     question: string;
@@ -42,6 +44,71 @@ interface QuizPlayerProps {
     userId: string;
 }
 
+const QuizStarter = ({
+    title,
+    onStart,
+    t
+}: {
+    title: string;
+    onStart: (shuffle: boolean) => void;
+    t: any;
+}) => {
+    return (
+        <div className="max-w-2xl mx-auto py-12 px-4 flex flex-col items-center justify-center min-h-[80vh]">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="w-full bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center relative overflow-hidden"
+            >
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+                <div className="w-20 h-20 bg-indigo-50 dark:bg-indigo-900/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                    <Target size={40} className="text-indigo-600 dark:text-indigo-400" />
+                </div>
+
+                <h2 className="text-3xl font-black mb-2 text-slate-900 dark:text-white">
+                    {t("title")}
+                </h2>
+                <p className="text-slate-500 dark:text-slate-400 mb-10">
+                    {t("message", { title })}
+                </p>
+
+                <div className="grid gap-4 mb-8">
+                    <button
+                        onClick={() => onStart(false)}
+                        className="group flex items-center p-6 rounded-3xl border-2 border-slate-100 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 bg-slate-50 dark:bg-slate-800/50 transition-all text-left"
+                    >
+                        <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center mr-4 shrink-0 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                            <ChevronRight size={24} />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-bold text-slate-900 dark:text-white">{t("original")}</h3>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">{t("original_desc")}</p>
+                        </div>
+                    </button>
+
+                    <button
+                        onClick={() => onStart(true)}
+                        className="group flex items-center p-6 rounded-3xl border-2 border-slate-100 dark:border-slate-800 hover:border-purple-500 dark:hover:border-purple-500 bg-slate-50 dark:bg-slate-800/50 transition-all text-left"
+                    >
+                        <div className="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center mr-4 shrink-0 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                            <RotateCcw size={24} />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-bold text-slate-900 dark:text-white">{t("shuffle")}</h3>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">{t("shuffle_desc")}</p>
+                        </div>
+                    </button>
+                </div>
+
+                <Link href="/dashboard" className="text-sm font-bold text-slate-400 hover:text-indigo-600 transition-colors">
+                    {t("vazgec", { defaultValue: "Vazgeç" })}
+                </Link>
+            </motion.div>
+        </div>
+    );
+};
+
 type FontSize = "small" | "medium" | "large";
 
 export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
@@ -51,11 +118,18 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     const [correctCount, setCorrectCount] = useState(0);
     const [wrongCount, setWrongCount] = useState(0);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [hasStarted, setHasStarted] = useState(false);
+    const [quizData, setQuizData] = useState<Question[]>(quiz.content);
     const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
     const [fontSize, setFontSize] = useState<FontSize>("medium");
     const [userData, setUserData] = useState<{ name?: string; avatar?: string } | null>(null);
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const explanationRef = useRef<HTMLDivElement>(null);
     const supabase = createClient();
+    const t = useTranslations("Quiz");
+    const st = useTranslations("QuizStarter");
+    const ct = useTranslations("Common");
+    const rt = useTranslations("Report");
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -103,8 +177,8 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
         }
     }, [isCompleted]);
 
-    const currentQuestion = quiz.content[currentIndex];
-    const progress = ((currentIndex) / quiz.content.length) * 100;
+    const currentQuestion = quizData[currentIndex];
+    const progress = ((currentIndex) / quizData.length) * 100;
 
     const handleAnswer = (index: number) => {
         if (isAnswered) return;
@@ -121,7 +195,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     };
 
     const handleNext = async () => {
-        if (currentIndex < quiz.content.length - 1) {
+        if (currentIndex < quizData.length - 1) {
             setCurrentIndex(prev => prev + 1);
             setSelectedOption(null);
             setIsAnswered(false);
@@ -131,7 +205,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     };
 
     const finishQuiz = async () => {
-        const finalScore = calculateQuizScore(correctCount, wrongCount, quiz.content.length);
+        const finalScore = calculateQuizScore(correctCount, wrongCount, quizData.length);
 
         const { error } = await supabase
             .from("quiz_attempts" as any)
@@ -152,10 +226,10 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     };
 
     const getDynamicGrading = (score: number) => {
-        if (score === 100) return { title: "Efsanevi! 🏆", color: "text-emerald-600 dark:text-emerald-400" };
-        if (score >= 85) return { title: "Harika İş! 🌟", color: "text-indigo-600 dark:text-indigo-400" };
-        if (score >= 70) return { title: "Tebrikler! ✅", color: "text-blue-600 dark:text-blue-400" };
-        return { title: "Tamamlandı! 📝", color: "text-slate-600 dark:text-slate-400" };
+        if (score === 100) return { title: t("grading_legendary"), color: "text-emerald-600 dark:text-emerald-400" };
+        if (score >= 85) return { title: t("grading_great"), color: "text-indigo-600 dark:text-indigo-400" };
+        if (score >= 70) return { title: t("grading_congrats"), color: "text-blue-600 dark:text-blue-400" };
+        return { title: t("grading_completed"), color: "text-slate-600 dark:text-slate-400" };
     };
 
     const cycleFontSize = () => {
@@ -177,8 +251,19 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
         return "text-lg sm:text-xl";
     };
 
+    const handleStart = (shuffle: boolean) => {
+        if (shuffle) {
+            setQuizData(randomizeQuizData(quiz.content));
+        }
+        setHasStarted(true);
+    };
+
+    if (!hasStarted) {
+        return <QuizStarter title={quiz.title} onStart={handleStart} t={st} />;
+    }
+
     if (isCompleted) {
-        const score = calculateQuizScore(correctCount, wrongCount, quiz.content.length);
+        const score = calculateQuizScore(correctCount, wrongCount, quizData.length);
         const { title, color } = getDynamicGrading(score);
 
         return (
@@ -246,7 +331,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
                         {[
                             {
-                                label: "Başarı",
+                                label: t("stat_success"),
                                 value: `%${score}`,
                                 icon: Target,
                                 color: "text-indigo-600 dark:text-indigo-400",
@@ -254,7 +339,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                                 border: "border-indigo-100 dark:border-indigo-900/20"
                             },
                             {
-                                label: "Doğru",
+                                label: ct("correct"),
                                 value: correctCount,
                                 icon: CheckCircle,
                                 color: "text-emerald-600 dark:text-emerald-400",
@@ -262,7 +347,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                                 border: "border-emerald-100 dark:border-emerald-900/20"
                             },
                             {
-                                label: "Yanlış",
+                                label: ct("wrong"),
                                 value: wrongCount,
                                 icon: AlertCircle,
                                 color: "text-rose-600 dark:text-rose-400",
@@ -302,19 +387,19 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                             className="flex-1 h-14 rounded-2xl font-bold gap-3 text-base border-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95"
                         >
                             <RotateCcw size={20} className="text-indigo-600" />
-                            Tekrar Dene
+                            {t("try_again")}
                         </Button>
                         <Link href="/dashboard" className="flex-1">
                             <Button className="w-full h-14 rounded-2xl font-bold bg-indigo-600 hover:bg-indigo-700 gap-3 text-base shadow-xl shadow-indigo-600/20 transition-all active:scale-95">
                                 <Home size={20} />
-                                Panoya Dön
+                                {t("return_dashboard")}
                             </Button>
                         </Link>
                     </motion.div>
 
                     <div className="flex items-center justify-center gap-2 pt-4 border-t border-slate-100 dark:border-slate-800 opacity-60">
                         <img src="/favicon.ico" className="w-4 h-4" alt="Quizyen" />
-                        <span className="text-xs font-bold text-slate-500">Quizyen ile hazırlanmıştır</span>
+                        <span className="text-xs font-bold text-slate-500">{t("built_with_quizyen")}</span>
                     </div>
                 </motion.div>
             </div>
@@ -329,14 +414,14 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                         <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30">
                             <ChevronLeft size={16} />
                         </div>
-                        Sınavdan Çık
+                        {t("exit_quiz")}
                     </Link>
 
                     <div className="flex items-center gap-2 sm:gap-3">
                         <button
                             onClick={cycleFontSize}
                             className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors group"
-                            title="Yazı Boyutu"
+                            title={t("font_size")}
                         >
                             <Type size={18} className={cn("transition-all", fontSize === "large" ? "scale-125" : fontSize === "small" ? "scale-75" : "scale-100")} />
                         </button>
@@ -347,7 +432,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                         </div>
 
                         <span className="text-xs sm:text-sm font-black text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 sm:px-4 py-1.5 rounded-2xl">
-                            {currentIndex + 1} / {quiz.content.length}
+                            {currentIndex + 1} / {quizData.length}
                         </span>
                     </div>
                 </div>
@@ -433,7 +518,7 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                                     <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center">
                                         <Info size={14} />
                                     </div>
-                                    Açıklama
+                                    {t("explanation_title")}
                                 </div>
                                 <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed font-semibold">
                                     {currentQuestion.explanation}
@@ -441,17 +526,16 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                             </motion.div>
                         )}
                     </div>
-
-                    <div className="flex items-center justify-between pt-2">
+                    <div className="flex items-center justify-between pt-2">
                         <Button
                             variant="ghost"
                             className="h-14 px-4 sm:px-6 rounded-2xl font-black text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-900/20 gap-2 transition-all"
-                            onClick={() => alert("Soru bildirildi. Teşekkürler!")}
+                            onClick={() => setIsReportModalOpen(true)}
                         >
                             <Flag size={18} />
-                            <span className="hidden sm:inline">Soru Bildir</span>
+                            <span className="hidden sm:inline">{rt("report_question")}</span>
                         </Button>
-
+ 
                         <Button
                             disabled={!isAnswered}
                             onClick={handleNext}
@@ -460,12 +544,21 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
                                 isAnswered ? "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30" : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 shadow-none"
                             ) as string}
                         >
-                            {currentIndex === quiz.content.length - 1 ? "Sınavı Bitir" : "Sıradaki Soru"}
+                            {currentIndex === quizData.length - 1 ? t("finish_quiz") : t("next_question")}
                             <ChevronRight size={22} />
                         </Button>
                     </div>
+
                 </motion.div>
             </AnimatePresence>
+
+            <ReportQuestionModal
+                isOpen={isReportModalOpen}
+                onClose={() => setIsReportModalOpen(false)}
+                quizId={quiz.id}
+                userId={userId}
+                questionIndex={currentIndex}
+            />
         </div>
     );
 }

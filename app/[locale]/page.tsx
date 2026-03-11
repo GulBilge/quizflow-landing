@@ -23,20 +23,33 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from '@/i18n/routing';
 
 export default function Home() {
   const t = useTranslations('HomePage');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
+    // Check for existing session and redirect if logged in
+    const supabase = createClient();
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.replace('/dashboard');
+      }
+    };
+    checkUser();
+
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
       if (searchParams.get('login') === 'true') {
         setIsAuthModalOpen(true);
       }
     }
-  }, []);
+  }, [router]);
 
   // Animation variants
   const fadeIn = {
@@ -73,15 +86,15 @@ export default function Home() {
 
             {/* Desktop Links */}
             <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Özellikler</a>
-              <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Nasıl Çalışır?</a>
-              <Link href="/blog" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Blog</Link>
-              <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">SSS</a>
+              <a href="#features" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">{t('nav.features')}</a>
+              <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">{t('nav.how_it_works')}</a>
+              <Link href="/blog" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">{t('nav.blog')}</Link>
+              <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">{t('nav.faq')}</a>
               <button
                 onClick={() => setIsAuthModalOpen(true)}
                 className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
               >
-                Giriş Yap
+                {t('nav.login')}
               </button>
               <LanguageSwitcher />
               <a
@@ -90,7 +103,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30"
               >
-                Hemen İndir
+                {t('nav.download_now')}
               </a>
             </div>
 
@@ -126,10 +139,10 @@ export default function Home() {
                 animate="show"
               >
                 {[
-                  { href: "#features", label: "Özellikler" },
-                  { href: "#how-it-works", label: "Nasıl Çalışır?" },
-                  { href: "/blog", label: "Blog" },
-                  { href: "#faq", label: "SSS" },
+                  { href: "#features", label: t('nav.features') },
+                  { href: "#how-it-works", label: t('nav.how_it_works') },
+                  { href: "/blog", label: t('nav.blog') },
+                  { href: "#faq", label: t('nav.faq') },
                 ].map((item) => (
                   <motion.div key={item.label} variants={fadeIn}>
                     <Link
@@ -149,7 +162,7 @@ export default function Home() {
                     className="w-full bg-white/10 hover:bg-white/20 text-white py-4 rounded-2xl font-bold text-lg backdrop-blur-md transition-all flex items-center justify-center gap-2"
                   >
                     <User size={20} />
-                    Giriş Yap
+                    {t('nav.login')}
                   </button>
                   <a
                     href="https://play.google.com/store/apps/details?id=com.gulbilge.quizflow&pcampaignid=web_share"
@@ -158,7 +171,7 @@ export default function Home() {
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-bold text-lg text-center shadow-lg shadow-indigo-600/20"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Hemen İndir
+                    {t('nav.download_now')}
                   </a>
                   <div className="flex justify-center pt-4 scale-125 origin-center">
                     <LanguageSwitcher />
@@ -188,7 +201,7 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium mb-6">
               <Sparkles size={14} />
-              <span>Yapay Zeka Destekli Öğrenme</span>
+              <span>{t('hero.ai_badge')}</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-6">
@@ -205,12 +218,12 @@ export default function Home() {
                 className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-xl shadow-indigo-600/20 transition-all hover:scale-105 flex items-center justify-center gap-2"
               >
                 <Smartphone size={20} />
-                Ücretsiz Dene
+                {t('hero.try_free')}
               </button>
 
               <button className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-2">
                 <PlayCircle size={20} className="text-indigo-600" />
-                Nasıl Çalışır?
+                {t('hero.how_it_works_btn')}
               </button>
             </div>
 
@@ -222,7 +235,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <p>1000+ Öğrenci Tarafından Kullanılıyor</p>
+              <p>{t('hero.users_count')}</p>
             </div>
           </motion.div>
 
@@ -310,7 +323,7 @@ export default function Home() {
                   }
                   */}
                   <button className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-600/20 mt-auto">
-                    Quiz Oluştur ✨
+                    {t('problem.instant_generation')} ✨
                   </button>
                 </div>
               </div>
@@ -344,11 +357,11 @@ export default function Home() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 text-indigo-600 font-semibold uppercase tracking-wide text-sm">
                 <span className="w-8 h-[2px] bg-indigo-600"></span>
-                Eski Yöntem
+                {t('problem.old_way')}
               </div>
-              <h2 className="text-3xl font-bold text-slate-900">Yüzlerce sayfa PDF okumaktan sıkıldınız mı?</h2>
+              <h2 className="text-3xl font-bold text-slate-900">{t('problem.problem_title')}</h2>
               <p className="text-slate-600 text-lg">
-                Uzun ders notlarını pasif bir şekilde okumak verimsiz ve sıkıcıdır. Bilgiyi akılda tutmak zorlaşır ve sınav stresi artar.
+                {t('problem.problem_desc')}
               </p>
               <div className="flex items-center gap-4 opacity-50">
                 <FileText size={48} className="text-slate-400 shrink-0" />
@@ -365,15 +378,15 @@ export default function Home() {
               <div className="relative z-10 space-y-6">
                 <div className="inline-flex items-center gap-2 text-indigo-300 font-semibold uppercase tracking-wide text-sm">
                   <span className="w-8 h-[2px] bg-indigo-400"></span>
-                  Yeni Yöntem (Quizyen)
+                  {t('problem.new_way')}
                 </div>
-                <h2 className="text-3xl font-bold">Quizyen sizin yerinize okur, özetler ve soru sorar.</h2>
+                <h2 className="text-3xl font-bold">{t('problem.solution_title')}</h2>
                 <p className="text-indigo-100 text-lg">
-                  Yapay zeka içeriği analiz eder ve interaktif, öğretici bir deneyime dönüştürür. Aktif öğrenme ile hafızanızı güçlendirin.
+                  {t('problem.solution_desc')}
                 </p>
                 <div className="inline-flex bg-white/10 backdrop-blur-sm p-4 rounded-xl items-center gap-4">
                   <Sparkles className="text-yellow-400" size={32} />
-                  <span className="font-bold text-xl">Anında Üretim</span>
+                  <span className="font-bold text-xl">{t('problem.instant_generation')}</span>
                 </div>
               </div>
             </div>
@@ -386,10 +399,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
-              Öğrenme Sürecinizi Hızlandırın
+              {t('features.title')}
             </h2>
             <p className="text-lg text-slate-600">
-              Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte Quizyen&apos;un süper güçleri.
+              {t('features.subtitle')}
             </p>
           </div>
 
@@ -406,9 +419,9 @@ export default function Home() {
                 <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
                   <UploadCloud size={24} />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900">PDF Analizi</h3>
+                <h3 className="text-2xl font-bold text-slate-900">{t('features.f1_title')}</h3>
                 <p className="text-slate-600">
-                  Herhangi bir ders notunu, kitabı veya makaleyi yükleyin. Gelişmiş okuma modülümüz içeriği saniyeler içinde tarar ve anlar.
+                  {t('features.f1_desc')}
                 </p>
               </div>
               <div className="flex-1 bg-slate-50 rounded-2xl h-full w-full relative overflow-hidden border border-slate-100">
@@ -428,9 +441,9 @@ export default function Home() {
                 <Sparkles size={24} />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Yapay Zeka Üretimi</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t('features.f2_title')}</h3>
                 <p className="text-slate-600 text-sm">
-                  AI, en önemli kısımları analiz eder ve sınav formatına uygun çoktan seçmeli sorular üretir.
+                  {t('features.f2_desc')}
                 </p>
               </div>
               <div className="mt-4 flex gap-1">
@@ -445,9 +458,9 @@ export default function Home() {
                 <Library size={24} />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Kişisel Kütüphane</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t('features.f3_title')}</h3>
                 <p className="text-slate-600 text-sm">
-                  Tüm sınavlarınız tek bir yerde. Derslerine göre klasörle, düzenle ve istediğin zaman tekrar et.
+                  {t('features.f3_desc')}
                 </p>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2">
@@ -465,9 +478,9 @@ export default function Home() {
                 <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-indigo-300">
                   <BarChart size={24} />
                 </div>
-                <h3 className="text-2xl font-bold">İlerleme Takibi</h3>
+                <h3 className="text-2xl font-bold">{t('features.f4_title')}</h3>
                 <p className="text-indigo-200">
-                  Hangi konuda eksiksiniz? Detaylı istatistiklerle performansınızı görün ve eksiklerinizi kapatın.
+                  {t('features.f4_desc')}
                 </p>
               </div>
               <div className="flex-1 w-full relative z-10">
@@ -489,10 +502,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
-              Nasıl Çalışır?
+              {t('how_it_works.title')}
             </h2>
             <p className="text-lg text-slate-600">
-              Karmaşık süreçler yok. Sadece 3 basit adım.
+              {t('how_it_works.subtitle')}
             </p>
           </div>
 
@@ -505,9 +518,9 @@ export default function Home() {
               <div className="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300">
                 <span className="text-4xl font-bold text-slate-200 group-hover:text-indigo-600 transition-colors">1</span>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Yükle</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t('how_it_works.s1_title')}</h3>
               <p className="text-slate-600 max-w-xs">
-                Ders notlarınızı veya çıkmış sorularınızı PDF formatında sisteme yükleyin.
+                {t('how_it_works.s1_desc')}
               </p>
             </div>
 
@@ -516,9 +529,9 @@ export default function Home() {
               <div className="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300">
                 <span className="text-4xl font-bold text-slate-200 group-hover:text-indigo-600 transition-colors">2</span>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Üret</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t('how_it_works.s2_title')}</h3>
               <p className="text-slate-600 max-w-xs">
-                Yapay zeka içeriği analiz etsin ve saniyeler içinde size özel bir sınav hazırlasın.
+                {t('how_it_works.s2_desc')}
               </p>
             </div>
 
@@ -527,9 +540,9 @@ export default function Home() {
               <div className="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300">
                 <span className="text-4xl font-bold text-slate-200 group-hover:text-indigo-600 transition-colors">3</span>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Çöz</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t('how_it_works.s3_title')}</h3>
               <p className="text-slate-600 max-w-xs">
-                Bilginizi sınayın, anında geri bildirim alın ve eksiklerinizi kapatın.
+                {t('how_it_works.s3_desc')}
               </p>
             </div>
           </div>
@@ -544,16 +557,16 @@ export default function Home() {
 
           <div className="relative z-10 max-w-2xl mx-auto space-y-8">
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-              Sınavlara Çalışmayı Oyunlaştırın.
+              {t('cta.title')}
             </h2>
             <p className="text-xl text-indigo-100">
-              Hemen indirin ve öğrenme hızınızı ikiye katlayın. Ücretsiz başlayın.
+              {t('cta.subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <button className="bg-white text-indigo-600 hover:bg-slate-100 px-8 py-4 rounded-xl font-bold shadow-lg transition-transform hover:scale-105 flex items-center gap-3">
                 <Smartphone size={24} />
-                <span>App Store&apos;dan İndir</span>
+                <span>{t('cta.app_store')}</span>
               </button>
               <a
                 href="https://play.google.com/store/apps/details?id=com.gulbilge.quizflow&pcampaignid=web_share"
@@ -562,10 +575,10 @@ export default function Home() {
                 className="bg-indigo-800/40 hover:bg-indigo-800/60 text-white px-8 py-4 rounded-xl font-bold border border-indigo-400/30 backdrop-blur-sm transition-transform hover:scale-105 flex items-center gap-3"
               >
                 <PlayCircle size={24} />
-                <span>Google Play</span>
+                <span>{t('cta.google_play')}</span>
               </a>
             </div>
-            <p className="text-sm opacity-60 mt-4">iOS çok yakında!</p>
+            <p className="text-sm opacity-60 mt-4">{t('cta.ios_soon')}</p>
           </div>
         </div>
       </section>
@@ -582,39 +595,39 @@ export default function Home() {
                 <span className="font-bold text-lg text-slate-900">Quizyen</span>
               </div>
               <p className="text-slate-500 text-sm leading-relaxed">
-                Yapay zeka ile öğrenme sürecinizi optimize edin. Daha az çalışın, daha çok öğrenin.
+                {t('footer.desc')}
               </p>
             </div>
 
             <div className="col-span-1">
-              <h4 className="font-bold text-slate-900 mb-4">Ürün</h4>
+              <h4 className="font-bold text-slate-900 mb-4">{t('footer.product')}</h4>
               <ul className="space-y-2 text-sm text-slate-500">
-                <li><a href="#" className="hover:text-indigo-600">Özellikler</a></li>
-                <li><a href="#" className="hover:text-indigo-600">Fiyatlandırma</a></li>
-                <li><a href="#" className="hover:text-indigo-600">SSS</a></li>
+                <li><a href="#features" className="hover:text-indigo-600">{t('nav.features')}</a></li>
+                <li><a href="#" className="hover:text-indigo-600">{t('footer.pricing')}</a></li>
+                <li><a href="#faq" className="hover:text-indigo-600">{t('nav.faq')}</a></li>
               </ul>
             </div>
 
             <div className="col-span-1">
-              <h4 className="font-bold text-slate-900 mb-4">Şirket</h4>
+              <h4 className="font-bold text-slate-900 mb-4">{t('footer.company')}</h4>
               <ul className="space-y-2 text-sm text-slate-500">
-                <li><a href="#" className="hover:text-indigo-600">Hakkımızda</a></li>
-                <li><Link href="/blog" className="hover:text-indigo-600">Blog</Link></li>
-                <li><a href="#" className="hover:text-indigo-600">İletişim</a></li>
+                <li><a href="#" className="hover:text-indigo-600">{t('footer.about_us')}</a></li>
+                <li><Link href="/blog" className="hover:text-indigo-600">{t('nav.blog')}</Link></li>
+                <li><a href="#" className="hover:text-indigo-600">{t('footer.contact')}</a></li>
               </ul>
             </div>
 
             <div className="col-span-1">
-              <h4 className="font-bold text-slate-900 mb-4">Yasal</h4>
+              <h4 className="font-bold text-slate-900 mb-4">{t('footer.legal')}</h4>
               <ul className="space-y-2 text-sm text-slate-500">
-                <li><a href="#" className="hover:text-indigo-600">Gizlilik Politikası</a></li>
-                <li><a href="#" className="hover:text-indigo-600">Kullanım Koşulları</a></li>
+                <li><a href="#" className="hover:text-indigo-600">{t('footer.privacy_policy')}</a></li>
+                <li><a href="#" className="hover:text-indigo-600">{t('footer.terms_of_service')}</a></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-slate-400">© 2026 Quizyen. Tüm hakları saklıdır.</p>
+            <p className="text-sm text-slate-400">{t('footer.copyright')}</p>
             <div className="flex items-center gap-6">
               {/* Social icons could go here */}
             </div>

@@ -2,13 +2,84 @@
     "HomePage": {
         "title": "Turn PDFs into Interactive Quizzes",
         "description": "Upload your PDF exams and lecture notes, transform them into interactive quizzes instantly with AI-powered feedback.",
-        "keywords": "quiz, PDF, AI, artificial intelligence, study tool, education, learning, exam prep, take test"
+        "keywords": "quiz, PDF, AI, artificial intelligence, study tool, education, learning, exam prep, take test",
+        "nav": {
+            "features": "Features",
+            "how_it_works": "How It Works",
+            "blog": "Blog",
+            "faq": "FAQ",
+            "login": "Login",
+            "download_now": "Download Now"
+        },
+        "hero": {
+            "ai_badge": "AI-Powered Learning",
+            "try_free": "Try for Free",
+            "how_it_works_btn": "How It Works",
+            "users_count": "Used by 1000+ Students"
+        },
+        "problem": {
+            "old_way": "Old Way",
+            "problem_title": "Tired of reading hundreds of pages of PDF?",
+            "problem_desc": "Reading long lecture notes passively is inefficient and boring. It becomes harder to retain information and exam stress increases.",
+            "new_way": "New Way (Quizyen)",
+            "solution_title": "Quizyen reads, summarizes, and asks questions for you.",
+            "solution_desc": "AI analyzes the content and turns it into an interactive, instructive experience. Strengthen your memory with active learning.",
+            "instant_generation": "Instant Generation"
+        },
+        "features": {
+            "title": "Speed Up Your Learning Process",
+            "subtitle": "Preparing for exams has never been this easy. Here are Quizyen's superpowers.",
+            "f1_title": "PDF Analysis",
+            "f1_desc": "Upload any lecture notes, books, or articles. Our advanced reading module scans and understands content in seconds.",
+            "f2_title": "AI Generation",
+            "f2_desc": "AI analyzes the most important parts and generates multiple-choice questions suitable for exam format.",
+            "f3_title": "Personal Library",
+            "f3_desc": "All your exams in one place. Folder by course, organize, and repeat anytime.",
+            "f4_title": "Progress Tracking",
+            "f4_desc": "What are you missing? See your performance with detailed stats and close your gaps."
+        },
+        "how_it_works": {
+            "title": "How It Works",
+            "subtitle": "No complex processes. Just 3 simple steps.",
+            "s1_title": "Upload",
+            "s1_desc": "Upload your lecture notes or past questions in PDF format to the system.",
+            "s2_title": "Generate",
+            "s2_desc": "Let AI analyze the content and prepare a personalized exam for you in seconds.",
+            "s3_title": "Solve",
+            "s3_desc": "Test your knowledge, get instant feedback, and close your gaps."
+        },
+        "cta": {
+            "title": "Gamify Studying for Exams.",
+            "subtitle": "Download now and double your learning speed. Start for free.",
+            "app_store": "Download on App Store",
+            "google_play": "Google Play",
+            "ios_soon": "iOS coming soon!"
+        },
+        "footer": {
+            "desc": "Optimize your learning process with artificial intelligence. Study less, learn more.",
+            "product": "Product",
+            "pricing": "Pricing",
+            "company": "Company",
+            "about_us": "About Us",
+            "contact": "Contact",
+            "legal": "Legal",
+            "privacy_policy": "Privacy Policy",
+            "terms_of_service": "Terms of Service",
+            "copyright": "© 2026 Quizyen. All rights reserved."
+        }
     },
     "Common": {
         "loading": "Loading...",
         "error": "An error occurred",
         "save": "Save",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "vazgec": "Cancel",
+        "no_session_error": "Session not found.",
+        "unnamed_folder": "Untitled Folder",
+        "save_changes": "Save Changes",
+        "create_folder": "Create Folder",
+        "correct": "Correct",
+        "wrong": "Wrong"
     },
     "Header": {
         "welcome": "Welcome",
@@ -22,7 +93,8 @@
         "library": "Library",
         "performance": "Performance",
         "profile": "Profile",
-        "sign_out": "Sign Out"
+        "sign_out": "Sign Out",
+        "user_fallback": "User"
     },
     "Library": {
         "title": "Library",
@@ -46,14 +118,30 @@
         "no_results": "No results found. Try changing your search or clearing filters.",
         "loading": "Library Loading...",
         "adsiz_klasor": "Untitled Folder",
-        "adsiz_sinav": "Untitled Exam",
         "error_delete_folder": "Failed to delete folder.",
         "error_delete_quiz": "Failed to delete exam.",
+        "quiz_rename_success": "Quiz updated successfully.",
+        "quiz_delete_success": "Quiz deleted successfully.",
+        "folder_delete_success": "Folder deleted successfully.",
+        "no_results_desc": "Try changing your search or clearing filters.",
         "edit_title": "Edit",
         "move_to_folder": "Move to Folder",
         "view_stats": "View Stats",
         "rename_quiz_title": "Rename Quiz",
-        "rename_quiz_placeholder": "Enter new name..."
+        "rename_quiz_placeholder": "Enter new name...",
+        "adsiz_sinav": "Untitled Exam",
+        "genel": "General",
+        "yeni": "New",
+        "soru_sayisi": "{count} Questions",
+        "sinavi_coz": "Take Quiz",
+        "uncategorized": "Uncategorized",
+        "empty_folder_desc": "You don't have any other folders yet.",
+        "move_to_folder_title": "Move to Folder",
+        "move_failed_error": "Move operation failed.",
+        "rename_folder_title": "Edit Folder",
+        "new_folder_title": "New Folder",
+        "folder_name_label": "Folder Name",
+        "folder_name_placeholder": "e.g. Math, History..."
     },
     "Performance": {
         "title": "Performance Analysis",
@@ -70,7 +158,9 @@
         "score_trend": "Score Trend",
         "topic_distribution": "Topic Distribution",
         "go_to_analysis": "Go to Analysis",
-        "no_data": "No performance data found for the selected filters."
+        "no_data": "No performance data found for the selected filters.",
+        "unnamed_quiz": "Quiz",
+        "last_10_scores": "LAST 10 QUIZ SCORES"
     },
     "MobilePage": {
         "title": "Quizyen Mobile",
@@ -85,5 +175,112 @@
         "download_cta": "Download for Free Now",
         "play_store": "Get it on Google Play",
         "app_store": "App Store (Coming Soon)"
+    },
+    "Auth": {
+        "title": "Quizyen",
+        "subtitle": "Study Smarter for Your Exams",
+        "google_login": "Continue with Google",
+        "terms_accept": "By clicking you accept our terms and conditions.",
+        "signup_success": "Account created! Please log in."
+    },
+    "Dashboard": {
+        "greeting_morning": "Good Morning",
+        "greeting_afternoon": "Good Afternoon",
+        "greeting_evening": "Good Evening",
+        "firstName_fallback": "Student",
+        "search_prompt": "What would you like to learn today? Continue where you left off.",
+        "new_quiz": "Create New Quiz",
+        "recent_activity": "Recent Activity",
+        "see_all": "See All",
+        "empty_state_title": "You don't have any studies yet",
+        "empty_state_desc": "Upload your notes or PDFs to create personalized quizzes with AI.",
+        "upload_first_pdf": "Upload Your First PDF",
+        "last_studied": "Recently Studied",
+        "move_to_folder_desc": "Select a folder for \"{name}\".",
+        "genel_klasorsuz": "General (Uncategorized)",
+        "delete": "Delete"
+    },
+    "Ads": {
+        "sponsored": "Sponsored / Promotion",
+        "premium_status": "You are a Premium Member",
+        "premium_desc": "Enjoy unlimited access to all features.",
+        "upgrade_title": "Boost Your Potential",
+        "upgrade_desc": "Unlimited quizzes, no ads, and advanced AI analytics are just a step away.",
+        "upgrade_btn": "Go Premium"
+    },
+    "Quiz": {
+        "upload_title": "Create New Quiz",
+        "upload_subtitle": "Let AI analyze your notes.",
+        "select_pdf": "Select PDF File",
+        "drag_drop": "or drag and drop (Max 10MB)",
+        "start_magic": "Start the Magic ✨",
+        "please_wait": "Please Wait...",
+        "success_ready": "Successfully Prepared!",
+        "redirecting": "Redirecting to the quiz...",
+        "status_hashing": "Analyzing File...",
+        "status_uploading": "Uploading to Cloud...",
+        "status_analyzing": "Reading by AI...",
+        "status_saving": "Preparing Quiz...",
+        "analyzing_long": "This process may take a while depending on the PDF content.",
+        "pencereyi_kapatmayin": "Please do not close the window.",
+        "only_pdf_error": "Please only upload PDF files.",
+        "file_size_error": "File size must be less than 10MB.",
+        "no_session_error": "Session not found.",
+        "gen_failed_error": "Failed to generate quiz.",
+        "ai_gen_error": "AI could not generate quiz questions.",
+        "db_save_error": "Quiz could not be saved to the database.",
+        "tip_1": "Did you know? You can solve these quizzes on our mobile app too!",
+        "tip_2": "AI is analyzing your notes to create the most relevant questions.",
+        "tip_3": "Study tip: Active recall is the most effective way to learn.",
+        "tip_4": "You can organize your quizzes into folders in the library.",
+        "next_question": "Next Question",
+        "prev_question": "Previous",
+        "see_explanation": "See Explanation",
+        "finish_quiz": "Finish Quiz",
+        "explanation_title": "Explanation",
+        "exit_quiz": "Exit Quiz",
+        "font_size": "Font Size",
+        "stat_success": "Success",
+        "grading_legendary": "Legendary!",
+        "grading_great": "Great!",
+        "grading_congrats": "Congratulations!",
+        "grading_completed": "Completed",
+        "try_again": "Try Again",
+        "return_dashboard": "Return to Dashboard",
+        "built_with_quizyen": "Built with Quizyen"
+    },
+    "Report": {
+        "report_question": "Report Question",
+        "btn_title": "Report Question",
+        "modal_title": "Report Question",
+        "reason_wrong_answer": "Wrong Answer",
+        "reason_typo": "Typo / Spelling Error",
+        "reason_irrelevant": "Irrelevant Question",
+        "reason_other": "Other",
+        "description_placeholder": "Optional details...",
+        "success_msg": "Your feedback has been received, thank you!",
+        "submit": "Report"
+    },
+    "QuizStarter": {
+        "title": "Starting Quiz",
+        "message": "How would you like to take the \"{title}\" quiz?",
+        "original": "Original Order",
+        "shuffle": "Shuffle Questions",
+        "original_desc": "Take the quiz in the order it was prepared.",
+        "shuffle_desc": "Challenge yourself by shuffling questions and options.",
+        "vazgec": "Cancel"
+    },
+    "Profile": {
+        "title": "Profile & Settings",
+        "membership_label": "Membership:",
+        "premium": "Premium",
+        "free": "Free",
+        "app_settings": "App Settings",
+        "dark_mode": "Dark Mode",
+        "language": "Language",
+        "account_actions": "Account Actions",
+        "sign_out": "Sign Out",
+        "delete_account": "Delete My Account",
+        "irreversible_action": "This action cannot be undone"
     }
 }

@@ -3,14 +3,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Plus, Play, Clock, BookOpen, Search, TrendingUp, CheckCircle2, Crown, Sparkles, LayoutGrid } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { tr } from "date-fns/locale";
 import QuizUpload from "./QuizUpload";
 import RecentQuizCard from "./RecentQuizCard";
 import { quizService } from "@/lib/quizService";
 import { useRouter } from "next/navigation";
 import EditQuizTitleModal from "./EditQuizTitleModal";
 import AdSidebar from "../ads/AdSidebar";
+import { useTranslations, useLocale } from "next-intl";
 
 interface DashboardContentProps {
     user: any;
@@ -20,6 +19,10 @@ interface DashboardContentProps {
 }
 
 export default function DashboardContent({ user, recentActivity: initialActivity, lastAttempt, userFolders }: DashboardContentProps) {
+    const t = useTranslations("Dashboard");
+    const tLibrary = useTranslations("Library");
+    const tCommon = useTranslations("Common");
+    const locale = useLocale();
     const router = useRouter();
     const [recentActivity, setRecentActivity] = useState(initialActivity);
     const [selectedActivity, setSelectedActivity] = useState<any>(recentActivity[0] || null);
@@ -35,12 +38,12 @@ export default function DashboardContent({ user, recentActivity: initialActivity
 
     // Dynamic Greeting
     const hour = new Date().getHours();
-    const greeting = hour < 12 ? "Günaydın" : hour < 18 ? "Tünaydın" : "İyi Akşamlar";
-    const firstName = user?.user_metadata?.full_name?.split(' ')[0] || "Öğrenci";
+    const greetingKey = hour < 12 ? "greeting_morning" : hour < 18 ? "greeting_afternoon" : "greeting_evening";
+    const firstName = user?.user_metadata?.full_name?.split(' ')[0] || t("firstName_fallback");
 
     // Handlers
     const handleDelete = async (userQuizId: string) => {
-        if (!confirm("Bu sınavı kütüphanenden silmek istediğine emin misin?")) return;
+        if (!confirm(tLibrary("delete_quiz_confirm"))) return;
         const success = await quizService.deleteQuiz(userQuizId, user.id);
         if (success) {
             setRecentActivity(prev => prev.filter(a => a.id !== userQuizId));
@@ -85,17 +88,17 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
                     <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-md shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
                         <div className="p-8 border-b border-slate-50 dark:border-slate-700">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Klasöre Taşı</h3>
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{tLibrary("move_to_folder")}</h3>
                             <p className="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">
-                                <span className="text-indigo-600 dark:text-indigo-400 font-bold">"{movingQuiz?.user_quiz_name || movingQuiz?.quizzes?.title}"</span> için bir klasör seçin.
+                                {t("move_to_folder_desc", { name: movingQuiz?.user_quiz_name || movingQuiz?.quizzes?.title })}
                             </p>
                         </div>
                         <div className="p-4 max-h-[40vh] overflow-y-auto space-y-2">
                             <button
-                                onClick={() => handleMoveToFolder(null, "Genel")}
+                                onClick={() => handleMoveToFolder(null, tLibrary("genel"))}
                                 className="w-full text-left p-4 rounded-3xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-between group"
                             >
-                                <span className="font-bold text-slate-700 dark:text-slate-200">Genel (Klasörsüz)</span>
+                                <span className="font-bold text-slate-700 dark:text-slate-200">{t("genel_klasorsuz")}</span>
                                 <Plus size={18} className="text-slate-300 group-hover:text-indigo-500" />
                             </button>
                             {userFolders.map((folder: any) => (
@@ -114,7 +117,7 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                                 onClick={() => setIsFolderModalOpen(false)}
                                 className="w-full py-4 rounded-2xl font-bold bg-white dark:bg-slate-700 text-slate-500 dark:text-slate-300 border border-slate-100 dark:border-slate-600 hover:bg-slate-50 transition-all"
                             >
-                                Vazgeç
+                                {tCommon("vazgec")}
                             </button>
                         </div>
                     </div>
@@ -126,10 +129,10 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                            {greeting}, <span className="text-indigo-600 dark:text-indigo-400">{firstName}!</span>
+                            {t(greetingKey)}, <span className="text-indigo-600 dark:text-indigo-400">{firstName}!</span>
                         </h1>
                         <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium mt-1">
-                            Bugün ne öğrenmek istersin? Çalışmalarına kaldığın yerden devam et.
+                            {t("search_prompt")}
                         </p>
                     </div>
 
@@ -147,7 +150,7 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                         className="flex items-center gap-2 px-6 py-3.5 bg-indigo-600 text-white rounded-2xl font-bold text-sm hover:bg-indigo-700 transition-all hover:shadow-lg hover:shadow-indigo-600/20 active:scale-95"
                     >
                         <Plus size={18} />
-                        <span>Yeni Sınav Oluştur</span>
+                        <span>{t("new_quiz")}</span>
                     </button>
                 </div>
             </div>
@@ -162,11 +165,11 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                             <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl text-indigo-600 dark:text-indigo-400">
                                 <Clock size={20} />
                             </div>
-                            <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100 uppercase tracking-tight">Son Çalışmaların</h3>
+                            <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100 uppercase tracking-tight">{t("recent_activity")}</h3>
                         </div>
 
                         <Link href="/dashboard/library" className="group flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline decoration-2 underline-offset-4">
-                            Tümünü Gör
+                            {t("see_all")}
                             <LayoutGrid size={16} className="group-hover:rotate-12 transition-transform" />
                         </Link>
                     </div>
@@ -201,16 +204,16 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                                         <BookOpen size={40} />
                                     </div>
                                 </div>
-                                <h4 className="text-2xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">Henüz bir çalışman yok</h4>
+                                <h4 className="text-2xl font-black text-slate-800 dark:text-white mb-3 tracking-tight">{t("empty_state_title")}</h4>
                                 <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-8 font-medium leading-relaxed">
-                                    Notlarını veya PDF'lerini yükleyerek yapay zeka ile kişiselleştirilmiş sınavlar oluşturabilirsin.
+                                    {t("empty_state_desc")}
                                 </p>
                                 <button
                                     onClick={() => setIsUploadOpen(true)}
                                     className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-3.5 rounded-2xl font-bold hover:opacity-90 transition-all flex items-center gap-2 shadow-xl shadow-black/10"
                                 >
                                     <Plus size={20} className="stroke-[3]" />
-                                    İlk PDF'ini Yükle
+                                    {t("upload_first_pdf")}
                                 </button>
                             </div>
                         )}

@@ -49,7 +49,7 @@ export default function LibraryFolderSection({
                         <Folder size={18} />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors text-base truncate">
+                        <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors text-base line-clamp-1 break-words">
                             {folderName}
                         </h3>
                         <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">

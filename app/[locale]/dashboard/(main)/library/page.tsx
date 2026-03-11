@@ -179,7 +179,7 @@ export default function LibraryPage() {
 
             const success = await quizService.updateQuizTitle(quizId, user.id, newTitle);
             if (!success) throw new Error("Update failed");
-            toast.success(t('rename_quiz_title') + " başarılı");
+            toast.success(t('quiz_rename_success'));
         } catch (err) {
             console.error(err);
             toast.error(t('error_delete_quiz'));
@@ -207,7 +207,7 @@ export default function LibraryPage() {
 
             const success = await quizService.deleteQuiz(item.id, user.id);
             if (!success) throw new Error("Delete failed");
-            toast.success("Sınav başarıyla silindi");
+            toast.success(t('quiz_delete_success'));
         } catch (err) {
             console.error(err);
             toast.error(t('error_delete_quiz'));
@@ -225,7 +225,7 @@ export default function LibraryPage() {
                 .eq("id", id);
 
             if (error) throw error;
-            toast.success("Klasör silindi");
+            toast.success(t('folder_delete_success'));
             fetchLibrary();
         } catch (err) {
             toast.error(t('error_delete_folder'));

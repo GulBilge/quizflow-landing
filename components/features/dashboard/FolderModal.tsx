@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Folder, Loader2 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface FolderModalProps {
     isOpen: boolean;
@@ -15,6 +16,8 @@ export default function FolderModal({ isOpen, onClose, onSuccess, editFolder }: 
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const t = useTranslations('Library');
+    const ct = useTranslations('Common');
     const supabase = createClient();
 
     useEffect(() => {
@@ -36,7 +39,7 @@ export default function FolderModal({ isOpen, onClose, onSuccess, editFolder }: 
 
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error("Oturum bulunamadı.");
+            if (!user) throw new Error(ct("no_session_error"));
 
             if (editFolder) {
                 // Rename logic (User specific)
@@ -84,7 +87,7 @@ export default function FolderModal({ isOpen, onClose, onSuccess, editFolder }: 
             onClose();
         } catch (err: any) {
             console.error("Klasör işlemi hatası:", err);
-            setError(err.message || "Bir hata oluştu.");
+            setError(err.message || ct("error"));
         } finally {
             setLoading(false);
         }
@@ -102,7 +105,7 @@ export default function FolderModal({ isOpen, onClose, onSuccess, editFolder }: 
                                 <Folder size={20} />
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                                {editFolder ? "Klasörü Düzenle" : "Yeni Klasör"}
+                                {editFolder ? t("rename_folder_title") : t("new_folder_title")}
                             </h3>
                         </div>
                         <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
@@ -113,14 +116,14 @@ export default function FolderModal({ isOpen, onClose, onSuccess, editFolder }: 
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 ml-1">
-                                Klasör Adı
+                                {t("folder_name_label")}
                             </label>
                             <input
                                 autoFocus
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Örn: Matematik, Tarih..."
+                                placeholder={t("folder_name_placeholder")}
                                 className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all dark:text-white"
                                 required
                             />
@@ -136,7 +139,7 @@ export default function FolderModal({ isOpen, onClose, onSuccess, editFolder }: 
                             className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white py-3.5 rounded-2xl font-bold shadow-lg shadow-indigo-600/20 transition-all flex items-center justify-center gap-2"
                         >
                             {loading && <Loader2 size={18} className="animate-spin" />}
-                            {editFolder ? "Değişiklikleri Kaydet" : "Klasör Oluştur"}
+                            {editFolder ? ct("save_changes") : ct("create_folder")}
                         </button>
                     </div>
                 </form>

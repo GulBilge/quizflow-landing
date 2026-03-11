@@ -3,12 +3,15 @@
 import React from "react";
 import { Crown, Sparkles, Megaphone } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface AdSidebarProps {
     isPremium?: boolean;
 }
 
 export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
+    const t = useTranslations("Ads");
+
     if (isPremium) {
         return (
             <div className="w-full bg-gradient-to-br from-indigo-500/5 to-violet-500/5 dark:from-indigo-500/10 dark:to-violet-500/10 rounded-[2.5rem] p-5 sm:p-8 border border-indigo-100/50 dark:border-indigo-900/30 flex flex-col items-center text-center justify-center min-h-[420px] relative overflow-hidden group transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/5">
@@ -17,9 +20,9 @@ export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
                     <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl shadow-lg flex items-center justify-center mx-auto border border-slate-50 dark:border-slate-700">
                         <Sparkles className="text-indigo-500" size={32} />
                     </div>
-                    <h4 className="text-lg font-bold text-slate-800 dark:text-white">Premium Üyesiniz</h4>
+                    <h4 className="text-lg font-bold text-slate-800 dark:text-white">{t("premium_status")}</h4>
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                        Tüm özelliklere sınırsız erişiminizin tadını çıkarın.
+                        {t("premium_desc")}
                     </p>
                 </div>
             </div>
@@ -30,7 +33,7 @@ export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
         <div className="space-y-6">
             <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 font-bold text-xs uppercase tracking-widest">
                 <Megaphone size={14} />
-                <span>Sponsorlu / Tanıtım</span>
+                <span>{t("sponsored")}</span>
             </div>
 
             {/* Ad Container */}
@@ -45,16 +48,16 @@ export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <h4 className="text-xl font-black text-slate-800 dark:text-white tracking-tight">Potansiyelini Artır</h4>
+                            <h4 className="text-xl font-black text-slate-800 dark:text-white tracking-tight">{t("upgrade_title")}</h4>
                             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed px-4">
-                                Sınırsız sınav, reklamlara veda ve gelişmiş yapay zeka analizleri sadece bir adım uzağında.
+                                {t("upgrade_desc")}
                             </p>
                         </div>
 
-                        <Link href="/premium" className="block w-full px-4">
+                        <Link href="/mobile" className="block w-full px-4">
                             <button className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 sm:px-8 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-600 transition-colors shrink-0">
                                 <Crown size={18} />
-                                <span>Premium'a Geç</span>
+                                <span>{t("upgrade_btn")}</span>
                             </button>
                         </Link>
                     </div>
