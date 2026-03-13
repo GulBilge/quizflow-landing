@@ -244,7 +244,7 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                 <div className="max-w-7xl mx-auto space-y-16">
                     <div className="text-center space-y-4">
                         <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tight">Akıllı Sınav Hazırlığı</h2>
-                        <p className="text-slate-500 max-w-2xl mx-auto font-medium text-lg">Hızlı, senkronize ve modern. QuizFlow mobil ile çalışma alışkanlıklarını baştan yaratıyoruz.</p>
+                        <p className="text-slate-500 max-w-2xl mx-auto font-medium text-lg">Hızlı, senkronize ve modern. Quizyen mobil ile çalışma alışkanlıklarını baştan yaratıyoruz.</p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
                         {features.map((feature, i) => (
@@ -282,7 +282,7 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                         <div className="space-y-6">
                             <h2 className="text-5xl lg:text-7xl font-black tracking-tighter text-white mb-6">Öğrenmeye Hemen Başla</h2>
                             <p className="text-xl lg:text-2xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed">
-                                PDF dosyalarını saniyeler içinde çözülmeye hazır testlere dönüştür. QuizFlow'un gücünü her an cebinde hisset.
+                                PDF dosyalarını saniyeler içinde çözülmeye hazır testlere dönüştür. Quizyen'in gücünü her an cebinde hisset.
                             </p>
                         </div>
                         <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
