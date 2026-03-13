@@ -8,6 +8,13 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return null;
+  
+  // Fetch user profile for status
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('is_pro')
+    .eq('id', user.id)
+    .single();
 
   // 1. Fetch Recent Activity from v_user_library (includes custom names)
   const { data: recentActivity } = await supabase
@@ -57,6 +64,7 @@ export default async function DashboardPage() {
   return (
     <DashboardContent
       user={user}
+      profile={profile}
       recentActivity={activityWithStats as any}
       lastAttempt={lastOverallAttempt as any}
       userFolders={userFoldersData || []}

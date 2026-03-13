@@ -4,39 +4,39 @@
         "description": "PDF sınavlarınızı ve ders notlarınızı yükleyin, AI destekli geri bildirimlerle anında interaktif quizlere dönüştürün.",
         "keywords": "quiz, PDF, YZ, yapay zeka, ders çalışma aracı, eğitim, öğrenme, sınav hazırlık, test çöz",
         "nav": {
-            "features": "Özellikler",
-            "how_it_works": "Nasıl Çalışır?",
+            "features": "Neler Yapabilir?",
+            "how_it_works": "Nasıl Kullanılır?",
             "blog": "Blog",
-            "faq": "SSS",
+            "faq": "Sorularınız mı Var?",
             "login": "Giriş Yap",
-            "download_now": "Hemen İndir"
+            "download_now": "Hemen Keşfet"
         },
         "hero": {
-            "ai_badge": "Yapay Zeka Destekli Öğrenme",
-            "try_free": "Ücretsiz Dene",
+            "ai_badge": "Geleceğin Öğrenme Teknolojisi",
+            "try_free": "Hemen Ücretsiz Başla",
             "how_it_works_btn": "Nasıl Çalışır?",
-            "users_count": "1000+ Öğrenci Tarafından Kullanılıyor"
+            "users_count": "1000+ Başarılı Öğrenci Arasına Katılın"
         },
         "problem": {
-            "old_way": "Eski Yöntem",
-            "problem_title": "Yüzlerce sayfa PDF okumaktan sıkıldınız mı?",
-            "problem_desc": "Uzun ders notlarını pasif bir şekilde okumak verimsiz ve sıkıcıdır. Bilgiyi akılda tutmak zorlaşır ve sınav stresi artar.",
-            "new_way": "Yeni Yöntem (Quizyen)",
-            "solution_title": "Quizyen sizin yerinize okur, özetler ve soru sorar.",
-            "solution_desc": "Yapay zeka içeriği analiz eder ve interaktif, öğretici bir deneyime dönüştürür. Aktif öğrenme ile hafızanızı güçlendirin.",
-            "instant_generation": "Anında Üretim"
+            "old_way": "Klasik ve Yavaş Yöntem",
+            "problem_title": "Saatlerce Kağıt Üzerinde Kaybolmaktan Sıkılmadınız mı?",
+            "problem_desc": "PDF'leri pasif şekilde okumak vaktinizi çalar. Bilgiler havada kalır, sınav stresi ise her geçen dakika artar.",
+            "new_way": "Quizyen Etkisi",
+            "solution_title": "Sizin Yerine Okur, Analiz Eder ve Sizi Sınava Hazırlar.",
+            "solution_desc": "Gelişmiş yapay zekamız içeriği saniyeler içinde anlar ve etkileşimli bir öğrenme maratonuna dönüştürür. Aktif öğrenme ile kalıcı hafıza sağlayın.",
+            "instant_generation": "Saniyeler İçinde Hazır"
         },
         "features": {
-            "title": "Öğrenme Sürecinizi Hızlandırın",
-            "subtitle": "Sınavlara hazırlanmak hiç bu kadar kolay olmamıştı. İşte Quizyen'un süper güçleri.",
-            "f1_title": "PDF Analizi",
-            "f1_desc": "Herhangi bir ders notunu, kitabı veya makaleyi yükleyin. Gelişmiş okuma modülümüz içeriği saniyeler içinde tarar ve anlar.",
-            "f2_title": "Yapay Zeka Üretimi",
-            "f2_desc": "AI, en önemli kısımları analiz eder ve sınav formatına uygun çoktan seçmeli sorular üretir.",
-            "f3_title": "Kişisel Kütüphane",
-            "f3_desc": "Tüm sınavlarınız tek bir yerde. Derslerine göre klasörle, düzenle ve istediğin zaman tekrar et.",
-            "f4_title": "İlerleme Takibi",
-            "f4_desc": "Hangi konuda eksiksiniz? Detaylı istatistiklerle performansınızı görün ve eksiklerinizi kapatın."
+            "title": "Başarıya Giden En Kısa Yol",
+            "subtitle": "Sınavlara hazırlanırken zaman kazanmanız için tasarlanan Quizyen, öğrenme sürecini tamamen otomatikleştirir.",
+            "f1_title": "Zeki PDF Analizi",
+            "f1_desc": "Herhangi bir ders notunu veya kitabı yükleyin. AI okuma motorumuz içeriği saniyeler içinde tarar ve en kritik noktaları çıkarır.",
+            "f2_title": "Yapay Zeka Soruları",
+            "f2_desc": "Algoritmalarımız en önemli kısımları analiz ederek tam sınav formatında, gerçekçi sorular üretir.",
+            "f3_title": "Akıllı Kütüphane",
+            "f3_desc": "Tüm kaynaklarınız elinizin altında. Derslerinize göre kategorize edin, dilediğiniz zaman tekrar ederek bilgilerinizi tazeleyin.",
+            "f4_title": "Performans Analitiği",
+            "f4_desc": "Hangi konularda daha iyisiniz? Detaylı istatistiklerle eksiklerinizi anında görün ve nokta atışı çalışma yapın."
         },
         "how_it_works": {
             "title": "Nasıl Çalışır?",
@@ -49,11 +49,11 @@
             "s3_desc": "Bilginizi sınayın, anında geri bildirim alın ve eksiklerinizi kapatın."
         },
         "cta": {
-            "title": "Sınavlara Çalışmayı Oyunlaştırın.",
-            "subtitle": "Hemen indirin ve öğrenme hızınızı ikiye katlayın. Ücretsiz başlayın.",
+            "title": "Öğrenmeyi Keyifli Bir Oyuna Dönüştürün",
+            "subtitle": "Hemen şimdi keşfedin ve öğrenme potansiyelinizi %200 artırın. Ücretsiz başlayın!",
             "app_store": "App Store'dan İndir",
-            "google_play": "Google Play",
-            "ios_soon": "iOS çok yakında!"
+            "google_play": "Google Play'den Yükle",
+            "ios_soon": "iOS yakında mağazalarda!"
         },
         "footer": {
             "desc": "Yapay zeka ile öğrenme sürecinizi optimize edin. Daha az çalışın, daha çok öğrenin.",
@@ -282,5 +282,27 @@
         "sign_out": "Çıkış Yap",
         "delete_account": "Hesabımı Sil",
         "irreversible_action": "Bu işlem geri alınamaz"
+    },
+    "Checkout": {
+        "title": "Premium'a Geç",
+        "subtitle": "Size en uygun ödeme yöntemini seçin ve tüm özelliklere sınırsız erişin.",
+        "shopier_title": "Shopier ile Kredi Kartı",
+        "shopier_desc": "Güvenli ödeme altyapısı ile anında aktivasyon.",
+        "shopier_btn": "Kart ile Öde",
+        "bank_title": "Havale/EFT ile Öde",
+        "bank_desc": "IBAN bilgilerimize gönderim yapın, manuel onay sonrası başlasın.",
+        "bank_btn": "Havale Bilgileri",
+        "modal_title": "Havale/EFT Bilgileri",
+        "modal_desc": "Lütfen aşağıdaki IBAN adresine ödemeyi yaparken açıklama kısmına e-posta adresinizi yazmayı unutmayın.",
+        "iban_label": "IBAN:",
+        "receiver_label": "Alıcı:",
+        "amount_label": "Tutar:",
+        "amount_value": "99 TL / Aylık",
+        "payment_done": "Ödemeyi Yaptım",
+        "processing": "İşleniyor...",
+        "success_title": "Bildirim Alındı",
+        "success_desc": "Ödemenizi kontrol edip en kısa sürede üyeliğinizi aktif edeceğiz.",
+        "redirecting": "Shopier'e yönlendiriliyorsunuz...",
+        "bank_info_note": "Banka hesabınıza yapılan para gönderimleri, Shopier hesabınızda kayıtlı isim, soyisim bilgisi ile yapılmaktadır."
     }
 }

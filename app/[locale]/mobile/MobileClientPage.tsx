@@ -84,10 +84,10 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                     transition={{ duration: 0.8 }}
                     className="space-y-10"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#5e5ce6]/10 border border-[#5e5ce6]/20 text-[#8e8df1] text-sm font-semibold tracking-widest uppercase">
+                    <Link href="/checkout" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#5e5ce6]/10 border border-[#5e5ce6]/20 text-[#8e8df1] text-sm font-semibold tracking-widest uppercase hover:bg-[#5e5ce6]/20 transition-all">
                         <Smartphone size={16} />
                         <span>PREMIUM AI TOOL</span>
-                    </div>
+                    </Link>
                     <h1 className="text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] text-white">
                         {t('hero_title')}
                     </h1>

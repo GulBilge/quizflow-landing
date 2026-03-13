@@ -13,12 +13,13 @@ import { useTranslations, useLocale } from "next-intl";
 
 interface DashboardContentProps {
     user: any;
+    profile: any;
     recentActivity: any[];
     lastAttempt: any;
     userFolders: any[];
 }
 
-export default function DashboardContent({ user, recentActivity: initialActivity, lastAttempt, userFolders }: DashboardContentProps) {
+export default function DashboardContent({ user, profile, recentActivity: initialActivity, lastAttempt, userFolders }: DashboardContentProps) {
     const t = useTranslations("Dashboard");
     const tLibrary = useTranslations("Library");
     const tCommon = useTranslations("Common");
@@ -220,9 +221,8 @@ export default function DashboardContent({ user, recentActivity: initialActivity
                     </div>
                 </div>
 
-                {/* Right Column: AD/Placeholder (4 columns) */}
                 <div className="lg:col-span-4 lg:sticky lg:top-24 order-2 lg:order-2">
-                    <AdSidebar isPremium={user?.is_premium} />
+                    <AdSidebar isPremium={profile?.is_pro} />
                 </div>
             </div>
 
@@ -239,7 +239,10 @@ export default function DashboardContent({ user, recentActivity: initialActivity
 
             {/* Upload Modal */}
             {isUploadOpen && (
-                <QuizUpload onClose={() => setIsUploadOpen(false)} />
+                <QuizUpload 
+                    onClose={() => setIsUploadOpen(false)} 
+                    isPremium={profile?.is_pro}
+                />
             )}
         </div>
     );

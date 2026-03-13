@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Library, User, Brain, LogOut, Activity } from 'lucide-react';
+import { Home, Library, User, LogOut, Activity } from 'lucide-react';
+import BrandLogo from '@/components/layout/BrandLogo';
 import { cn } from '@/utils/cn';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -31,10 +32,7 @@ export default function Sidebar({ user }: { user: any }) {
     return (
         <div className="flex flex-col h-full bg-slate-900 text-white border-r border-slate-800">
             <div className="flex items-center gap-2 px-6 py-6 border-b border-slate-800">
-                <div className="bg-indigo-600 p-1.5 rounded-lg text-white">
-                    <Brain size={20} />
-                </div>
-                <span className="font-bold text-xl tracking-tight">Quizyen</span>
+                <BrandLogo size={32} showText={true} textColor="text-white" />
             </div>
 
             <nav className="flex-1 px-4 py-6 space-y-2">

@@ -54,7 +54,7 @@ export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
                             </p>
                         </div>
 
-                        <Link href="/mobile" className="block w-full px-4">
+                        <Link href="/checkout" className="block w-full px-4">
                             <button className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 sm:px-8 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-600 transition-colors shrink-0">
                                 <Crown size={18} />
                                 <span>{t("upgrade_btn")}</span>

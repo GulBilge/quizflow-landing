@@ -7,9 +7,11 @@ import { generateFileHash } from "@/utils/quiz";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { quizService } from "@/lib/quizService";
+import AdInterstitial from "../ads/AdInterstitial";
 
 interface QuizUploadProps {
     onClose: () => void;
+    isPremium?: boolean;
 }
 
 interface QuizMetadata {
@@ -23,9 +25,9 @@ interface GenerateQuizResponse {
     title?: string;
 }
 
-type Status = "idle" | "hashing" | "uploading" | "analyzing" | "saving" | "error" | "success";
+type Status = "idle" | "hashing" | "uploading" | "analyzing" | "saving" | "error" | "success" | "showing_ad";
 
-export default function QuizUpload({ onClose }: QuizUploadProps) {
+export default function QuizUpload({ onClose, isPremium = false }: QuizUploadProps) {
     const t = useTranslations("Quiz");
     const ct = useTranslations("Common");
     const [file, setFile] = useState<File | null>(null);
@@ -34,6 +36,7 @@ export default function QuizUpload({ onClose }: QuizUploadProps) {
     const fileRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
     const supabase = createClient();
+    const [pendingQuizId, setPendingQuizId] = useState<string | null>(null);
 
     const [currentTip, setCurrentTip] = useState(0);
 
@@ -157,8 +160,13 @@ export default function QuizUpload({ onClose }: QuizUploadProps) {
 
             if (!quizId) throw new Error(t("db_save_error"));
 
-            setStatus("success");
-            setTimeout(() => { onClose(); router.push(`/dashboard/quiz/${quizId}`); }, 1200);
+            if (isPremium) {
+                setStatus("success");
+                setTimeout(() => { onClose(); router.push(`/dashboard/quiz/${quizId}`); }, 1200);
+            } else {
+                setPendingQuizId(quizId);
+                setStatus("showing_ad");
+            }
 
         } catch (err: any) {
             console.error("[QuizUpload] Hata:", err);
@@ -277,6 +285,23 @@ export default function QuizUpload({ onClose }: QuizUploadProps) {
                     )}
                 </div>
             </div>
+
+            <AdInterstitial
+                isOpen={status === "showing_ad"}
+                onClose={() => {
+                    if (pendingQuizId) {
+                        onClose();
+                        router.push(`/dashboard/quiz/${pendingQuizId}`);
+                    }
+                }}
+                onProceed={() => {
+                    if (pendingQuizId) {
+                        onClose();
+                        router.push(`/dashboard/quiz/${pendingQuizId}`);
+                    }
+                }}
+                adSlot="8347209148" /* Placeholder slot - replace with real one if needed */
+            />
         </div>
     );
 }

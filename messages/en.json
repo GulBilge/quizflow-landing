@@ -4,39 +4,39 @@
         "description": "Upload your PDF exams and lecture notes, transform them into interactive quizzes instantly with AI-powered feedback.",
         "keywords": "quiz, PDF, AI, artificial intelligence, study tool, education, learning, exam prep, take test",
         "nav": {
-            "features": "Features",
-            "how_it_works": "How It Works",
+            "features": "What AI Can Do",
+            "how_it_works": "How to Use",
             "blog": "Blog",
-            "faq": "FAQ",
+            "faq": "Got Questions?",
             "login": "Login",
-            "download_now": "Download Now"
+            "download_now": "Explore Now"
         },
         "hero": {
-            "ai_badge": "AI-Powered Learning",
-            "try_free": "Try for Free",
-            "how_it_works_btn": "How It Works",
-            "users_count": "Used by 1000+ Students"
+            "ai_badge": "Future of Learning Tech",
+            "try_free": "Start for Free Now",
+            "how_it_works_btn": "See How It Works",
+            "users_count": "Join 1000+ Successful Students"
         },
         "problem": {
-            "old_way": "Old Way",
-            "problem_title": "Tired of reading hundreds of pages of PDF?",
-            "problem_desc": "Reading long lecture notes passively is inefficient and boring. It becomes harder to retain information and exam stress increases.",
-            "new_way": "New Way (Quizyen)",
-            "solution_title": "Quizyen reads, summarizes, and asks questions for you.",
-            "solution_desc": "AI analyzes the content and turns it into an interactive, instructive experience. Strengthen your memory with active learning.",
-            "instant_generation": "Instant Generation"
+            "old_way": "The Slow, Classic Way",
+            "problem_title": "Tired of Getting Lost in Endless PDFs?",
+            "problem_desc": "Reading long lecture notes passively wastes your time. Information doesn't stick, and exam stress increases every minute.",
+            "new_way": "The Quizyen Effect",
+            "solution_title": "It Reads, Analyzes, and Prepares You for Your Exam.",
+            "solution_desc": "Our advanced AI understands content in seconds and turns it into an interactive learning marathon. Gain permanent memory with active learning.",
+            "instant_generation": "Ready in Seconds"
         },
         "features": {
-            "title": "Speed Up Your Learning Process",
-            "subtitle": "Preparing for exams has never been this easy. Here are Quizyen's superpowers.",
-            "f1_title": "PDF Analysis",
-            "f1_desc": "Upload any lecture notes, books, or articles. Our advanced reading module scans and understands content in seconds.",
-            "f2_title": "AI Generation",
-            "f2_desc": "AI analyzes the most important parts and generates multiple-choice questions suitable for exam format.",
-            "f3_title": "Personal Library",
-            "f3_desc": "All your exams in one place. Folder by course, organize, and repeat anytime.",
-            "f4_title": "Progress Tracking",
-            "f4_desc": "What are you missing? See your performance with detailed stats and close your gaps."
+            "title": "The Shortest Path to Success",
+            "subtitle": "Designed to save you time while preparing for exams, Quizyen fully automates the learning process.",
+            "f1_title": "Smart PDF Analysis",
+            "f1_desc": "Upload any lecture notes or book. Our AI engine scans the content in seconds and extracts the most critical points.",
+            "f2_title": "AI-Generated Questions",
+            "f2_desc": "Our algorithms analyze the most important parts to generate realistic questions in full exam format.",
+            "f3_title": "Intelligent Library",
+            "f3_desc": "All your resources at your fingertips. Categorize by course, refresh your knowledge by repeating anytime.",
+            "f4_title": "Performance Analytics",
+            "f4_desc": "What topics are you better at? See your gaps instantly with detailed stats and focus your study perfectly."
         },
         "how_it_works": {
             "title": "How It Works",
@@ -49,11 +49,11 @@
             "s3_desc": "Test your knowledge, get instant feedback, and close your gaps."
         },
         "cta": {
-            "title": "Gamify Studying for Exams.",
-            "subtitle": "Download now and double your learning speed. Start for free.",
+            "title": "Turn Learning Into an Enjoyable Game",
+            "subtitle": "Explore now and boost your learning potential by 200%. Start for free!",
             "app_store": "Download on App Store",
-            "google_play": "Google Play",
-            "ios_soon": "iOS coming soon!"
+            "google_play": "Get it on Google Play",
+            "ios_soon": "Coming soon to the stores!"
         },
         "footer": {
             "desc": "Optimize your learning process with artificial intelligence. Study less, learn more.",
@@ -282,5 +282,27 @@
         "sign_out": "Sign Out",
         "delete_account": "Delete My Account",
         "irreversible_action": "This action cannot be undone"
+    },
+    "Checkout": {
+        "title": "Go Premium",
+        "subtitle": "Choose the best payment method for you and get unlimited access to all features.",
+        "shopier_title": "Credit Card with Shopier",
+        "shopier_desc": "Instant activation with secure payment infrastructure.",
+        "shopier_btn": "Pay with Card",
+        "bank_title": "Pay with Bank Transfer",
+        "bank_desc": "Send to our IBAN information, starts after manual approval.",
+        "bank_btn": "Transfer Info",
+        "modal_title": "Bank Transfer Info",
+        "modal_desc": "Please do not forget to write your email address in the description while making the payment to the IBAN address below.",
+        "iban_label": "IBAN:",
+        "receiver_label": "Receiver:",
+        "amount_label": "Amount:",
+        "amount_value": "99 TL / Monthly",
+        "payment_done": "I Have Made the Payment",
+        "processing": "Processing...",
+        "success_title": "Notification Received",
+        "success_desc": "We will check your payment and activate your membership as soon as possible.",
+        "redirecting": "Redirecting to Shopier...",
+        "bank_info_note": "Money transfers made to your bank account are made with the name and surname information registered in your Shopier account."
     }
 }

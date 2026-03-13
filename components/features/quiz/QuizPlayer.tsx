@@ -27,6 +27,7 @@ import confetti from "canvas-confetti";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import ReportQuestionModal from "./ReportQuestionModal";
+import AdInterstitial from "../ads/AdInterstitial";
 
 interface Question {
     question: string;
@@ -42,6 +43,7 @@ interface QuizPlayerProps {
         content: Question[];
     };
     userId: string;
+    isPremium?: boolean;
 }
 
 const QuizStarter = ({
@@ -111,7 +113,7 @@ const QuizStarter = ({
 
 type FontSize = "small" | "medium" | "large";
 
-export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
+export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlayerProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
@@ -124,6 +126,8 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     const [fontSize, setFontSize] = useState<FontSize>("medium");
     const [userData, setUserData] = useState<{ name?: string; avatar?: string } | null>(null);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    const [isShowingAd, setIsShowingAd] = useState(false);
+    const [pendingShuffle, setPendingShuffle] = useState(false);
     const explanationRef = useRef<HTMLDivElement>(null);
     const supabase = createClient();
     const t = useTranslations("Quiz");
@@ -252,14 +256,36 @@ export default function QuizPlayer({ quiz, userId }: QuizPlayerProps) {
     };
 
     const handleStart = (shuffle: boolean) => {
-        if (shuffle) {
+        setPendingShuffle(shuffle);
+        if (isPremium) {
+            proceedToQuiz();
+        } else {
+            setIsShowingAd(true);
+        }
+    };
+
+    const proceedToQuiz = () => {
+        if (pendingShuffle) {
             setQuizData(randomizeQuizData(quiz.content));
         }
+        setIsShowingAd(false);
         setHasStarted(true);
     };
 
     if (!hasStarted) {
-        return <QuizStarter title={quiz.title} onStart={handleStart} t={st} />;
+        return (
+            <>
+                <QuizStarter title={quiz.title} onStart={handleStart} t={st} />
+                <AdInterstitial
+                    isOpen={isShowingAd}
+                    onClose={proceedToQuiz}
+                    onProceed={proceedToQuiz}
+                    adSlot="1938472012" /* Quiz interstitial slot */
+                    title="Sınav Hazırlanıyor"
+                    description="AI destekli sınavınız yüklenirken lütfen bekleyin. Bu sürede destekçilerimize göz atabilirsiniz."
+                />
+            </>
+        );
     }
 
     if (isCompleted) {

@@ -6,6 +6,7 @@ import { tr } from "date-fns/locale";
 import { Calendar, ChevronLeft, Share2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import GoogleAd from "@/components/features/ads/GoogleAd";
 
 interface Props {
     params: { slug: string };
@@ -59,6 +60,18 @@ export default async function BlogDetailPage({ params }: Props) {
         return notFound();
     }
 
+    // Check for premium status
+    const { data: { session } } = await supabase.auth.getSession();
+    let isPremium = false;
+    if (session?.user) {
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("is_pro")
+            .eq("id", session.user.id)
+            .single();
+        isPremium = !!profile?.is_pro;
+    }
+
     return (
         <article className="min-h-screen bg-white">
             {/* Header */}
@@ -98,24 +111,53 @@ export default async function BlogDetailPage({ params }: Props) {
             )}
 
             {/* Content Switched to Prose */}
-            <div className="max-w-4xl mx-auto px-4 md:px-8 pb-20">
-                <div
-                    className="prose prose-indigo lg:prose-xl max-w-none prose-headings:font-bold prose-a:text-indigo-600"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                />
+            <div className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
+                <div className="flex flex-col lg:flex-row gap-12">
+                    {/* Left Sidebar Ad - Desktop Only */}
+                    <aside className="hidden lg:block w-64 shrink-0">
+                        <div className="sticky top-24 space-y-4">
+                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Sponsörlü Giriş</div>
+                            <GoogleAd 
+                                slot="2847291047" 
+                                format="vertical" 
+                                className="w-full min-h-[600px] rounded-2xl bg-slate-50 border border-slate-100"
+                                isPremium={isPremium}
+                            />
+                        </div>
+                    </aside>
 
-                {post.seo_keywords && (
-                    <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap gap-2">
-                        {post.seo_keywords.split(",").map((tag: string) => (
-                            <span
-                                key={tag}
-                                className="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full font-medium"
-                            >
-                                #{tag.trim()}
-                            </span>
-                        ))}
+                    {/* Main Content Area */}
+                    <div className="flex-1 max-w-4xl mx-auto lg:mx-0">
+                        <div
+                            className="prose prose-indigo lg:prose-xl max-w-none prose-headings:font-bold prose-a:text-indigo-600 mb-12"
+                            dangerouslySetInnerHTML={{ __html: post.content }}
+                        />
+
+                        {/* Mobile Ad - In Content Flow */}
+                        <div className="lg:hidden my-12 py-8 border-y border-slate-100">
+                             <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4 text-center">Reklam</div>
+                             <GoogleAd 
+                                slot="5827394012" 
+                                format="auto" 
+                                className="w-full min-h-[250px] rounded-2xl bg-slate-50"
+                                isPremium={isPremium}
+                             />
+                        </div>
+
+                        {post.seo_keywords && (
+                            <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap gap-2">
+                                {post.seo_keywords.split(",").map((tag: string) => (
+                                    <span
+                                        key={tag}
+                                        className="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full font-medium"
+                                    >
+                                        #{tag.trim()}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
         </article>
     );

@@ -44,10 +44,18 @@ export default async function ProfilePage() {
                         <Mail size={16} />
                         <span>{user.email}</span>
                     </div>
-                    <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-3">
+                    <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-3 items-center">
                         <div className="bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300">
                             {t('membership_label')} <span className="font-bold text-indigo-600 dark:text-indigo-400">{(profile as any)?.is_pro ? t('premium') : t('free')}</span>
                         </div>
+                        {!(profile as any)?.is_pro && (
+                            <a 
+                                href="/checkout" 
+                                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 underline underline-offset-4"
+                            >
+                                Hemen Yükselt
+                            </a>
+                        )}
                         <div className="bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300">
                             ID: {user.id.substring(0, 8)}...
                         </div>

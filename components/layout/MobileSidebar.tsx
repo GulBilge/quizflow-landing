@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { Brain, ChevronRight, Home, Library, LogOut, User, X, Activity } from "lucide-react";
+import { ChevronRight, Home, Library, LogOut, User, X, Activity } from "lucide-react";
+import BrandLogo from "./BrandLogo";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence, Variants } from "framer-motion";
@@ -90,10 +91,7 @@ export default function MobileSidebar({ isOpen, onClose, user }: MobileSidebarPr
                                 animate={{ opacity: 1, x: 0 }}
                                 className="flex items-center gap-3"
                             >
-                                <div className="bg-indigo-600 p-2 rounded-xl text-white shadow-lg shadow-indigo-600/30">
-                                    <Brain size={24} />
-                                </div>
-                                <span className="font-black text-2xl tracking-tighter text-white">Quizyen</span>
+                                <BrandLogo size={40} rounded="rounded-xl" textColor="text-white" showText={true} />
                             </motion.div>
                             <motion.button
                                 initial={{ opacity: 0, scale: 0.8 }}

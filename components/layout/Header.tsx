@@ -6,6 +6,7 @@ import { Crown, Menu, Moon, Search, Sun } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import MobileSidebar from "./MobileSidebar";
 
 
@@ -68,11 +69,12 @@ export default function Header({ user }: HeaderProps) {
                         </div>
 
                         <div className={cn("flex items-center gap-1 sm:gap-2 transition-opacity duration-300")}>
-                            {/* Premium Button */}
-                            <button className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 transition-all hover:scale-105 active:scale-95">
-                                <Crown size={14} fill="white" />
-                                Premium
-                            </button>
+                            <Link href="/checkout">
+                                <button className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 transition-all hover:scale-105 active:scale-95">
+                                    <Crown size={14} fill="white" />
+                                    Premium
+                                </button>
+                            </Link>
 
                             <div className="flex items-center border-l border-slate-200 dark:border-slate-800 ml-2 pl-2 gap-1">
                                 {/* Language Switcher */}

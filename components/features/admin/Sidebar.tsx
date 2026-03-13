@@ -8,9 +8,9 @@ import {
     Settings,
     LogOut,
     ChevronLeft,
-    Menu,
-    Brain
+    Menu
 } from "lucide-react";
+import BrandLogo from "@/components/layout/BrandLogo";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -37,10 +37,8 @@ export default function Sidebar() {
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-100 fixed top-0 left-0 right-0 z-50">
                 <div className="flex items-center gap-2">
-                    <div className="bg-indigo-600 p-1.5 rounded-lg text-white">
-                        <Brain size={18} />
-                    </div>
-                    <span className="font-bold text-lg text-slate-900 font-sans">Quizyen Admin</span>
+                    <BrandLogo size={28} showText={true} textColor="text-slate-900" />
+                    <span className="font-bold text-lg text-slate-900 font-sans ml-[-8px]">Admin</span>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => setIsMobileOpen(!isMobileOpen)}>
                     <Menu size={24} />
@@ -64,10 +62,7 @@ export default function Sidebar() {
                 <div className="flex flex-col h-full p-4">
                     {/* Logo Area */}
                     <div className={`flex items-center gap-3 mb-10 ${isCollapsed ? 'justify-center' : 'px-2'}`}>
-                        <div className="bg-indigo-600 p-1.5 rounded-lg text-white shrink-0">
-                            <Brain size={18} />
-                        </div>
-                        {!isCollapsed && <span className="font-bold text-xl text-slate-900 font-sans">Quizyen</span>}
+                        <BrandLogo size={isCollapsed ? 28 : 32} showText={!isCollapsed} textColor="text-slate-900" />
                     </div>
 
                     {/* Nav Links */}
