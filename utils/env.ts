@@ -5,6 +5,7 @@ const envSchema = z.object({
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
     SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
     ADMIN_EMAILS: z.string().optional(),
+    SUPERADMIN_EMAIL: z.string().email().optional(),
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 });
 
@@ -16,6 +17,7 @@ const envData = {
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || (isTest ? "test-key" : undefined),
     SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
     ADMIN_EMAILS: process.env.ADMIN_EMAILS,
+    SUPERADMIN_EMAIL: process.env.SUPERADMIN_EMAIL,
     NODE_ENV: process.env.NODE_ENV,
 };
 

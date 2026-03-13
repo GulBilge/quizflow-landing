@@ -15,7 +15,9 @@ import {
     AlertCircle,
     Type,
     Flag,
-    User
+    User,
+    Download,
+    Lock
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -28,6 +30,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import ReportQuestionModal from "./ReportQuestionModal";
 import AdInterstitial from "../ads/AdInterstitial";
+import PdfDownloadSection from "./PdfDownloadSection";
 
 interface Question {
     question: string;
@@ -405,7 +408,7 @@ export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlay
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.8 }}
-                        className="flex flex-col sm:flex-row gap-4 mb-8"
+                        className="flex flex-col sm:flex-row gap-4 mb-4"
                     >
                         <Button
                             onClick={() => window.location.reload()}
@@ -421,6 +424,20 @@ export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlay
                                 {t("return_dashboard")}
                             </Button>
                         </Link>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.9 }}
+                        className="mb-8 border-t border-slate-100 dark:border-slate-800 pt-6"
+                    >
+                        <PdfDownloadSection 
+                            quizId={quiz.id} 
+                            quizTitle={quiz.title}
+                            isPremiumContext={isPremium} 
+                            initialQuizData={quiz} 
+                        />
                     </motion.div>
 
                     <div className="flex items-center justify-center gap-2 pt-4 border-t border-slate-100 dark:border-slate-800 opacity-60">

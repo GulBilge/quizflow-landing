@@ -1,0 +1,222 @@
+import pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import QRCode from "qrcode";
+
+if (typeof window !== "undefined") {
+    (pdfMake as any).vfs = pdfFonts && (pdfFonts as any).pdfMake ? (pdfFonts as any).pdfMake.vfs : undefined;
+}
+
+export interface Question {
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    explanation?: string;
+}
+
+export interface QuizData {
+    title: string;
+    content: Question[];
+}
+
+// Function to shuffle an array
+const shuffleArray = <T>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+};
+
+export const generateQuizPDF = async (
+    quiz: QuizData, 
+    shuffle: boolean = false, 
+    includeAnswerKey: boolean = false,
+    returnBase64: boolean = false
+): Promise<string | null> => {
+    // Generate QR code data URL
+    const qrCodeDataUrl = await QRCode.toDataURL("https://quizyen.com/", { width: 80, margin: 1 });
+
+    const questionsToUse = shuffle ? shuffleArray(quiz.content) : quiz.content;
+
+    const watermarkText = "Quizyen ile Hazırlandı / Prepared By Quizyen";
+    const smallWatermarkText = "Quizyen ile Hazırlandı / Prepared By Quizyen";
+
+    // Build the document definition
+    const docDefinition: any = {
+        pageSize: 'A4',
+        pageMargins: [40, 60, 40, 60],
+        
+        // Background watermark (large, faint)
+        background: function (currentPage: number, pageSize: any) {
+            return {
+                text: Array(25).fill(watermarkText + '          ' + watermarkText).join('\n\n\n'),
+                color: '#c7d2fe', // soluk indigo (indigo-200)
+                bold: true,
+                fontSize: 32,
+                opacity: 0.15, // mümkün olduğunca silik
+                absolutePosition: { x: -200, y: -100 },
+                alignment: 'center',
+                angle: -30, // 30% dikey eğik
+            };
+        },
+
+        // Header containing the QR code and small watermark
+        header: function(currentPage: number, pageCount: number, pageSize: any) {
+            return {
+                columns: [
+                    {
+                        text: smallWatermarkText,
+                        color: '#94a3b8', // slate-400
+                        fontSize: 8,
+                        margin: [40, 20, 0, 0],
+                        alignment: 'left'
+                    },
+                    {
+                        image: qrCodeDataUrl,
+                        width: 50,
+                        alignment: 'right',
+                        margin: [0, 10, 40, 0]
+                    }
+                ]
+            };
+        },
+
+        // Footer containing small watermarks
+        footer: function(currentPage: number, pageCount: number) {
+            return {
+                columns: [
+                    {
+                        text: smallWatermarkText, // Left bottom
+                        color: '#94a3b8',
+                        fontSize: 8,
+                        alignment: 'left',
+                        margin: [40, 0, 0, 0]
+                    },
+                    {
+                        text: `Sayfa ${currentPage} / ${pageCount}`,
+                        alignment: 'center',
+                        color: '#64748b',
+                        fontSize: 10
+                    },
+                    {
+                        text: 'Her hakkı saklıdır.', // Right bottom
+                        color: '#94a3b8',
+                        fontSize: 8,
+                        alignment: 'right',
+                        margin: [0, 0, 40, 0]
+                    }
+                ]
+            };
+        },
+
+        content: [
+            // Title
+            {
+                text: quiz.title,
+                fontSize: 24,
+                bold: true,
+                alignment: 'center',
+                margin: [0, 0, 0, 20],
+                color: '#1e293b' // slate-800
+            }
+        ],
+
+        styles: {
+            questionText: {
+                fontSize: 14,
+                bold: true,
+                margin: [0, 15, 0, 8],
+                color: '#0f172a' // slate-900
+            },
+            optionText: {
+                fontSize: 12,
+                margin: [20, 4, 0, 4],
+                color: '#334155' // slate-700
+            },
+            questionWatermark: {
+                fontSize: 6,
+                color: '#cbd5e1', // slate-300
+                margin: [0, 2, 0, 0],
+                alignment: 'right'
+            }
+        },
+        defaultStyle: {
+            font: 'Roboto'
+        }
+    };
+
+    // Add questions to content
+    questionsToUse.forEach((q, index) => {
+        // Add Question text
+        docDefinition.content.push({
+            text: `${index + 1}. ${q.question}`,
+            style: 'questionText'
+        });
+
+        // Add Options
+        const labels = ['A)', 'B)', 'C)', 'D)', 'E)'];
+        q.options.forEach((opt, optIndex) => {
+            docDefinition.content.push({
+                text: `${labels[optIndex]} ${opt}`,
+                style: 'optionText'
+            });
+        });
+
+        // Add inside-question watermark
+        docDefinition.content.push({
+            text: smallWatermarkText,
+            style: 'questionWatermark'
+        });
+    });
+
+    // Answer Key
+    if (includeAnswerKey && questionsToUse.length > 0) {
+        docDefinition.content.push({
+            text: 'Cevap Anahtarı',
+            fontSize: 20,
+            bold: true,
+            alignment: 'center',
+            margin: [0, 40, 0, 20],
+            pageBreak: 'before',
+            color: '#1e293b'
+        });
+
+        const answersBody: any[][] = [];
+        const columns = 5;
+        for (let i = 0; i < questionsToUse.length; i += columns) {
+            const row = [];
+            for (let j = 0; j < columns; j++) {
+                if (i + j < questionsToUse.length) {
+                    const q = questionsToUse[i + j];
+                    const labels = ['A', 'B', 'C', 'D', 'E'];
+                    const correctLabel = labels[q.correctAnswer];
+                    row.push({ text: `${i + j + 1}. ${correctLabel}`, margin: [0, 5, 0, 5], alignment: 'center', bold: true, fontSize: 12, color: '#334155' });
+                } else {
+                    row.push({ text: '', margin: [0, 5, 0, 5] });
+                }
+            }
+            answersBody.push(row);
+        }
+
+        docDefinition.content.push({
+            table: {
+                widths: Array(columns).fill('*'),
+                body: answersBody
+            },
+            layout: 'noBorders',
+            margin: [20, 0, 20, 0]
+        });
+    }
+
+    // Generate and download or return base64
+    return new Promise<string | null>((resolve) => {
+        const pdf = pdfMake.createPdf(docDefinition);
+        if (returnBase64) {
+            pdf.getBase64((data: string) => resolve(data));
+        } else {
+            pdf.download(`${quiz.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_quiz.pdf`);
+            resolve(null);
+        }
+    });
+};

@@ -158,6 +158,59 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                                 )}
                             </button>
 
+                            {typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
+                                <button
+                                    onClick={async () => {
+                                        setLoading(true);
+                                        try {
+                                            const res = await fetch('/api/dev-login', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ email: '' }) // Route checks process.env.SUPERADMIN_EMAIL primarily now
+                                            });
+                                            const data = await res.json();
+                                            if (data.hashed_token || data.email_otp) {
+                                                // Attempt verification locally to avoid Supabase URL redirection blocks
+                                                const { error: verifyError } = await supabase.auth.verifyOtp({
+                                                    email: data.email,
+                                                    token: data.hashed_token,
+                                                    type: 'magiclink'
+                                                });
+                                                
+                                                if (verifyError) {
+                                                    console.warn("Magiclink verification failed, trying OTP fallback", verifyError);
+                                                    const { error: otpError } = await supabase.auth.verifyOtp({
+                                                        email: data.email,
+                                                        token: data.email_otp,
+                                                        type: 'email'
+                                                    });
+                                                    if (otpError) throw otpError;
+                                                }
+
+                                                window.location.href = '/dashboard';
+                                            } else {
+                                                setError('Dev login failed: ' + (data.error || 'Token mising'));
+                                            }
+                                        } catch (err: any) {
+                                            setError(err.message);
+                                        } finally {
+                                            setLoading(false);
+                                        }
+                                    }}
+                                    disabled={loading}
+                                    className="w-full bg-slate-900 border-2 border-slate-900 text-white font-semibold py-3.5 rounded-full transition-all hover:bg-slate-800 active:scale-[0.98] flex items-center justify-center gap-3 mb-6"
+                                >
+                                    {loading ? (
+                                        <Loader2 className="animate-spin text-white" size={20} />
+                                    ) : (
+                                        <>
+                                            <Lock size={20} />
+                                            <span>DEV: Süperadmin Girişi</span>
+                                        </>
+                                    )}
+                                </button>
+                            )}
+
                             <p className="text-[10px] text-slate-400 leading-tight px-4">
                                 {t('terms_accept')}
                             </p>

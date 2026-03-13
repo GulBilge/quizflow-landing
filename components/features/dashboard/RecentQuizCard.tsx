@@ -7,6 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useTranslations, useLocale as useNextLocale } from "next-intl";
 import { cn } from "@/utils/cn";
 import * as locales from "date-fns/locale";
+import PdfDownloadSection from "@/components/features/quiz/PdfDownloadSection";
 
 interface RecentQuizCardProps {
     item: any; // Using any for now to match the combined data from page.tsx
@@ -32,6 +33,9 @@ export default function RecentQuizCard({
     const tPerformance = useTranslations("Performance");
     const locale = useNextLocale();
     const dateLocale = (locales as any)[locale] || locales.enUS;
+    
+    // Toggle for PDF download section
+    const [showPdfOptions, setShowPdfOptions] = React.useState(false);
 
     const quiz = item.quizzes;
     const lastAttempt = item.lastAttempt;
@@ -135,7 +139,17 @@ export default function RecentQuizCard({
                         </Link>
                     </div>
                 )}
-
+                
+                {/* PDF Download Expandable Area */}
+                {showPdfOptions && quiz?.id && (
+                    <div className="mb-5 animate-in slide-in-from-top-2 duration-300">
+                        <PdfDownloadSection 
+                            quizId={quiz.id}
+                            quizTitle={displayTitle}
+                            className="bg-slate-50/50 dark:bg-slate-900/30 shadow-none border-dashed"
+                        />
+                    </div>
+                )}
 
                 <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-2.5 text-xs font-extrabold text-slate-400 dark:text-slate-500">
@@ -145,13 +159,25 @@ export default function RecentQuizCard({
                         {tLibrary("soru_sayisi", { count: quiz?.question_count || 0 })}
                     </div>
 
-                    <Link href={`/dashboard/quiz/${quiz?.id}`} onClick={(e) => e.stopPropagation()}>
-                        <button className="group/btn relative flex items-center gap-3 bg-indigo-600 text-white px-7 py-3 rounded-2xl font-black text-sm tracking-tight overflow-hidden transition-all hover:pr-9 active:scale-95 shadow-xl shadow-indigo-600/20">
-                            <span className="relative z-10">{tLibrary("sinavi_coz")}</span>
-                            <Play size={14} fill="currentColor" className="relative z-10" />
-                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-indigo-500 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                    <div className="flex items-center gap-2">
+                        <button 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowPdfOptions(!showPdfOptions);
+                            }}
+                            className="p-3 bg-slate-50 dark:bg-slate-800 text-slate-500 rounded-2xl hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
+                            title="PDF Seçenekleri"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         </button>
-                    </Link>
+                        <Link href={`/dashboard/quiz/${quiz?.id}`} onClick={(e) => e.stopPropagation()}>
+                            <button className="group/btn relative flex items-center gap-3 bg-indigo-600 text-white px-7 py-3 rounded-2xl font-black text-sm tracking-tight overflow-hidden transition-all hover:pr-9 active:scale-95 shadow-xl shadow-indigo-600/20">
+                                <span className="relative z-10">{tLibrary("sinavi_coz")}</span>
+                                <Play size={14} fill="currentColor" className="relative z-10" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-indigo-500 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
