@@ -32,10 +32,15 @@ export const generateQuizPDF = async (
     quiz: QuizData, 
     shuffle: boolean = false, 
     includeAnswerKey: boolean = false,
-    returnBase64: boolean = false
+    returnBase64: boolean = false,
+    quizId?: string,
+    locale: string = 'tr'
 ): Promise<string | null> => {
-    // Generate QR code data URL
-    const qrCodeDataUrl = await QRCode.toDataURL("https://quizyen.com/", { width: 80, margin: 1 });
+    // Generate QR code data URL — links to the quiz import page when scanned
+    const qrUrl = quizId
+        ? `https://quizyen.com/${locale}/quiz-import?id=${quizId}`
+        : `https://quizyen.com/${locale}`;
+    const qrCodeDataUrl = await QRCode.toDataURL(qrUrl, { width: 80, margin: 1 });
 
     const questionsToUse = shuffle ? shuffleArray(quiz.content) : quiz.content;
 
@@ -54,7 +59,7 @@ export const generateQuizPDF = async (
                 color: '#c7d2fe', // soluk indigo (indigo-200)
                 bold: true,
                 fontSize: 32,
-                opacity: 0.15, // mümkün olduğunca silik
+                opacity: 0.04, // iyice silikleştirildi (0.15'ten 0.04'e düşürüldü)
                 absolutePosition: { x: -200, y: -100 },
                 alignment: 'center',
                 angle: -30, // 30% dikey eğik
@@ -213,10 +218,10 @@ export const generateQuizPDF = async (
     return new Promise<string | null>((resolve) => {
         const pdf = pdfMake.createPdf(docDefinition);
         if (returnBase64) {
-            pdf.getBase64((data: string) => resolve(data));
+            (pdf as any).getBase64((data: string) => resolve(data));
         } else {
             pdf.download(`${quiz.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_quiz.pdf`);
-            resolve(null);
+            resolve(undefined as any);
         }
     });
 };

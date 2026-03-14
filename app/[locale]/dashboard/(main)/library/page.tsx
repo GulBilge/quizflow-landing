@@ -38,6 +38,7 @@ export default function LibraryPage() {
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
     const [libraryData, setLibraryData] = useState<LibraryItem[]>([]);
+    const [isPremium, setIsPremium] = useState(false);
 
     // UI State
     const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
@@ -61,6 +62,14 @@ export default function LibraryPage() {
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;
+
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('is_pro')
+                .eq('id', user.id)
+                .single();
+            
+            if (profile) setIsPremium((profile as any).is_pro);
 
             const { data, error } = await (supabase as any)
                 .from('v_user_library')
@@ -156,6 +165,36 @@ export default function LibraryPage() {
             else next.add(id);
             return next;
         });
+    };
+
+    const handlePracticeWrongAnswers = async (folderId: string | null) => {
+        if (!isPremium) {
+            window.location.href = '/checkout';
+            return;
+        }
+
+        const idToPass = folderId || 'uncategorized';
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/folders/${idToPass}/wrong-questions`, {
+                method: 'POST',
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                toast.error(data.error || t('error_delete_quiz'));
+                return;
+            }
+
+            if (data.quizId) {
+                window.location.href = `/dashboard/quiz/${data.quizId}`;
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error(t('error_delete_quiz'));
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Actions
@@ -305,6 +344,8 @@ export default function LibraryPage() {
                             setIsFolderModalOpen(true);
                         }}
                         onDelete={() => handleDeleteFolder(folder.id, folder.name)}
+                        isPremium={isPremium}
+                        onPracticeWrongAnswers={() => handlePracticeWrongAnswers(folder.id)}
                     >
                         {groupedData[folder.id]?.map(item => (
                             <RecentQuizCard
@@ -346,6 +387,8 @@ export default function LibraryPage() {
                         quizCount={groupedData['uncategorized'].length}
                         isExpanded={expandedFolders.has('uncategorized')}
                         onToggle={() => toggleFolder('uncategorized')}
+                        isPremium={isPremium}
+                        onPracticeWrongAnswers={() => handlePracticeWrongAnswers(null)}
                     >
                         {groupedData['uncategorized'].map(item => (
                             <RecentQuizCard

@@ -45,8 +45,8 @@ export default function PerformanceContent({
             // If folder is selected, we need to find if this attempt's quiz belongs to that folder
             let matchesFolder = selectedFolderId === "all";
             if (!matchesFolder) {
-                const libItem = library.find(l => l.quiz_id === att.quiz_id);
-                matchesFolder = libItem?.user_folder_id === selectedFolderId;
+                const libItem = library.find((l: any) => l.quiz_id === att.quiz_id);
+                matchesFolder = libItem?.folder_id === selectedFolderId;
             }
 
             return matchesQuiz && matchesFolder;
@@ -154,8 +154,8 @@ export default function PerformanceContent({
                     >
                         <option value="all">{t("all_quizzes")}</option>
                         {library
-                            .filter(l => selectedFolderId === "all" || l.user_folder_id === selectedFolderId)
-                            .map(l => (
+                            .filter((l: any) => selectedFolderId === "all" || l.folder_id === selectedFolderId)
+                            .map((l: any) => (
                                 <option key={l.quiz_id} value={l.quiz_id}>{l.user_quiz_name}</option>
                             ))
                         }

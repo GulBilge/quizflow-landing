@@ -38,7 +38,7 @@ export default async function PerformancePage({
             quiz_id,
             user_quiz_name,
             user_folder_name,
-            user_folder_id
+            folder_id
         `)
         .eq('user_id', user.id);
 

@@ -137,13 +137,19 @@ export default function DashboardContent({ user, profile, recentActivity: initia
                         </p>
                     </div>
 
-                    <button
-                        onClick={() => setIsUploadOpen(true)}
-                        className="flex md:hidden items-center justify-center w-11 h-11 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-600/20 active:scale-90 transition-transform"
-                    >
-                        <Plus size={24} />
-                    </button>
                 </div>
+
+                {/* Mobile full-width upload button */}
+                <button
+                    onClick={() => setIsUploadOpen(true)}
+                    className="flex md:hidden w-full items-center justify-center gap-3 py-4 rounded-2xl font-bold text-base text-white shadow-lg shadow-indigo-600/25 active:scale-[0.97] transition-all bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700"
+                >
+                    <span className="flex items-center justify-center w-7 h-7 bg-white/20 rounded-xl">
+                        <Plus size={18} className="stroke-[3]" />
+                    </span>
+                    <span>{t("new_quiz")}</span>
+                    <Sparkles size={16} className="opacity-75" />
+                </button>
 
                 <div className="hidden md:flex gap-3">
                     <button

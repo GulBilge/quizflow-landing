@@ -31,6 +31,7 @@ import { useTranslations } from "next-intl";
 import ReportQuestionModal from "./ReportQuestionModal";
 import AdInterstitial from "../ads/AdInterstitial";
 import PdfDownloadSection from "./PdfDownloadSection";
+import QuizShareSection from "./QuizShareSection";
 
 interface Question {
     question: string;
@@ -430,7 +431,19 @@ export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlay
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.9 }}
-                        className="mb-8 border-t border-slate-100 dark:border-slate-800 pt-6"
+                        className="mb-4 border-t border-slate-100 dark:border-slate-800 pt-6"
+                    >
+                        <QuizShareSection
+                            quizId={quiz.id}
+                            quizTitle={quiz.title}
+                        />
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.0 }}
+                        className="mb-8"
                     >
                         <PdfDownloadSection 
                             quizId={quiz.id} 

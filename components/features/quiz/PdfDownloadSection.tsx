@@ -5,6 +5,7 @@ import { Download, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/cn";
 import { createClient } from "@/utils/supabase/client";
+import { useLocale } from "next-intl";
 
 interface PdfDownloadSectionProps {
     quizId: string;
@@ -28,6 +29,7 @@ export default function PdfDownloadSection({
     const [isAnswerKeyRequested, setIsAnswerKeyRequested] = useState(false);
     const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
     const supabase = createClient();
+    const locale = useLocale();
 
     useEffect(() => {
         if (isPremiumContext !== undefined) {
@@ -62,7 +64,11 @@ export default function PdfDownloadSection({
 
     const handleDownloadPdf = async (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent card clicks
-        if (!isPremium || isLoadingPremium) return;
+        if (isLoadingPremium) return;
+        if (!isPremium) {
+            window.location.href = '/checkout';
+            return;
+        }
         
         setIsGeneratingPdf(true);
         try {
@@ -85,7 +91,7 @@ export default function PdfDownloadSection({
                 };
             }
 
-            await generateQuizPDF(quizData, isPdfShuffleRequested, isAnswerKeyRequested, false);
+            await generateQuizPDF(quizData, isPdfShuffleRequested, isAnswerKeyRequested, false, quizId, locale);
         } catch (error) {
             console.error("PDF generation failed:", error);
             const { toast } = await import("sonner");
@@ -154,12 +160,12 @@ export default function PdfDownloadSection({
                 
                 <Button
                     onClick={handleDownloadPdf}
-                    disabled={!isPremium || isGeneratingPdf}
+                    disabled={isGeneratingPdf}
                     className={cn(
                         "h-10 sm:h-12 px-6 rounded-xl font-bold transition-all w-full sm:w-auto shrink-0 gap-2",
                         isPremium 
                             ? "bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20" 
-                            : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600"
+                            : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/20"
                     )}
                 >
                     {isGeneratingPdf ? (
