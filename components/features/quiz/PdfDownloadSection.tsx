@@ -5,7 +5,7 @@ import { Download, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/cn";
 import { createClient } from "@/utils/supabase/client";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface PdfDownloadSectionProps {
     quizId: string;
@@ -22,6 +22,10 @@ export default function PdfDownloadSection({
     initialQuizData,
     className
 }: PdfDownloadSectionProps) {
+    const t = useTranslations("QuizActions");
+    const tCommon = useTranslations("Common");
+    const tAds = useTranslations("Ads");
+    
     const [isPremium, setIsPremium] = useState<boolean>(!!isPremiumContext);
     const [isLoadingPremium, setIsLoadingPremium] = useState<boolean>(isPremiumContext === undefined);
     
@@ -95,7 +99,7 @@ export default function PdfDownloadSection({
         } catch (error) {
             console.error("PDF generation failed:", error);
             const { toast } = await import("sonner");
-            toast.error("Bir hata oluştu, lütfen tekrar deneyin.");
+            toast.error(tCommon("error"));
         } finally {
             setIsGeneratingPdf(false);
         }
@@ -120,10 +124,10 @@ export default function PdfDownloadSection({
                 </div>
                 <div className="text-left">
                     <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
-                        Testi PDF Olarak İndir
+                        {t("download_title")}
                     </h4>
                     <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                        {isPremium ? 'Sınavı cihazınıza indirin.' : 'Bu özellik sadece Premium üyeler içindir.'}
+                        {isPremium ? t("download_desc") : t("premium_only")}
                     </p>
                 </div>
             </div>
@@ -140,7 +144,7 @@ export default function PdfDownloadSection({
                                 className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer"
                             />
                             <label htmlFor={`shuffle-${quizId}`} className="select-none font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer">
-                                Soruları Karıştır
+                                {t("shuffle_questions")}
                             </label>
                         </div>
                         <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition-colors bg-white dark:bg-slate-900 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 flex-1 sm:flex-none justify-center">
@@ -152,7 +156,7 @@ export default function PdfDownloadSection({
                                 className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer"
                             />
                             <label htmlFor={`answers-${quizId}`} className="select-none font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer">
-                                Cevap Anahtarı
+                                {t("answer_key")}
                             </label>
                         </div>
                     </div>
@@ -171,9 +175,9 @@ export default function PdfDownloadSection({
                     {isGeneratingPdf ? (
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : isPremium ? (
-                        <>İndir <Download size={16} /></>
+                        <>{tCommon("download")} <Download size={16} /></>
                     ) : (
-                        <>Premium'a Geç</>
+                        <>{tAds("upgrade_btn")}</>
                     )}
                 </Button>
             </div>

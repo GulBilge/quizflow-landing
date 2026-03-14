@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Share2, Copy, Check, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/cn";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface QuizShareSectionProps {
     quizId: string;
@@ -17,6 +17,7 @@ export default function QuizShareSection({
     quizTitle,
     className,
 }: QuizShareSectionProps) {
+    const t = useTranslations("QuizActions");
     const [copied, setCopied] = useState(false);
     const locale = useLocale();
 
@@ -47,8 +48,8 @@ export default function QuizShareSection({
     const handleWhatsApp = (e: React.MouseEvent) => {
         e.stopPropagation();
         const text = quizTitle
-            ? `"${quizTitle}" sınavını çözmek ister misin? 🎯\n${shareUrl}`
-            : `Bu sınavı çözmek ister misin? 🎯\n${shareUrl}`;
+            ? t("whatsapp_template", { title: quizTitle, url: shareUrl })
+            : t("whatsapp_template_no_title", { url: shareUrl });
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
     };
 
@@ -66,10 +67,10 @@ export default function QuizShareSection({
                 </div>
                 <div className="text-left">
                     <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
-                        Sınavı Paylaş
+                        {t("share_title")}
                     </h4>
                     <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                        Linki kopyala ve arkadaşlarınla paylaş.
+                        {t("share_desc")}
                     </p>
                 </div>
             </div>
@@ -80,7 +81,7 @@ export default function QuizShareSection({
                 <button
                     onClick={handleWhatsApp}
                     className="h-10 sm:h-12 px-4 rounded-xl font-bold transition-all flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/20 text-sm active:scale-95"
-                    title="WhatsApp'ta Paylaş"
+                    title={useTranslations("Common")("share_on_whatsapp")}
                 >
                     <MessageCircle size={16} />
                     <span className="hidden sm:inline">WhatsApp</span>
@@ -99,12 +100,12 @@ export default function QuizShareSection({
                     {copied ? (
                         <>
                             <Check size={16} />
-                            Kopyalandı!
+                            {useTranslations("Common")("copy_success")}
                         </>
                     ) : (
                         <>
                             <Copy size={16} />
-                            Linki Kopyala
+                            {useTranslations("Common")("copy_link")}
                         </>
                     )}
                 </Button>

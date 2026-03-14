@@ -258,7 +258,7 @@ export default function QuizUpload({ onClose, isPremium = false }: QuizUploadPro
                                                 {status === "analyzing" ? ct("loading") : t("pencereyi_kapatmayin")}
                                             </p>
                                         </div>
-                                        
+
                                         <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden shadow-inner">
                                             <div className="h-full bg-indigo-600 transition-all duration-700 animate-pulse w-full"></div>
                                         </div>
@@ -274,7 +274,7 @@ export default function QuizUpload({ onClose, isPremium = false }: QuizUploadPro
                                                 </p>
                                             </div>
                                         )}
-                                        
+
                                         <p className="text-[10px] text-slate-400 dark:text-slate-500 italic">
                                             {t("analyzing_long")}
                                         </p>
@@ -300,7 +300,7 @@ export default function QuizUpload({ onClose, isPremium = false }: QuizUploadPro
                         router.push(`/dashboard/quiz/${pendingQuizId}`);
                     }
                 }}
-                adSlot="8347209148" /* Placeholder slot - replace with real one if needed */
+                adSlot="5202700378" /* Placeholder slot - replace with real one if needed */
             />
         </div>
     );

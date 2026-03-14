@@ -157,7 +157,7 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                             <div className="flex items-center gap-3">
                                 <div className="flex-1 bg-[#1a2333] border border-white/5 rounded-xl h-12 flex items-center px-4 gap-3">
                                     <Search size={18} className="text-slate-500" />
-                                    <span className="text-sm text-slate-500 font-medium">Sınav ara...</span>
+                                    <span className="text-sm text-slate-500 font-medium">{t('mockup.search')}</span>
                                 </div>
                                 <div className="w-12 h-12 bg-[#1a2333] border border-white/5 rounded-xl flex items-center justify-center text-[#5e5ce6]">
                                     <Layers size={20} />
@@ -174,24 +174,24 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                                     <Plus size={32} />
                                 </div>
                                 <div className="flex-1 space-y-1">
-                                    <p className="text-sm font-black text-white">Yeni Sınav Oluştur</p>
-                                    <p className="text-[10px] text-slate-400 font-medium leading-tight opacity-70">Bir sınav PDF'i yükle, yapay zeka senin için interaktif bir sınav hazırlayacak.</p>
+                                    <p className="text-sm font-black text-white">{t('mockup.create_title')}</p>
+                                    <p className="text-[10px] text-slate-400 font-medium leading-tight opacity-70">{t('mockup.create_desc')}</p>
                                 </div>
                                 <ChevronRight size={20} className="text-slate-600" />
                             </div>
 
                             <div className="flex justify-between items-center pt-2">
-                                <p className="text-sm font-black text-white">Son Çalışmaların</p>
-                                <p className="text-[10px] text-[#5e5ce6] font-black tracking-widest">TÜMÜ</p>
+                                <p className="text-sm font-black text-white">{t('mockup.recent_studies')}</p>
+                                <p className="text-[10px] text-[#5e5ce6] font-black tracking-widest">{t('mockup.all')}</p>
                             </div>
 
                             <div className="bg-[#1a2333] border border-white/5 rounded-2xl p-5 space-y-4">
                                 <div className="space-y-2">
-                                    <div className="inline-flex items-center px-2 py-1 rounded bg-[#5e5ce6]/10 text-[#8e8df1] text-[8px] font-black tracking-widest">EN SON ÇALIŞMAN</div>
+                                    <div className="inline-flex items-center px-2 py-1 rounded bg-[#5e5ce6]/10 text-[#8e8df1] text-[8px] font-black tracking-widest">{t('mockup.latest_work')}</div>
                                     <p className="text-xs font-black text-white leading-snug">Mikrobiyolojik Tanı Yöntemleri - Alıştırma</p>
                                     <div className="flex items-center gap-1.5 text-slate-500 text-[8px] font-medium">
                                         <Calendar size={10} />
-                                        <span>01.02.2026 tarihinde bakıldı</span>
+                                        <span>{t('mockup.studied_at', { date: '01.02.2026' })}</span>
                                     </div>
                                 </div>
 
@@ -200,32 +200,32 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                                         <div className="w-5 h-5 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto">
                                             <Check size={10} className="text-emerald-400" />
                                         </div>
-                                        <p className="text-[7px] text-slate-500 font-bold uppercase">Doğru</p>
+                                        <p className="text-[7px] text-slate-500 font-bold uppercase">{t('mockup.correct')}</p>
                                         <p className="text-xs font-black text-emerald-400 leading-none">11</p>
                                     </div>
                                     <div className="bg-[#3a1f1f] border border-rose-500/10 rounded-lg p-2 text-center space-y-1">
                                         <div className="w-5 h-5 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto">
                                             <X size={10} className="text-rose-400" />
                                         </div>
-                                        <p className="text-[7px] text-slate-500 font-bold uppercase">Yanlış</p>
+                                        <p className="text-[7px] text-slate-500 font-bold uppercase">{t('mockup.wrong')}</p>
                                         <p className="text-xs font-black text-rose-400 leading-none">1</p>
                                     </div>
                                     <div className="bg-[#1f2a3a] border border-blue-500/10 rounded-lg p-2 text-center space-y-1">
                                         <div className="w-5 h-5 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto">
                                             <Trophy size={10} className="text-blue-400" />
                                         </div>
-                                        <p className="text-[7px] text-slate-500 font-bold uppercase">Puan</p>
+                                        <p className="text-[7px] text-slate-500 font-bold uppercase">{t('mockup.score')}</p>
                                         <p className="text-xs font-black text-blue-400 leading-none">90</p>
                                     </div>
                                 </div>
 
                                 <div className="flex justify-center">
-                                    <p className="text-[7px] text-[#5e5ce6] font-black tracking-widest flex items-center gap-1">GEÇMİŞ SONUÇLAR <ChevronRight size={10} /></p>
+                                    <p className="text-[7px] text-[#5e5ce6] font-black tracking-widest flex items-center gap-1">{t('mockup.history')} <ChevronRight size={10} /></p>
                                 </div>
 
                                 <button className="w-full bg-[#5e5ce6] hover:bg-[#4d4bbd] text-white py-3 rounded-xl font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-[#5e5ce6]/20 transition-all">
                                     <Play size={14} fill="white" />
-                                    BAŞLAT
+                                    {t('mockup.start')}
                                 </button>
                             </div>
                         </div>
@@ -243,8 +243,8 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
             <section className="py-40 px-6">
                 <div className="max-w-7xl mx-auto space-y-16">
                     <div className="text-center space-y-4">
-                        <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tight">Akıllı Sınav Hazırlığı</h2>
-                        <p className="text-slate-500 max-w-2xl mx-auto font-medium text-lg">Hızlı, senkronize ve modern. Quizyen mobil ile çalışma alışkanlıklarını baştan yaratıyoruz.</p>
+                        <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tight">{t('highlights.title')}</h2>
+                        <p className="text-slate-500 max-w-2xl mx-auto font-medium text-lg">{t('highlights.subtitle')}</p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
                         {features.map((feature, i) => (
@@ -338,7 +338,7 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                         <a href="mailto:support@quizyen.com" className="hover:text-[#5e5ce6] transition-colors">Support</a>
                         <Link href="/privacy" className="hover:text-[#5e5ce6] transition-colors">Privacy</Link>
                     </div>
-                    <p className="text-[10px] text-slate-700 font-bold uppercase tracking-widest">© 2026 Quizyen. All Rights Reserved.</p>
+                    <p className="text-[10px] text-slate-700 font-bold uppercase tracking-widest">{t('highlights.footer_rights')}</p>
                 </div>
             </footer>
         </div>

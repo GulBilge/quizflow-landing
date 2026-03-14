@@ -66,6 +66,30 @@
             "privacy_policy": "Privacy Policy",
             "terms_of_service": "Terms of Service",
             "copyright": "© 2026 Quizyen. All rights reserved."
+        },
+        "testimonials": {
+            "title": "What Do Students Say?",
+            "subtitle": "Thousands of successful students are preparing for their exams with Quizyen.",
+            "a1_name": "Ayşe Y.",
+            "a1_role": "Medical Student",
+            "a1_text": "Turning my hundreds of pages of notes into quizzes during the TUS preparation process saved my life. I definitely recommend it!",
+            "e1_name": "Emre K.",
+            "e1_role": "Law Student",
+            "e1_text": "It's great to analyze complex law texts and ask questions. Thanks to active learning, I now remember more with less effort.",
+            "s1_name": "Selin B.",
+            "s1_role": "University Entrance Prep",
+            "s1_text": "I use it to quickly test my own notes before mock exams. The AI asks really accurate questions."
+        },
+        "cta_new": {
+            "badge": "Ready to Surpass Your Limits?",
+            "title": "End Exam Stress, Study {akillica}.",
+            "akillica": "Smarter",
+            "desc": "Thousands of students gamify their PDFs with Quizyen every day. Sign up in seconds and see the difference today.",
+            "btn_start": "Start for Free",
+            "mobile_app": "Download Mobile App",
+            "feature_card": "No Credit Card Required",
+            "feature_setup": "Setup in Seconds",
+            "feature_unlimited": "Unlimited PDF Analysis"
         }
     },
     "Common": {
@@ -79,7 +103,18 @@
         "save_changes": "Save Changes",
         "create_folder": "Create Folder",
         "correct": "Correct",
-        "wrong": "Wrong"
+        "wrong": "Wrong",
+        "copy_success": "Copied!",
+        "copy_link": "Copy Link",
+        "share_on_whatsapp": "Share on WhatsApp",
+        "go_premium": "Go Premium",
+        "download": "Download",
+        "quiz_preparing": "Preparing Quiz",
+        "quiz_preparing_description": "Please wait while your AI-powered quiz is loading. You can check out our sponsors in the meantime.",
+        "continue": "Continue",
+        "please_wait": "Wait",
+        "just_seconds_left": "JUST A FEW SECONDS LEFT",
+        "ad_failed_to_load": "Ad failed to load"
     },
     "Header": {
         "welcome": "Welcome",
@@ -141,7 +176,11 @@
         "rename_folder_title": "Edit Folder",
         "new_folder_title": "New Folder",
         "folder_name_label": "Folder Name",
-        "folder_name_placeholder": "e.g. Math, History..."
+        "folder_name_placeholder": "e.g. Math, History...",
+        "wrong_answers": "Wrong Answers",
+        "wrong_answers_description": "Let AI analyze your wrong answers and create new quizzes to help you improve.",
+        "pro": "Pro",
+        "delete": "Delete"
     },
     "Performance": {
         "title": "Performance Analysis",
@@ -174,14 +213,34 @@
         "feature_ui_desc": "Eye-friendly dark mode and student-centric interface.",
         "download_cta": "Download for Free Now",
         "play_store": "Get it on Google Play",
-        "app_store": "App Store (Coming Soon)"
+        "app_store": "App Store (Coming Soon)",
+        "mockup": {
+            "search": "Search quizzes...",
+            "create_title": "Create New Quiz",
+            "create_desc": "Upload a quiz PDF, and AI will prepare an interactive quiz for you.",
+            "recent_studies": "Recent Activity",
+            "all": "ALL",
+            "latest_work": "YOUR LATEST WORK",
+            "studied_at": "Viewed on {date}",
+            "correct": "Correct",
+            "wrong": "Wrong",
+            "score": "Score",
+            "history": "PAST RESULTS",
+            "start": "START"
+        },
+        "highlights": {
+            "title": "Smart Exam Preparation",
+            "subtitle": "Fast, synced, and modern. We're reinventing study habits with Quizyen mobile.",
+            "footer_rights": "© 2026 Quizyen. All rights reserved."
+        }
     },
     "Auth": {
         "title": "Quizyen",
         "subtitle": "Study Smarter for Your Exams",
         "google_login": "Continue with Google",
         "terms_accept": "By clicking you accept our terms and conditions.",
-        "signup_success": "Account created! Please log in."
+        "signup_success": "Account created! Please log in.",
+        "dev_login": "DEV: Superadmin Login"
     },
     "Dashboard": {
         "greeting_morning": "Good Morning",
@@ -269,6 +328,39 @@
         "original_desc": "Take the quiz in the order it was prepared.",
         "shuffle_desc": "Challenge yourself by shuffling questions and options.",
         "vazgec": "Cancel"
+    },
+    "QuizImport": {
+        "title": "Add Quiz to Library",
+        "welcome": "A quiz has been shared with you!",
+        "shared_quiz": "Shared Quiz",
+        "description": "You need to log in to add this quiz to your library and start solving it immediately.",
+        "footer_text": "Making learning more effective with Quizyen."
+    },
+    "QuizActions": {
+        "download_title": "Download Quiz",
+        "download_desc": "Download the quiz as a PDF.",
+        "premium_only": "This feature is only available to premium members.",
+        "share_title": "Share Quiz",
+        "share_desc": "Share the quiz with your friends.",
+        "share_btn": "Share",
+        "quiz_preparing": "Preparing Quiz",
+        "quiz_preparing_description": "Please wait while your AI-powered quiz is loading. You can check out our sponsors in the meantime.",
+        "continue": "Continue",
+        "please_wait": "Wait",
+        "just_seconds_left": "JUST A FEW SECONDS LEFT",
+        "ad_failed_to_load": "Ad failed to load",
+        "download": "Download",
+        "share": "Share",
+        "share_via_whatsapp": "Share via WhatsApp",
+        "share_via_twitter": "Share via Twitter",
+        "share_via_facebook": "Share via Facebook",
+        "copy_link": "Copy Link",
+        "copied": "Link copied!",
+        "go_premium": "Go Premium",
+        "shuffle_questions": "Shuffle Questions",
+        "answer_key": "Answer Key",
+        "whatsapp_template": "Are you ready to solve the \"* {title} *\" quiz? Click now and test yourself: {url}",
+        "whatsapp_template_no_title": "Are you ready to solve this quiz? Click now and test yourself: {url}"
     },
     "Profile": {
         "title": "Profile & Settings",

@@ -482,20 +482,20 @@ export default function Home() {
       {/* TESTIMONIALS */}
       <section className="py-24 bg-white overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
-              Öğrenciler Ne Diyor?
+              {t('testimonials.title')}
             </h2>
             <p className="text-lg text-slate-500">
-              Binlerce başarılı öğrenci sınavlarına Quizyen ile hazırlanıyor.
+              {t('testimonials.subtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { name: "Ayşe Y.", role: "Tıp Fakültesi Öğrencisi", text: "TUS hazırlık sürecinde yüzlerce sayfalık notlarımı quiz haline getirmek hayatımı kurtardı. Kesinlikle tavsiye ederim!", avatar: "https://ui-avatars.com/api/?name=Ayse+Y&background=random" },
-              { name: "Emre K.", role: "Hukuk Öğrencisi", text: "Karmaşık kanun metinlerini analiz edip soru sorması harika. Aktif öğrenme sayesinde artık daha az eforla daha çok şey hatırlıyorum.", avatar: "https://ui-avatars.com/api/?name=Emre+K&background=random" },
-              { name: "Selin B.", role: "YKS Hazırlık", text: "Deneme sınavlarından önce kendi notlarımı hızlıca test etmek için kullanıyorum. Yapay zeka gerçekten çok isabetli sorular soruyor.", avatar: "https://ui-avatars.com/api/?name=Selin+B&background=random" }
+              { name: t('testimonials.a1_name'), role: t('testimonials.a1_role'), text: t('testimonials.a1_text'), avatar: "https://ui-avatars.com/api/?name=Ayse+Y&background=random" },
+              { name: t('testimonials.e1_name'), role: t('testimonials.e1_role'), text: t('testimonials.e1_text'), avatar: "https://ui-avatars.com/api/?name=Emre+K&background=random" },
+              { name: t('testimonials.s1_name'), role: t('testimonials.s1_role'), text: t('testimonials.s1_text'), avatar: "https://ui-avatars.com/api/?name=Selin+B&background=random" }
             ].map((testimonial, i) => (
               <motion.div 
                 key={i}
@@ -601,15 +601,17 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-indigo-300 font-bold text-sm tracking-widest uppercase"
             >
               <Sparkles size={16} className="text-yellow-400" />
-              Sınırlarını Aşmaya Hazır mısın?
+              {t('cta_new.badge')}
             </motion.div>
 
             <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1]">
-              Sınav Stresine Son Verin, <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">Akıllıca</span> Çalışın.
+              {t.rich('cta_new.title', {
+                akillica: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">{chunks}</span>
+              })}
             </h2>
             
             <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              Binlerce öğrenci her gün Quizyen ile PDF'lerini oyunlaştırıyor. Saniyeler içinde üye olun ve farkı bugün görün.
+              {t('cta_new.desc')}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-6">
@@ -617,7 +619,7 @@ export default function Home() {
                 onClick={() => setIsAuthModalOpen(true)}
                 className="w-full sm:w-auto bg-white text-slate-900 hover:bg-slate-100 px-10 py-5 rounded-2xl font-black text-xl shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
               >
-                Ücretsiz Başla
+                {t('cta_new.btn_start')}
                 <ArrowRight size={24} className="text-indigo-600" />
               </button>
               
@@ -635,22 +637,22 @@ export default function Home() {
                     <Smartphone size={32} />
                   </div>
                 </div>
-                <span className="text-xs font-bold text-white/40 tracking-widest uppercase">Mobil Uygulamayı İndir</span>
+                <span className="text-xs font-bold text-white/40 tracking-widest uppercase">{t('cta_new.mobile_app')}</span>
               </div>
             </div>
 
             <div className="pt-8 flex flex-wrap justify-center gap-x-8 gap-y-4 opacity-40">
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={18} />
-                <span className="text-sm font-medium">Kredi Kartı Gerekmez</span>
+                <span className="text-sm font-medium">{t('cta_new.feature_card')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={18} />
-                <span className="text-sm font-medium">Saniyeler İçinde Kurulum</span>
+                <span className="text-sm font-medium">{t('cta_new.feature_setup')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={18} />
-                <span className="text-sm font-medium">Sınırsız PDF Analizi</span>
+                <span className="text-sm font-medium">{t('cta_new.feature_unlimited')}</span>
               </div>
             </div>
           </div>

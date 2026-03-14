@@ -284,9 +284,9 @@ export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlay
                     isOpen={isShowingAd}
                     onClose={proceedToQuiz}
                     onProceed={proceedToQuiz}
-                    adSlot="1938472012" /* Quiz interstitial slot */
-                    title="Sınav Hazırlanıyor"
-                    description="AI destekli sınavınız yüklenirken lütfen bekleyin. Bu sürede destekçilerimize göz atabilirsiniz."
+                    adSlot="5202700378" /* Quiz interstitial slot */
+                    title={ct("quiz_preparing")}
+                    description={ct("quiz_preparing_description")}
                 />
             </>
         );
@@ -445,11 +445,11 @@ export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlay
                         transition={{ delay: 1.0 }}
                         className="mb-8"
                     >
-                        <PdfDownloadSection 
-                            quizId={quiz.id} 
+                        <PdfDownloadSection
+                            quizId={quiz.id}
                             quizTitle={quiz.title}
-                            isPremiumContext={isPremium} 
-                            initialQuizData={quiz} 
+                            isPremiumContext={isPremium}
+                            initialQuizData={quiz}
                         />
                     </motion.div>
 
@@ -582,7 +582,8 @@ export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlay
                             </motion.div>
                         )}
                     </div>
-                    <div className="flex items-center justify-between pt-2">
+
+                    <div className="flex items-center justify-between pt-2">
                         <Button
                             variant="ghost"
                             className="h-14 px-4 sm:px-6 rounded-2xl font-black text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-900/20 gap-2 transition-all"
@@ -591,7 +592,7 @@ export default function QuizPlayer({ quiz, userId, isPremium = false }: QuizPlay
                             <Flag size={18} />
                             <span className="hidden sm:inline">{rt("report_question")}</span>
                         </Button>
- 
+
                         <Button
                             disabled={!isAnswered}
                             onClick={handleNext}

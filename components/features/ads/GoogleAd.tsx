@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface GoogleAdProps {
     slot: string;
@@ -28,15 +29,17 @@ export default function GoogleAd({
     const [adLoaded, setAdLoaded] = useState(false);
     const [error, setError] = useState(false);
     const adRef = useRef<HTMLModElement>(null);
+    const t = useTranslations("Common");
 
     useEffect(() => {
         if (isPremium) return;
         // Clear any previous error
         setError(false);
-        
+
         const loadAd = () => {
             try {
-                if (window.adsbygoogle && adRef.current) {
+                if (adRef.current) {
+                    // AdSense script will consume this object when it loads
                     (window.adsbygoogle = window.adsbygoogle || []).push({});
                     setAdLoaded(true);
                 }
@@ -46,8 +49,8 @@ export default function GoogleAd({
             }
         };
 
-        // Delay execution slightly to ensure DOM is ready and script is loaded
-        const timeoutId = setTimeout(loadAd, 200);
+        // Execution delayed slightly just to make sure the internal ad div renders first.
+        const timeoutId = setTimeout(loadAd, 100);
 
         return () => clearTimeout(timeoutId);
     }, [slot, isPremium]); // Re-run if slot or isPremium changes
@@ -66,7 +69,7 @@ export default function GoogleAd({
                 data-full-width-responsive={responsive}
             />
             {error && (
-                <div className="hidden">Ad failed to load</div>
+                <div className="hidden">{t("ad_failed_to_load")}</div>
             )}
         </div>
     );

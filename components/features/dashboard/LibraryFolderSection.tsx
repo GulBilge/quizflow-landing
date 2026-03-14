@@ -103,7 +103,7 @@ export default function LibraryFolderSection({
                                             }}
                                             className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors font-medium"
                                         >
-                                            <Trash2 size={14} /> Sil
+                                            <Trash2 size={14} /> {t('delete')}
                                         </button>
                                     </div>
                                 </>
@@ -127,8 +127,8 @@ export default function LibraryFolderSection({
                             }}
                             className={cn(
                                 "flex items-center gap-3 w-full p-4 rounded-2xl border-2 transition-all group overflow-hidden relative text-left",
-                                isPremium 
-                                    ? "bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 border-amber-200 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-600" 
+                                isPremium
+                                    ? "bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 border-amber-200 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-600"
                                     : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 grayscale-[0.5]"
                             )}
                         >
@@ -147,7 +147,7 @@ export default function LibraryFolderSection({
                                         "font-bold text-sm sm:text-base",
                                         isPremium ? "text-amber-900 dark:text-amber-100" : "text-slate-700 dark:text-slate-300"
                                     )}>
-                                        Hata Havuzu
+                                        {t('wrong_answers')}
                                     </span>
                                     {isPremium && <Sparkles size={14} className="text-amber-500 animate-pulse hidden sm:block" />}
                                 </div>
@@ -155,14 +155,14 @@ export default function LibraryFolderSection({
                                     "text-[11px] sm:text-xs font-semibold block mt-0.5",
                                     isPremium ? "text-amber-700/80 dark:text-amber-300/80" : "text-slate-500"
                                 )}>
-                                    En çok yanlış yapılan sorular havuzu
+                                    {t('wrong_answers_description')}
                                 </span>
                             </div>
-                            
+
                             {!isPremium && (
                                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
                                     <Lock size={14} />
-                                    <span className="text-xs font-bold uppercase tracking-wide">Pro</span>
+                                    <span className="text-xs font-bold uppercase tracking-wide"> {t('pro')}</span>
                                 </div>
                             )}
                         </button>

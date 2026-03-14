@@ -8,6 +8,7 @@ import { useRouter } from '@/i18n/routing';
 import { createClient } from '@/utils/supabase/client';
 import { getURL } from '@/utils/env';
 import { useLocale, useTranslations } from 'next-intl';
+import { getPlatform } from '@/utils/platform';
 
 const supabase = createClient();
 
@@ -39,11 +40,15 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                 router.push('/dashboard');
                 router.refresh();
             } else {
+                const platform = getPlatform();
                 const { error } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
                         emailRedirectTo: `${getURL()}/auth/callback`,
+                        data: {
+                            platform,
+                        },
                     },
                 });
                 if (error) throw error;
@@ -63,6 +68,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
         setLoading(true);
         // Preserve the `next` param so QR scan → login → quiz redirect works
         const nextPath = searchParams.get('next') ?? '/dashboard';
+        const platform = getPlatform();
         try {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
@@ -70,7 +76,8 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                     redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}&locale=${locale}`,
                     queryParams: {
                         prompt: "select_account",
-                    }
+                        platform,
+                    },
                 },
             });
             if (error) throw error;
@@ -207,7 +214,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                                     ) : (
                                         <>
                                             <Lock size={20} />
-                                            <span>DEV: Süperadmin Girişi</span>
+                                            <span>{t('dev_login')}</span>
                                         </>
                                     )}
                                 </button>

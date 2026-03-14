@@ -9,19 +9,19 @@ import { Button } from "@/components/ui/button";
 import GoogleAd from "@/components/features/ads/GoogleAd";
 
 interface Props {
-    params: { slug: string };
+    params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const supabase = await createClient();
 
-    const { data: post } = await supabase
+    const { data: post } = await (supabase as any)
         .from("blog_posts")
         .select("*")
         .eq("slug", slug)
         .eq("is_published", true)
-        .single();
+        .maybeSingle();
 
     if (!post) return { title: "Yazı Bulunamadı" };
 
@@ -49,12 +49,12 @@ export default async function BlogDetailPage({ params }: Props) {
     const { slug } = await params;
     const supabase = await createClient();
 
-    const { data: post, error } = await supabase
+    const { data: post, error } = await (supabase as any)
         .from("blog_posts")
         .select("*")
         .eq("slug", slug)
         .eq("is_published", true)
-        .single();
+        .maybeSingle();
 
     if (error || !post) {
         return notFound();
@@ -64,11 +64,11 @@ export default async function BlogDetailPage({ params }: Props) {
     const { data: { session } } = await supabase.auth.getSession();
     let isPremium = false;
     if (session?.user) {
-        const { data: profile } = await supabase
+        const { data: profile } = await (supabase as any)
             .from("profiles")
             .select("is_pro")
             .eq("id", session.user.id)
-            .single();
+            .maybeSingle();
         isPremium = !!profile?.is_pro;
     }
 
@@ -117,9 +117,9 @@ export default async function BlogDetailPage({ params }: Props) {
                     <aside className="hidden lg:block w-64 shrink-0">
                         <div className="sticky top-24 space-y-4">
                             <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Sponsörlü Giriş</div>
-                            <GoogleAd 
-                                slot="2847291047" 
-                                format="vertical" 
+                            <GoogleAd
+                                slot="5202700378"
+                                format="vertical"
                                 className="w-full min-h-[600px] rounded-2xl bg-slate-50 border border-slate-100"
                                 isPremium={isPremium}
                             />
@@ -135,13 +135,13 @@ export default async function BlogDetailPage({ params }: Props) {
 
                         {/* Mobile Ad - In Content Flow */}
                         <div className="lg:hidden my-12 py-8 border-y border-slate-100">
-                             <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4 text-center">Reklam</div>
-                             <GoogleAd 
-                                slot="5827394012" 
-                                format="auto" 
+                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4 text-center">Reklam</div>
+                            <GoogleAd
+                                slot="5202700378"
+                                format="auto"
                                 className="w-full min-h-[250px] rounded-2xl bg-slate-50"
                                 isPremium={isPremium}
-                             />
+                            />
                         </div>
 
                         {post.seo_keywords && (

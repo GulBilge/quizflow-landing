@@ -176,8 +176,20 @@ export default function LibraryPage() {
         const idToPass = folderId || 'uncategorized';
         setLoading(true);
         try {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const clientDateStr = `${year}-${month}-${day} ${hours}-${minutes}`;
+
             const res = await fetch(`/api/folders/${idToPass}/wrong-questions`, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ clientDateStr })
             });
             const data = await res.json();
 

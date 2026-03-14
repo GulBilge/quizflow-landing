@@ -66,6 +66,30 @@
             "privacy_policy": "Gizlilik Politikası",
             "terms_of_service": "Kullanım Koşulları",
             "copyright": "© 2026 Quizyen. Tüm hakları saklıdır."
+        },
+        "testimonials": {
+            "title": "Öğrenciler Ne Diyor?",
+            "subtitle": "Binlerce başarılı öğrenci sınavlarına Quizyen ile hazırlanıyor.",
+            "a1_name": "Ayşe Y.",
+            "a1_role": "Tıp Fakültesi Öğrencisi",
+            "a1_text": "TUS hazırlık sürecinde yüzlerce sayfalık notlarımı quiz haline getirmek hayatımı kurtardı. Kesinlikle tavsiye ederim!",
+            "e1_name": "Emre K.",
+            "e1_role": "Hukuk Öğrencisi",
+            "e1_text": "Karmaşık kanun metinlerini analiz edip soru sorması harika. Aktif öğrenme sayesinde artık daha az eforla daha çok şey hatırlıyorum.",
+            "s1_name": "Selin B.",
+            "s1_role": "YKS Hazırlık",
+            "s1_text": "Deneme sınavlarından önce kendi notlarımı hızlıca test etmek için kullanıyorum. Yapay zeka gerçekten çok isabetli sorular soruyor."
+        },
+        "cta_new": {
+            "badge": "Sınırlarını Aşmaya Hazır mısın?",
+            "title": "Sınav Stresine Son Verin, {akillica} Çalışın.",
+            "akillica": "Akıllıca",
+            "desc": "Binlerce öğrenci her gün Quizyen ile PDF'lerini oyunlaştırıyor. Saniyeler içinde üye olun ve farkı bugün görün.",
+            "btn_start": "Ücretsiz Başla",
+            "mobile_app": "Mobil Uygulamayı İndir",
+            "feature_card": "Kredi Kartı Gerekmez",
+            "feature_setup": "Saniyeler İçinde Kurulum",
+            "feature_unlimited": "Sınırsız PDF Analizi"
         }
     },
     "Common": {
@@ -79,7 +103,18 @@
         "save_changes": "Değişiklikleri Kaydet",
         "create_folder": "Klasör Oluştur",
         "correct": "Doğru",
-        "wrong": "Yanlış"
+        "wrong": "Yanlış",
+        "copy_success": "Kopyalandı!",
+        "copy_link": "Linki Kopyala",
+        "share_on_whatsapp": "WhatsApp'ta Paylaş",
+        "go_premium": "Premium'a Geç",
+        "download": "İndir",
+        "quiz_preparing": "Sınav Hazırlanıyor",
+        "quiz_preparing_description": "AI destekli sınavınız yüklenirken lütfen bekleyin. Bu sürede destekçilerimize göz atabilirsiniz.",
+        "continue": "Devam Et",
+        "please_wait": "Bekleyin",
+        "just_seconds_left": "SADECE BİRKAÇ SANİYE KALDI",
+        "ad_failed_to_load": "Reklam yüklenemedi"
     },
     "Header": {
         "welcome": "Hoş geldin",
@@ -141,7 +176,11 @@
         "rename_folder_title": "Klasörü Düzenle",
         "new_folder_title": "Yeni Klasör",
         "folder_name_label": "Klasör Adı",
-        "folder_name_placeholder": "Örn: Matematik, Tarih..."
+        "folder_name_placeholder": "Örn: Matematik, Tarih...",
+        "wrong_answers": "Yanlış Cevaplar",
+        "wrong_answers_description": "Yapay zeka, yanlış cevaplarını analiz etsin ve gelişmene yardımcı olacak yeni sınavlar oluştursun.",
+        "pro": "Pro",
+        "delete": "Sil"
     },
     "Performance": {
         "title": "Performans Analizi",
@@ -174,14 +213,34 @@
         "feature_ui_desc": "Göz yormayan karanlık mod ve öğrenci dostu arayüz.",
         "download_cta": "Hemen Ücretsiz İndir",
         "play_store": "Google Play'den İndir",
-        "app_store": "App Store (Yakında)"
+        "app_store": "App Store (Yakında)",
+        "mockup": {
+            "search": "Sınav ara...",
+            "create_title": "Yeni Sınav Oluştur",
+            "create_desc": "Bir sınav PDF'i yükle, yapay zeka senin için interaktif bir sınav hazırlayacak.",
+            "recent_studies": "Son Çalışmaların",
+            "all": "TÜMÜ",
+            "latest_work": "EN SON ÇALIŞMAN",
+            "studied_at": "{date} tarihinde bakıldı",
+            "correct": "Doğru",
+            "wrong": "Yanlış",
+            "score": "Puan",
+            "history": "GEÇMİŞ SONUÇLAR",
+            "start": "BAŞLAT"
+        },
+        "highlights": {
+            "title": "Akıllı Sınav Hazırlığı",
+            "subtitle": "Hızlı, senkronize ve modern. Quizyen mobil ile çalışma alışkanlıklarını baştan yaratıyoruz.",
+            "footer_rights": "© 2026 Quizyen. Tüm hakları saklıdır."
+        }
     },
     "Auth": {
         "title": "Quizyen",
         "subtitle": "Sınavlarına Akıllıca Çalış",
         "google_login": "Google ile Devam Et",
         "terms_accept": "Tıklayarak kullanım koşullarımızı kabul etmiş olursunuz.",
-        "signup_success": "Hesap oluşturuldu! Lütfen giriş yapın."
+        "signup_success": "Hesap oluşturuldu! Lütfen giriş yapın.",
+        "dev_login": "DEV: Süperadmin Girişi"
     },
     "Dashboard": {
         "greeting_morning": "Günaydın",
@@ -269,6 +328,39 @@
         "original_desc": "Sınavı hazırlandığı sırayla çözün.",
         "shuffle_desc": "Soruları ve şıkları karıştırarak kendinizi zorlayın.",
         "vazgec": "Vazgeç"
+    },
+    "QuizImport": {
+        "title": "Sınavı Kütüphanene Ekle",
+        "welcome": "Senin için bir sınav paylaşıldı!",
+        "shared_quiz": "Paylaşılan Sınav",
+        "description": "Bu sınavı kendi kütüphanene eklemek ve hemen çözmeye başlamak için giriş yapmalısın.",
+        "footer_text": "Quizyen ile öğrenmeyi daha etkili hale getiriyoruz."
+    },
+    "QuizActions": {
+        "download_title": "Sınavı İndir",
+        "download_desc": "Sınavı PDF olarak indir.",
+        "premium_only": "Bu özellik sadece premium üyeler için mevcuttur.",
+        "share_title": "Sınavı Paylaş",
+        "share_desc": "Sınavı arkadaşlarınla paylaş.",
+        "share_btn": "Paylaş",
+        "quiz_preparing": "Sınav Hazırlanıyor",
+        "quiz_preparing_description": "AI destekli sınavınız yüklenirken lütfen bekleyin. Bu sürede destekçilerimize göz atabilirsiniz.",
+        "continue": "Devam Et",
+        "please_wait": "Bekleyin",
+        "just_seconds_left": "SADECE BİRKAÇ SANİYE KALDI",
+        "ad_failed_to_load": "Reklam yüklenemedi",
+        "download": "İndir",
+        "share": "Paylaş",
+        "share_via_whatsapp": "WhatsApp ile Paylaş",
+        "share_via_twitter": "Twitter ile Paylaş",
+        "share_via_facebook": "Facebook ile Paylaş",
+        "copy_link": "Bağlantıyı Kopyala",
+        "copied": "Bağlantı kopyalandı!",
+        "go_premium": "Premium'a Geç",
+        "shuffle_questions": "Soruları Karıştır",
+        "answer_key": "Cevap Anahtarı",
+        "whatsapp_template": "\"* {title} *\" sınavını çözmeye hazır mısın? Hemen tıkla ve kendini dene: {url}",
+        "whatsapp_template_no_title": "Bu sınavı çözmeye hazır mısın? Hemen tıkla ve kendini dene: {url}"
     },
     "Profile": {
         "title": "Profil & Ayarlar",

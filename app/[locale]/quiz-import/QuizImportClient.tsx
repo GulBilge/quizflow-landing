@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { Loader2, ScanLine, BookOpen } from "lucide-react";
@@ -12,16 +13,15 @@ interface QuizImportClientProps {
 }
 
 export default function QuizImportClient({ quizId, quizTitle, locale }: QuizImportClientProps) {
+    const t = useTranslations("QuizImport");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
-    const isTr = locale === "tr";
 
     const handleGoogleLogin = async () => {
         setLoading(true);
         setError(null);
         const supabase = createClient();
-        const nextPath = `/dashboard/quiz/${quizId}`;
+        const nextPath = `/quiz-import?id=${quizId}`;
         
         const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
@@ -63,10 +63,10 @@ export default function QuizImportClient({ quizId, quizTitle, locale }: QuizImpo
                             <ScanLine size={32} className="text-white" />
                         </motion.div>
                         <h1 className="text-2xl font-extrabold text-white mb-1">
-                            {isTr ? "QR Kodu Taradınız!" : "You Scanned a QR Code!"}
+                            {t("title")}
                         </h1>
                         <p className="text-indigo-200 text-sm font-medium">
-                            {isTr ? "Quizyen'e Hoş Geldiniz" : "Welcome to Quizyen"}
+                            {t("welcome")}
                         </p>
                     </div>
 
@@ -79,16 +79,14 @@ export default function QuizImportClient({ quizId, quizTitle, locale }: QuizImpo
                             </div>
                             <div>
                                 <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-0.5">
-                                    {isTr ? "Paylaşılan Quiz" : "Shared Quiz"}
+                                    {t("shared_quiz")}
                                 </p>
                                 <p className="text-base font-bold text-slate-900 leading-snug">{quizTitle}</p>
                             </div>
                         </div>
 
                         <p className="text-slate-500 text-sm text-center mb-6 leading-relaxed">
-                            {isTr
-                                ? "Bu quiz kütüphanenize otomatik olarak eklenecek ve hemen açılacak. Devam etmek için giriş yapın."
-                                : "This quiz will be added to your library automatically and opened right away. Sign in to continue."}
+                            {t("description")}
                         </p>
 
                         {error && (
@@ -112,21 +110,19 @@ export default function QuizImportClient({ quizId, quizTitle, locale }: QuizImpo
                                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                                     </svg>
-                                    <span>{isTr ? "Google ile Giriş Yap" : "Sign in with Google"}</span>
+                                    <span>{useTranslations("Auth")("google_login")}</span>
                                 </>
                             )}
                         </button>
 
                         <p className="text-center text-[10px] text-slate-400 mt-4 leading-tight px-4">
-                            {isTr
-                                ? "Giriş yaparak Quizyen Kullanım Koşulları'nı ve Gizlilik Politikası'nı kabul etmiş olursunuz."
-                                : "By signing in, you agree to Quizyen's Terms of Service and Privacy Policy."}
+                            {useTranslations("Auth")("terms_accept")}
                         </p>
                     </div>
                 </div>
 
                 <p className="text-center text-xs text-slate-400 mt-4">
-                    {isTr ? "Quizyen · AI Destekli Quiz Platformu" : "Quizyen · AI-Powered Quiz Platform"}
+                    {t("footer_text")}
                 </p>
             </motion.div>
         </div>

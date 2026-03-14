@@ -58,7 +58,8 @@ describe('CheckoutPage', () => {
     fireEvent.click(havaleBtn);
     
     expect(screen.getByText('modal_title')).toBeDefined();
-    expect(screen.getByText(/Quizyen Eğitim ve Teknoloji/)).toBeDefined();
+    // Use getAllByText as the receiver name might appear multiple times
+    expect(screen.getAllByText(/Bilge/)[0]).toBeDefined();
   });
 
   it('shows success state after confirming bank transfer', async () => {
@@ -76,18 +77,19 @@ describe('CheckoutPage', () => {
     });
   });
 
-  it('calls shopier API when clicking "Shopier ile Öde"', async () => {
-    // Mock global fetch
-    global.fetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ form: '<form id="shopier_form"></form>' }),
-    });
+  it('redirects to Shopier when clicking "Shopier ile Öde"', async () => {
+    // Mock window.location.href
+    const originalLocation = window.location;
+    delete (window as any).location;
+    window.location = { ...originalLocation, href: '' } as any;
 
     render(<CheckoutPage />);
     
     const shopierBtn = screen.getByText('shopier_btn');
     fireEvent.click(shopierBtn);
     
-    expect(global.fetch).toHaveBeenCalledWith('/api/shopier/pay', { method: 'POST' });
+    expect(window.location.href).toContain('shopier.com');
+    
+    window.location = originalLocation as any;
   });
 });

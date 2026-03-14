@@ -52,28 +52,15 @@ export const generateQuizPDF = async (
         pageSize: 'A4',
         pageMargins: [40, 60, 40, 60],
         
-        // Background watermark (large, faint)
-        background: function (currentPage: number, pageSize: any) {
-            return {
-                text: Array(25).fill(watermarkText + '          ' + watermarkText).join('\n\n\n'),
-                color: '#c7d2fe', // soluk indigo (indigo-200)
-                bold: true,
-                fontSize: 32,
-                opacity: 0.04, // iyice silikleştirildi (0.15'ten 0.04'e düşürüldü)
-                absolutePosition: { x: -200, y: -100 },
-                alignment: 'center',
-                angle: -30, // 30% dikey eğik
-            };
-        },
-
         // Header containing the QR code and small watermark
         header: function(currentPage: number, pageCount: number, pageSize: any) {
             return {
                 columns: [
                     {
                         text: smallWatermarkText,
-                        color: '#94a3b8', // slate-400
-                        fontSize: 8,
+                        color: '#cbd5e1', // slate-300
+                        fontSize: 6,
+                        opacity: 0.5,
                         margin: [40, 20, 0, 0],
                         alignment: 'left'
                     },
@@ -93,8 +80,9 @@ export const generateQuizPDF = async (
                 columns: [
                     {
                         text: smallWatermarkText, // Left bottom
-                        color: '#94a3b8',
-                        fontSize: 8,
+                        color: '#cbd5e1',
+                        fontSize: 6,
+                        opacity: 0.5,
                         alignment: 'left',
                         margin: [40, 0, 0, 0]
                     },
@@ -140,8 +128,9 @@ export const generateQuizPDF = async (
                 color: '#334155' // slate-700
             },
             questionWatermark: {
-                fontSize: 6,
-                color: '#cbd5e1', // slate-300
+                fontSize: 5,
+                color: '#e2e8f0', // slate-200 (çok daha silik)
+                opacity: 0.4,
                 margin: [0, 2, 0, 0],
                 alignment: 'right'
             }

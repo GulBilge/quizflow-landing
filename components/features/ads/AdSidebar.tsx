@@ -4,6 +4,7 @@ import React from "react";
 import { Crown, Sparkles, Megaphone } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import GoogleAd from "./GoogleAd";
 
 interface AdSidebarProps {
     isPremium?: boolean;
@@ -63,14 +64,17 @@ export default function AdSidebar({ isPremium = false }: AdSidebarProps) {
                     </div>
 
                     {/* Future AdSense Integration Point */}
-                    {/* 
-                    <ins className="adsbygoogle"
-                         style={{ display: 'block' }}
-                         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                         data-ad-slot="XXXXXXXXXX"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    */}
+                    <div className="mt-8 pt-6 border-t border-slate-200/50 dark:border-slate-700/50 w-full">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 font-bold px-2">
+                            {t("sponsored")}
+                        </div>
+                        <GoogleAd
+                            slot="5202700378"
+                            format="rectangle"
+                            responsive="true"
+                            className="w-full min-h-[250px] mx-auto bg-slate-100/50 dark:bg-slate-800/50 rounded-2xl"
+                        />
+                    </div>
                 </div>
 
                 {/* Animated background elements */}
