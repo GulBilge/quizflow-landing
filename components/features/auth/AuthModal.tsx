@@ -196,7 +196,7 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
                                                     if (otpError) throw otpError;
                                                 }
 
-                                                window.location.href = '/dashboard';
+                                                router.push('/dashboard');
                                             } else {
                                                 setError('Dev login failed: ' + (data.error || 'Token mising'));
                                             }

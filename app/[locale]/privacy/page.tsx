@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Shield, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 export default function PrivacyPolicy() {
     return (

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { Smartphone, Zap, Cloud, ShieldCheck, Download, Star, CheckCircle2, ArrowRight, BookOpen, Layers, Target, Search, Menu, Plus, ChevronRight, Play, Check, X, Trophy, Calendar } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { use } from 'react';
 import Image from 'next/image';
 

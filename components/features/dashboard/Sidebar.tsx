@@ -1,12 +1,10 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { Home, Library, User, LogOut, Activity } from 'lucide-react';
 import BrandLogo from '@/components/layout/BrandLogo';
 import { cn } from '@/utils/cn';
 import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 export default function Sidebar({ user }: { user: any }) {

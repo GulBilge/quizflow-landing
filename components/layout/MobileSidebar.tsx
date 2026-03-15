@@ -3,8 +3,7 @@
 import { cn } from "@/utils/cn";
 import { ChevronRight, Home, Library, LogOut, User, X, Activity } from "lucide-react";
 import BrandLogo from "./BrandLogo";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import { useTranslations } from "next-intl";

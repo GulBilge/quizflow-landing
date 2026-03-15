@@ -65,6 +65,7 @@
             "legal": "Legal",
             "privacy_policy": "Privacy Policy",
             "terms_of_service": "Terms of Service",
+            "social_media": "Social Media",
             "copyright": "© 2026 Quizyen. All rights reserved."
         },
         "testimonials": {
@@ -177,8 +178,8 @@
         "new_folder_title": "New Folder",
         "folder_name_label": "Folder Name",
         "folder_name_placeholder": "e.g. Math, History...",
-        "wrong_answers": "Wrong Answers",
-        "wrong_answers_description": "Let AI analyze your wrong answers and create new quizzes to help you improve.",
+        "wrong_answers": "Empowering Questions",
+        "wrong_answers_description": "Let AI analyze your gaps and create new quizzes to empower your learning journey.",
         "pro": "Pro",
         "delete": "Delete"
     },
@@ -395,6 +396,12 @@
         "success_title": "Notification Received",
         "success_desc": "We will check your payment and activate your membership as soon as possible.",
         "redirecting": "Redirecting to Shopier...",
-        "bank_info_note": "Money transfers made to your bank account are made with the name and surname information registered in your Shopier account."
+        "bank_info_note": "Money transfers made to your bank account are made with the name and surname information registered in your Shopier account.",
+        "suspended_title": "Web Payments Are Temporarily Suspended",
+        "suspended_desc": "To provide you with a better experience, we have temporarily suspended web payments. To access Premium features and continue your exams, please download our mobile app.",
+        "download_app_btn": "Download Mobile App",
+        "social_media_title": "Follow Us",
+        "social_media_desc": "Follow our social media accounts to stay informed about the latest features and announcements.",
+        "coming_soon": "Coming Soon"
     }
 }

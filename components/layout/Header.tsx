@@ -6,7 +6,7 @@ import { Crown, Menu, Moon, Search, Sun } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from '@/i18n/routing';
 import MobileSidebar from "./MobileSidebar";
 
 

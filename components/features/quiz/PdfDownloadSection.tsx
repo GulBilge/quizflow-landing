@@ -7,6 +7,8 @@ import { cn } from "@/utils/cn";
 import { createClient } from "@/utils/supabase/client";
 import { useLocale, useTranslations } from "next-intl";
 
+import { useRouter } from "@/i18n/routing";
+
 interface PdfDownloadSectionProps {
     quizId: string;
     quizTitle?: string;
@@ -66,11 +68,13 @@ export default function PdfDownloadSection({
         fetchPremiumStatus();
     }, [isPremiumContext, supabase.auth]);
 
+    const router = useRouter();
+
     const handleDownloadPdf = async (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent card clicks
         if (isLoadingPremium) return;
         if (!isPremium) {
-            window.location.href = '/checkout';
+            router.push('/checkout');
             return;
         }
         

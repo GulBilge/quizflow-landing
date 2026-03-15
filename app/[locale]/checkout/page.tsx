@@ -1,73 +1,34 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
-  CreditCard,
-  Send,
+  Smartphone,
   CheckCircle2,
   ArrowLeft,
-  Copy,
-  Check,
-  Info,
-  Loader2,
   ShieldCheck,
-  Star
+  Star,
+  Instagram,
+  Facebook,
+  Youtube,
+  Twitter,
+  ExternalLink,
+  PlayCircle,
+  Music
 } from 'lucide-react';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { createClient } from '@/utils/supabase/client';
 
 export default function CheckoutPage() {
   const t = useTranslations('Checkout');
   const router = useRouter();
-  const supabase = createClient();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [copied, setCopied] = useState<string | null>(null);
-
-  const iban = "TR28 0001 2009 8160 0001 1423 54";
-  const receiver = "Bilge Gül Koç";
-
-  const handleCopy = (text: string, type: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(type);
-    setTimeout(() => setCopied(null), 2000);
-  };
-
-  const handleBankPaymentDone = async () => {
-    setIsLoading(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not found");
-
-      const { error } = await (supabase as any)
-        .from('profiles')
-        .update({
-          subscription_status: 'pending_approval',
-          payment_method: 'havale'
-        } as any)
-        .eq('id', user.id);
-
-      if (error) throw error;
-
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsModalOpen(false);
-        router.push('/dashboard');
-      }, 3000);
-    } catch (error) {
-      console.error("Error updating status:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleShopierPay = () => {
-    window.location.href = 'https://www.shopier.com/quizyen/45161446';
-  };
+  const socialLinks = [
+    { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/quizyen?igsh=MWNzc3c2YWgyN3NiNw==', active: true },
+    { name: 'Facebook', icon: Facebook, href: '#', active: false },
+    { name: 'YouTube', icon: Youtube, href: '#', active: false },
+    { name: 'TikTok', icon: Music, href: '#', active: false }, // Using Music as fallback for TikTok
+    { name: 'Twitter', icon: Twitter, href: '#', active: false },
+  ];
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
@@ -94,91 +55,88 @@ export default function CheckoutPage() {
             <span>Quizyen Premium</span>
           </motion.div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-4 tracking-tight">
-            {t('title')}
+            {t('suspended_title')}
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
-            {t('subtitle')}
+            {t('suspended_desc')}
           </p>
         </div>
 
-        {/* Payment Options Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {/* Shopier Option */}
-          <motion.div
-            whileHover={{ y: -5 }}
-            className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 flex flex-col relative overflow-hidden group"
-          >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-all duration-700" />
+        {/* Main Action Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white dark:bg-slate-800 rounded-[3rem] p-8 sm:p-12 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 mb-12 relative overflow-hidden text-center"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl" />
 
-            <div className="relative z-10 flex-1">
-              <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                <CreditCard size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                {t('shopier_title')}
-              </h3>
-              <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium">
-                {t('shopier_desc')}
-              </p>
+          <div className="relative z-10 space-y-8">
+            <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/30 rounded-3xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mx-auto transform rotate-3">
+              <Smartphone size={40} />
+            </div>
 
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-4xl font-black text-slate-900 dark:text-white">99 TL</span>
-                <span className="text-slate-400 font-medium">/ aylık</span>
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                {t('download_app_btn')}
+              </h2>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.gulbilge.quizflow&pcampaignid=web_share"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-bold transition-all hover:scale-105"
+                >
+                  <PlayCircle size={24} />
+                  <div className="text-left">
+                    <p className="text-[10px] uppercase font-bold opacity-60 leading-none">GET IT ON</p>
+                    <p className="text-lg leading-none pt-1">Google Play</p>
+                  </div>
+                </a>
+                <div className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 rounded-2xl font-bold cursor-not-allowed border border-slate-200 dark:border-slate-600">
+                  <Smartphone size={24} />
+                  <div className="text-left">
+                    <p className="text-[10px] uppercase font-bold opacity-60 leading-none">COMING SOON</p>
+                    <p className="text-lg leading-none pt-1">App Store</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <button
-              onClick={handleShopierPay}
-              disabled={isLoading}
-              className="relative z-10 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-5 rounded-2xl font-bold shadow-lg shadow-indigo-600/20 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
-            >
-              {isLoading ? (
-                <Loader2 className="animate-spin" size={20} />
-              ) : (
-                <>
-                  <ShieldCheck size={20} />
-                  {t('shopier_btn')}
-                </>
-              )}
-            </button>
-          </motion.div>
-
-          {/* Bank Transfer Option */}
-          <motion.div
-            whileHover={{ y: -5 }}
-            className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 flex flex-col relative overflow-hidden group"
-          >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-all duration-700" />
-
-            <div className="relative z-10 flex-1">
-              <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-600 dark:text-amber-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Send size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                {t('bank_title')}
-              </h3>
-              <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium">
-                {t('bank_desc')}
+            {/* Social Media Links */}
+            <div className="pt-8 border-t border-slate-100 dark:border-slate-700">
+              <p className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-6">
+                {t('social_media_title')}
               </p>
-
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-4xl font-black text-slate-900 dark:text-white">99 TL</span>
-                <span className="text-slate-400 font-medium">/ aylık</span>
+              <div className="flex flex-wrap justify-center gap-4">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target={social.active ? "_blank" : "_self"}
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-2 px-5 py-3 rounded-2xl border transition-all ${
+                      social.active
+                        ? "bg-white dark:bg-slate-800 border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 hover:shadow-lg hover:border-indigo-400"
+                        : "bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed"
+                    }`}
+                  >
+                    <social.icon size={20} />
+                    <span className="font-bold">{social.name}</span>
+                    {!social.active && (
+                      <span className="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded-md">
+                        {t('coming_soon')}
+                      </span>
+                    )}
+                  </a>
+                ))}
               </div>
             </div>
+          </div>
+        </motion.div>
 
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="relative z-10 w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 py-5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-3 hover:bg-slate-800 dark:hover:bg-slate-100"
-            >
-              <Info size={20} />
-              {t('bank_btn')}
-            </button>
-          </motion.div>
-        </div>
-
-        {/* Secure Payment Badge */}
-        <div className="flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500">
+        {/* Secure Payment Badge (Kept for trust, but maybe remove if confusing? Plan says keep layout clean) */}
+        <div className="flex flex-col items-center gap-4 text-slate-400 dark:text-slate-500 opacity-50">
           <div className="flex items-center gap-6">
             <ShieldCheck size={48} className="opacity-20" />
             <div className="h-8 w-px bg-slate-200 dark:bg-slate-700" />
@@ -188,125 +146,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
-
-      {/* Bank Transfer Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => !isLoading && setIsModalOpen(false)}
-              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100]"
-            />
-            <div className="fixed inset-0 flex items-center justify-center z-[110] p-4 pointer-events-none">
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                className="bg-white dark:bg-slate-800 w-full max-w-lg rounded-[2.5rem] shadow-2xl p-8 pointer-events-auto border border-slate-100 dark:border-slate-700"
-              >
-                {!isSuccess ? (
-                  <div className="space-y-6">
-                    <div className="text-center">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('modal_title')}</h2>
-                      <p className="text-slate-500 dark:text-slate-400 font-medium">
-                        {t('modal_desc')}
-                      </p>
-                    </div>
-
-                    <div className="space-y-4">
-                      {/* Info Box */}
-                      <div className="bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-800/50 flex gap-3">
-                        <div className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
-                          <Info size={18} />
-                        </div>
-                        <p className="text-sm font-medium text-emerald-800 dark:text-emerald-200 leading-relaxed">
-                          <span className="font-bold block mb-1">Bilgi:</span>
-                          {t('bank_info_note')}
-                        </p>
-                      </div>
-
-                      {/* IBAN */}
-                      <div className="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-3xl border border-slate-100 dark:border-slate-700 group relative">
-                        <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 block">
-                          {t('iban_label')}
-                        </label>
-                        <div className="flex items-center justify-between">
-                          <span className="font-mono text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300">
-                            {iban}
-                          </span>
-                          <button
-                            onClick={() => handleCopy(iban, 'iban')}
-                            className="p-2 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all text-indigo-600"
-                          >
-                            {copied === 'iban' ? <Check size={20} /> : <Copy size={20} />}
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Receiver */}
-                      <div className="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-3xl border border-slate-100 dark:border-slate-700 group relative">
-                        <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 block">
-                          {t('receiver_label')}
-                        </label>
-                        <div className="flex items-center justify-between">
-                          <span className="font-bold text-slate-700 dark:text-slate-300">
-                            {receiver}
-                          </span>
-                          <button
-                            onClick={() => handleCopy(receiver, 'receiver')}
-                            className="p-2 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all text-indigo-600"
-                          >
-                            {copied === 'receiver' ? <Check size={20} /> : <Copy size={20} />}
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Account Holder Info (Specific to the image provided) */}
-                      <div className="pt-2">
-                        <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Banka hesap sahibi:</p>
-                        <p className="text-xl font-bold text-slate-900 dark:text-white">{receiver}</p>
-                      </div>
-
-                      {/* Amount */}
-                      <div className="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-3xl border border-slate-100 dark:border-slate-700">
-                        <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 block">
-                          {t('amount_label')}
-                        </label>
-                        <span className="text-xl font-black text-indigo-600 dark:text-indigo-400">
-                          {t('amount_value')}
-                        </span>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={handleBankPaymentDone}
-                      disabled={isLoading}
-                      className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-5 rounded-2xl font-bold shadow-lg shadow-indigo-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-                    >
-                      {isLoading ? <Loader2 className="animate-spin" size={24} /> : t('payment_done')}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="text-center py-12 space-y-6">
-                    <div className="w-24 h-24 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 mx-auto animate-bounce">
-                      <CheckCircle2 size={48} />
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('success_title')}</h2>
-                      <p className="text-slate-500 dark:text-slate-400 font-medium">
-                        {t('success_desc')}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            </div>
-          </>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

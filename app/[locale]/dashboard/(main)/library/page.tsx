@@ -9,6 +9,7 @@ import QuizUpload from "@/components/features/dashboard/QuizUpload";
 import LibraryFolderSection from "@/components/features/dashboard/LibraryFolderSection";
 import RecentQuizCard from "@/components/features/dashboard/RecentQuizCard";
 import EditQuizTitleModal from "@/components/features/dashboard/EditQuizTitleModal";
+import { useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { quizService } from "@/lib/quizService";
 import { toast } from "sonner";
@@ -167,9 +168,11 @@ export default function LibraryPage() {
         });
     };
 
+    const router = useRouter();
+
     const handlePracticeWrongAnswers = async (folderId: string | null) => {
         if (!isPremium) {
-            window.location.href = '/checkout';
+            router.push('/checkout');
             return;
         }
 
@@ -199,7 +202,7 @@ export default function LibraryPage() {
             }
 
             if (data.quizId) {
-                window.location.href = `/dashboard/quiz/${data.quizId}`;
+                router.push(`/dashboard/quiz/${data.quizId}`);
             }
         } catch (err) {
             console.error(err);

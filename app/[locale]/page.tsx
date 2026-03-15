@@ -16,11 +16,16 @@ import {
   CheckCircle2,
   ArrowRight,
   Globe,
-  User
+  User,
+  Instagram,
+  Facebook,
+  Youtube,
+  Twitter,
+  Music
 } from 'lucide-react';
 import BrandLogo from '@/components/layout/BrandLogo';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { createClient } from '@/utils/supabase/client';
@@ -701,8 +706,22 @@ export default function Home() {
 
           <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-slate-400">{t('footer.copyright')}</p>
-            <div className="flex items-center gap-6">
-              {/* Social icons could go here */}
+            <div className="flex items-center gap-4">
+              <a href="https://www.instagram.com/quizyen?igsh=MWNzc3c2YWgyN3NiNw==" target="_blank" rel="noopener noreferrer" className="p-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all" title="Instagram">
+                <Instagram size={20} />
+              </a>
+              <div className="p-2 rounded-xl bg-slate-50 text-slate-300 cursor-not-allowed" title="Facebook (Yakında)">
+                <Facebook size={20} />
+              </div>
+              <div className="p-2 rounded-xl bg-slate-50 text-slate-300 cursor-not-allowed" title="YouTube (Yakında)">
+                <Youtube size={20} />
+              </div>
+              <div className="p-2 rounded-xl bg-slate-50 text-slate-300 cursor-not-allowed" title="TikTok (Yakında)">
+                <Music size={20} />
+              </div>
+              <div className="p-2 rounded-xl bg-slate-50 text-slate-300 cursor-not-allowed" title="Twitter (Yakında)">
+                <Twitter size={20} />
+              </div>
             </div>
           </div>
         </div>

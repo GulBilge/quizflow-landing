@@ -65,6 +65,7 @@
             "legal": "Yasal",
             "privacy_policy": "Gizlilik Politikası",
             "terms_of_service": "Kullanım Koşulları",
+            "social_media": "Sosyal Medya",
             "copyright": "© 2026 Quizyen. Tüm hakları saklıdır."
         },
         "testimonials": {
@@ -177,8 +178,8 @@
         "new_folder_title": "Yeni Klasör",
         "folder_name_label": "Klasör Adı",
         "folder_name_placeholder": "Örn: Matematik, Tarih...",
-        "wrong_answers": "Yanlış Cevaplar",
-        "wrong_answers_description": "Yapay zeka, yanlış cevaplarını analiz etsin ve gelişmene yardımcı olacak yeni sınavlar oluştursun.",
+        "wrong_answers": "Güçlendiren Sorular",
+        "wrong_answers_description": "Yapay zeka eksiklerini analiz etsin ve seni güçlendirecek yeni sınavlar hazırlasın.",
         "pro": "Pro",
         "delete": "Sil"
     },
@@ -395,6 +396,12 @@
         "success_title": "Bildirim Alındı",
         "success_desc": "Ödemenizi kontrol edip en kısa sürede üyeliğinizi aktif edeceğiz.",
         "redirecting": "Shopier'e yönlendiriliyorsunuz...",
-        "bank_info_note": "Banka hesabınıza yapılan para gönderimleri, Shopier hesabınızda kayıtlı isim, soyisim bilgisi ile yapılmaktadır."
+        "bank_info_note": "Banka hesabınıza yapılan para gönderimleri, Shopier hesabınızda kayıtlı isim, soyisim bilgisi ile yapılmaktadır.",
+        "suspended_title": "Web Üzerinden Ödeme Almayı Askıya Aldık",
+        "suspended_desc": "Sizlere daha iyi bir deneyim sunmak için web üzerinden ödemeleri geçici olarak durdurduk. Premium özelliklere erişmek ve sınavlarınıza devam etmek için lütfen mobil uygulamamızı indirin.",
+        "download_app_btn": "Mobil Uygulamayı İndir",
+        "social_media_title": "Bizi Takip Edin",
+        "social_media_desc": "En yeni özelliklerden ve duyurulardan haberdar olmak için sosyal medya hesaplarımızı takip edin.",
+        "coming_soon": "Yakında"
     }
 }
