@@ -115,7 +115,10 @@
         "continue": "Continue",
         "please_wait": "Wait",
         "just_seconds_left": "JUST A FEW SECONDS LEFT",
-        "ad_failed_to_load": "Ad failed to load"
+        "ad_failed_to_load": "Ad failed to load",
+        "premium_web_feature_title": "Premium Feature",
+        "premium_web_feature_desc": "Quiz creation is only available for Premium users on the web. Please upgrade to Premium via our mobile app for unlimited access to all features.",
+        "premium_web_feature_btn": "Download Mobile App"
     },
     "Header": {
         "welcome": "Welcome",
@@ -402,6 +405,10 @@
         "download_app_btn": "Download Mobile App",
         "social_media_title": "Follow Us",
         "social_media_desc": "Follow our social media accounts to stay informed about the latest features and announcements.",
-        "coming_soon": "Coming Soon"
+        "coming_soon": "Coming Soon",
+        "ios_waitlist_title": "iOS Version Coming Soon!",
+        "ios_waitlist_desc": "We are working hard to bring Quizyen to your iPhone and iPad. Be the first to know when it's ready.",
+        "ios_waitlist_btn": "Notify Me",
+        "ios_waitlist_success": "Great! We'll notify you when the iOS version is released."
     }
 }

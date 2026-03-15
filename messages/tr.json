@@ -115,7 +115,10 @@
         "continue": "Devam Et",
         "please_wait": "Bekleyin",
         "just_seconds_left": "SADECE BİRKAÇ SANİYE KALDI",
-        "ad_failed_to_load": "Reklam yüklenemedi"
+        "ad_failed_to_load": "Reklam yüklenemedi",
+        "premium_web_feature_title": "Premium Özellik",
+        "premium_web_feature_desc": "Sınav oluşturma özelliği web üzerinden sadece Premium kullanıcılara özeldir. Tüm özelliklere sınırsız erişmek için lütfen mobil uygulamamız üzerinden Premium'a geçin.",
+        "premium_web_feature_btn": "Mobil Uygulamayı İndir"
     },
     "Header": {
         "welcome": "Hoş geldin",
@@ -402,6 +405,10 @@
         "download_app_btn": "Mobil Uygulamayı İndir",
         "social_media_title": "Bizi Takip Edin",
         "social_media_desc": "En yeni özelliklerden ve duyurulardan haberdar olmak için sosyal medya hesaplarımızı takip edin.",
-        "coming_soon": "Yakında"
+        "coming_soon": "Yakında",
+        "ios_waitlist_title": "iOS Sürümü Çok Yakında!",
+        "ios_waitlist_desc": "Quizyen'i iPhone ve iPad cihazlarınızda kullanabilmeniz için çalışmalarımız tüm hızıyla sürüyor. Hazır olduğunda ilk sizin haberiniz olsun.",
+        "ios_waitlist_btn": "Haber Ver",
+        "ios_waitlist_success": "Harika! iOS sürümü yayınlandığında size haber vereceğiz."
     }
 }

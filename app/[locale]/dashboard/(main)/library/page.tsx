@@ -9,6 +9,7 @@ import QuizUpload from "@/components/features/dashboard/QuizUpload";
 import LibraryFolderSection from "@/components/features/dashboard/LibraryFolderSection";
 import RecentQuizCard from "@/components/features/dashboard/RecentQuizCard";
 import EditQuizTitleModal from "@/components/features/dashboard/EditQuizTitleModal";
+import PremiumWebFeatureModal from "@/components/features/dashboard/PremiumWebFeatureModal";
 import { useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { quizService } from "@/lib/quizService";
@@ -55,6 +56,7 @@ export default function LibraryPage() {
     // Edit Title States
     const [isEditTitleModalOpen, setIsEditTitleModalOpen] = useState(false);
     const [editingQuiz, setEditingQuiz] = useState<{ id: string; title: string } | null>(null);
+    const [isPremiumModalOpen, setIsPremiumModalOpen] = useState(false);
 
     const supabase = createClient();
 
@@ -172,7 +174,7 @@ export default function LibraryPage() {
 
     const handlePracticeWrongAnswers = async (folderId: string | null) => {
         if (!isPremium) {
-            router.push('/checkout');
+            setIsPremiumModalOpen(true);
             return;
         }
 
@@ -446,7 +448,13 @@ export default function LibraryPage() {
                         </p>
                         {!searchValue && (
                             <button
-                                onClick={() => setIsUploadModalOpen(true)}
+                                onClick={() => {
+                                    if (!isPremium) {
+                                        setIsPremiumModalOpen(true);
+                                        return;
+                                    }
+                                    setIsUploadModalOpen(true);
+                                }}
                                 className="inline-flex items-center gap-3 px-10 py-5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/40 active:scale-95"
                             >
                                 <Plus size={24} />
@@ -479,7 +487,10 @@ export default function LibraryPage() {
             />
 
             {isUploadModalOpen && (
-                <QuizUpload onClose={() => setIsUploadModalOpen(false)} />
+                <QuizUpload 
+                    onClose={() => setIsUploadModalOpen(false)} 
+                    isPremium={isPremium}
+                />
             )}
 
             <EditQuizTitleModal
@@ -490,6 +501,11 @@ export default function LibraryPage() {
                 }}
                 currentTitle={editingQuiz?.title || ""}
                 onSuccess={handleRenameQuiz}
+            />
+
+            <PremiumWebFeatureModal 
+                isOpen={isPremiumModalOpen} 
+                onClose={() => setIsPremiumModalOpen(false)} 
             />
         </div>
     );
