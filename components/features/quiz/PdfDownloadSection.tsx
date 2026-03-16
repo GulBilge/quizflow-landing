@@ -99,7 +99,7 @@ export default function PdfDownloadSection({
                 };
             }
 
-            await generateQuizPDF(quizData, isPdfShuffleRequested, isAnswerKeyRequested, false, quizId, locale);
+            await generateQuizPDF(quizData, quizId, locale);
         } catch (error) {
             console.error("PDF generation failed:", error);
             const { toast } = await import("sonner");
@@ -137,34 +137,6 @@ export default function PdfDownloadSection({
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-                {isPremium && (
-                    <div className="flex gap-3 w-full sm:w-auto shrink-0 justify-center">
-                        <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition-colors bg-white dark:bg-slate-900 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 flex-1 sm:flex-none justify-center">
-                            <input
-                                type="checkbox"
-                                id={`shuffle-${quizId}`}
-                                checked={isPdfShuffleRequested}
-                                onChange={(e) => setIsPdfShuffleRequested(e.target.checked)}
-                                className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                            />
-                            <label htmlFor={`shuffle-${quizId}`} className="select-none font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer">
-                                {t("shuffle_questions")}
-                            </label>
-                        </div>
-                        <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition-colors bg-white dark:bg-slate-900 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 flex-1 sm:flex-none justify-center">
-                            <input
-                                type="checkbox"
-                                id={`answers-${quizId}`}
-                                checked={isAnswerKeyRequested}
-                                onChange={(e) => setIsAnswerKeyRequested(e.target.checked)}
-                                className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                            />
-                            <label htmlFor={`answers-${quizId}`} className="select-none font-medium text-xs sm:text-sm whitespace-nowrap cursor-pointer">
-                                {t("answer_key")}
-                            </label>
-                        </div>
-                    </div>
-                )}
                 
                 <Button
                     onClick={handleDownloadPdf}

@@ -18,31 +18,21 @@ export interface QuizData {
     content: Question[];
 }
 
-// Function to shuffle an array
-const shuffleArray = <T>(array: T[]): T[] => {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-};
-
+// PDF generation parameters
 export const generateQuizPDF = async (
     quiz: QuizData, 
-    shuffle: boolean = false, 
-    includeAnswerKey: boolean = false,
-    returnBase64: boolean = false,
     quizId?: string,
     locale: string = 'tr'
 ): Promise<string | null> => {
+    const shuffle = false;
+    const includeAnswerKey = true;
     // Generate QR code data URL — links to the quiz import page when scanned
     const qrUrl = quizId
         ? `https://quizyen.com/${locale}/quiz-import?id=${quizId}`
         : `https://quizyen.com/${locale}`;
     const qrCodeDataUrl = await QRCode.toDataURL(qrUrl, { width: 80, margin: 1 });
 
-    const questionsToUse = shuffle ? shuffleArray(quiz.content) : quiz.content;
+    const questionsToUse = quiz.content;
 
     const watermarkText = "Quizyen ile Hazırlandı / Prepared By Quizyen";
     const smallWatermarkText = "Quizyen ile Hazırlandı / Prepared By Quizyen";
@@ -203,14 +193,10 @@ export const generateQuizPDF = async (
         });
     }
 
-    // Generate and download or return base64
+    // Generate and download
     return new Promise<string | null>((resolve) => {
         const pdf = pdfMake.createPdf(docDefinition);
-        if (returnBase64) {
-            (pdf as any).getBase64((data: string) => resolve(data));
-        } else {
-            pdf.download(`${quiz.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_quiz.pdf`);
-            resolve(undefined as any);
-        }
+        pdf.download(`${quiz.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_quiz.pdf`);
+        resolve(undefined as any);
     });
 };
