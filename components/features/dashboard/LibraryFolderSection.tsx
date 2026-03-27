@@ -125,46 +125,30 @@ export default function LibraryFolderSection({
                                 e.stopPropagation();
                                 if (onPracticeWrongAnswers) onPracticeWrongAnswers();
                             }}
-                            className={cn(
-                                "flex items-center gap-3 w-full p-4 rounded-2xl border-2 transition-all group overflow-hidden relative text-left",
-                                isPremium
-                                    ? "bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 border-amber-200 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-600"
-                                    : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 grayscale-[0.5]"
-                            )}
+                            className="flex items-center gap-3 w-full p-4 rounded-2xl border-2 transition-all group overflow-hidden relative text-left bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 border-amber-200 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-600"
                         >
-                            {isPremium && (
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 dark:via-white/5 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 transition-transform hidden sm:block"></div>
-                            )}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 dark:via-white/5 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 transition-transform hidden sm:block" />
                             <div className={cn(
                                 "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-105",
-                                isPremium ? "bg-gradient-to-br from-amber-400 to-orange-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400"
+                                "bg-gradient-to-br from-amber-400 to-orange-500 text-white"
                             )}>
                                 <Target size={20} />
                             </div>
                             <div className="flex-1">
                                 <div className="flex items-center gap-2">
                                     <span className={cn(
-                                        "font-bold text-sm sm:text-base",
-                                        isPremium ? "text-amber-900 dark:text-amber-100" : "text-slate-700 dark:text-slate-300"
+                                        "font-bold text-sm sm:text-base text-amber-900 dark:text-amber-100"
                                     )}>
                                         {t('wrong_answers')}
                                     </span>
-                                    {isPremium && <Sparkles size={14} className="text-amber-500 animate-pulse hidden sm:block" />}
+                                    <Sparkles size={14} className="text-amber-500 animate-pulse hidden sm:block" />
                                 </div>
                                 <span className={cn(
-                                    "text-[11px] sm:text-xs font-semibold block mt-0.5",
-                                    isPremium ? "text-amber-700/80 dark:text-amber-300/80" : "text-slate-500"
+                                    "text-[11px] sm:text-xs font-semibold block mt-0.5 text-amber-700/80 dark:text-amber-300/80"
                                 )}>
                                     {t('wrong_answers_description')}
                                 </span>
                             </div>
-
-                            {!isPremium && (
-                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-                                    <Lock size={14} />
-                                    <span className="text-xs font-bold uppercase tracking-wide"> {t('pro')}</span>
-                                </div>
-                            )}
                         </button>
                     )}
                     {children}

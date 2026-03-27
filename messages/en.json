@@ -310,7 +310,10 @@
         "grading_completed": "Completed",
         "try_again": "Try Again",
         "return_dashboard": "Return to Home",
-        "built_with_quizyen": "Built with Quizyen"
+        "built_with_quizyen": "Built with Quizyen",
+        "guest_login_title": "Want to Save Your Result?",
+        "guest_login_desc": "By logging in, you can add this quiz to your library, save your score, and see detailed analytics.",
+        "guest_login_btn": "Log In and Save"
     },
     "Report": {
         "report_question": "Report Question",
@@ -343,7 +346,8 @@
     "QuizActions": {
         "download_title": "Download Quiz",
         "download_desc": "Download the quiz as a PDF.",
-        "premium_only": "This feature is only available to premium members.",
+        "premium_only": "Download by watching an ad.",
+        "download_with_ad": "Download with Ad",
         "share_title": "Share Quiz",
         "share_desc": "Share the quiz with your friends.",
         "share_btn": "Share",

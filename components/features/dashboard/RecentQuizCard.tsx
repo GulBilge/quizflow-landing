@@ -35,9 +35,6 @@ export default function RecentQuizCard({
     const locale = useNextLocale();
     const dateLocale = (locales as any)[locale] || locales.enUS;
     
-    // Toggle for PDF download section
-    const [showPdfOptions, setShowPdfOptions] = React.useState(false);
-    // Toggle for Share section
     const [showShareOptions, setShowShareOptions] = React.useState(false);
 
     const quiz = item.quizzes;
@@ -154,16 +151,6 @@ export default function RecentQuizCard({
                     </div>
                 )}
 
-                {/* PDF Download Expandable Area */}
-                {showPdfOptions && quiz?.id && (
-                    <div className="mb-3 animate-in slide-in-from-top-2 duration-300">
-                        <PdfDownloadSection 
-                            quizId={quiz.id}
-                            quizTitle={displayTitle}
-                            className="bg-slate-50/50 dark:bg-slate-900/30 shadow-none border-dashed"
-                        />
-                    </div>
-                )}
 
                 <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-2.5 text-xs font-extrabold text-slate-400 dark:text-slate-500">
@@ -179,7 +166,6 @@ export default function RecentQuizCard({
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setShowShareOptions(!showShareOptions);
-                                if (showPdfOptions) setShowPdfOptions(false);
                             }}
                             className={cn(
                                 "p-3 rounded-2xl transition-colors",
@@ -191,23 +177,14 @@ export default function RecentQuizCard({
                         >
                             <Share2 size={18} />
                         </button>
-                        {/* PDF download button */}
-                        <button 
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowPdfOptions(!showPdfOptions);
-                                if (showShareOptions) setShowShareOptions(false);
-                            }}
-                            className={cn(
-                                "p-3 rounded-2xl transition-colors",
-                                showPdfOptions
-                                    ? "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400"
-                                    : "bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
-                            )}
-                            title="PDF Seçenekleri"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </button>
+                        {/* PDF download component */}
+                        {quiz?.id && (
+                            <PdfDownloadSection 
+                                quizId={quiz.id}
+                                quizTitle={displayTitle}
+                                variant="icon"
+                            />
+                        )}
                         <Link href={`/dashboard/quiz/${quiz?.id}`} onClick={(e) => e.stopPropagation()}>
                             <button className="group/btn relative flex items-center gap-3 bg-indigo-600 text-white px-7 py-3 rounded-2xl font-black text-sm tracking-tight overflow-hidden transition-all hover:pr-9 active:scale-95 shadow-xl shadow-indigo-600/20">
                                 <span className="relative z-10">{tLibrary("sinavi_coz")}</span>

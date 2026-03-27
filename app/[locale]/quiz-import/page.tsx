@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import QuizImportClient from "./QuizImportClient";
 
 interface QuizImportPageProps {
     params: Promise<{ locale: string }>;
@@ -79,12 +78,6 @@ export default async function QuizImportPage({ params, searchParams }: QuizImpor
         redirect(`/${locale}/dashboard/quiz/${quizId}`);
     }
 
-    // Not logged in → show the landing page with login CTA
-    return (
-        <QuizImportClient
-            quizId={quizId}
-            quizTitle={quiz.title ?? ""}
-            locale={locale}
-        />
-    );
+    // Not logged in → redirect to player as guest (shared=true)
+    return redirect(`/${locale}/dashboard/quiz/${quizId}?shared=true`);
 }

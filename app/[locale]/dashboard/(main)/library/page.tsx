@@ -10,6 +10,7 @@ import LibraryFolderSection from "@/components/features/dashboard/LibraryFolderS
 import RecentQuizCard from "@/components/features/dashboard/RecentQuizCard";
 import EditQuizTitleModal from "@/components/features/dashboard/EditQuizTitleModal";
 import PremiumWebFeatureModal from "@/components/features/dashboard/PremiumWebFeatureModal";
+import AdInterstitial from "@/components/features/ads/AdInterstitial";
 import { useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { quizService } from "@/lib/quizService";
@@ -57,6 +58,8 @@ export default function LibraryPage() {
     const [isEditTitleModalOpen, setIsEditTitleModalOpen] = useState(false);
     const [editingQuiz, setEditingQuiz] = useState<{ id: string; title: string } | null>(null);
     const [isPremiumModalOpen, setIsPremiumModalOpen] = useState(false);
+    const [isShowingAd, setIsShowingAd] = useState(false);
+    const [pendingFolderId, setPendingFolderId] = useState<string | null>(null);
 
     const supabase = createClient();
 
@@ -172,12 +175,7 @@ export default function LibraryPage() {
 
     const router = useRouter();
 
-    const handlePracticeWrongAnswers = async (folderId: string | null) => {
-        if (!isPremium) {
-            setIsPremiumModalOpen(true);
-            return;
-        }
-
+    const proceedToSmartReview = async (folderId: string | null) => {
         const idToPass = folderId || 'uncategorized';
         setLoading(true);
         try {
@@ -212,6 +210,15 @@ export default function LibraryPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handlePracticeWrongAnswers = async (folderId: string | null) => {
+        if (!isPremium) {
+            setPendingFolderId(folderId);
+            setIsShowingAd(true);
+            return;
+        }
+        proceedToSmartReview(folderId);
     };
 
     // Actions
@@ -448,13 +455,7 @@ export default function LibraryPage() {
                         </p>
                         {!searchValue && (
                             <button
-                                onClick={() => {
-                                    if (!isPremium) {
-                                        setIsPremiumModalOpen(true);
-                                        return;
-                                    }
-                                    setIsUploadModalOpen(true);
-                                }}
+                                onClick={() => setIsUploadModalOpen(true)}
                                 className="inline-flex items-center gap-3 px-10 py-5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/40 active:scale-95"
                             >
                                 <Plus size={24} />
@@ -506,6 +507,18 @@ export default function LibraryPage() {
             <PremiumWebFeatureModal 
                 isOpen={isPremiumModalOpen} 
                 onClose={() => setIsPremiumModalOpen(false)} 
+            />
+
+            <AdInterstitial
+                isOpen={isShowingAd}
+                onClose={() => setIsShowingAd(false)}
+                onProceed={() => {
+                    setIsShowingAd(false);
+                    // Free call handlePracticeWrongAnswers again, but this time it will be triggered by onProceed
+                    // Actually, let's make a separate internal function to avoid duplication
+                    proceedToSmartReview(pendingFolderId);
+                }}
+                adSlot="5202700378"
             />
         </div>
     );

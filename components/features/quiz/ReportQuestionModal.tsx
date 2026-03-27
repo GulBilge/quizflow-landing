@@ -12,7 +12,7 @@ interface ReportQuestionModalProps {
     isOpen: boolean;
     onClose: () => void;
     quizId: string;
-    userId: string;
+    userId?: string;
     questionIndex: number;
 }
 
@@ -35,7 +35,7 @@ export default function ReportQuestionModal({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedReason || isSubmitting) return;
+        if (!selectedReason || isSubmitting || !userId) return;
 
         setIsSubmitting(true);
         try {

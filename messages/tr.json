@@ -310,7 +310,10 @@
         "grading_completed": "Tamamlandı",
         "try_again": "Tekrar Dene",
         "return_dashboard": "Anasayfaya Dön",
-        "built_with_quizyen": "Quizyen ile hazırlandı"
+        "built_with_quizyen": "Quizyen ile hazırlandı",
+        "guest_login_title": "Sonucunu Kaydetmek İster misin?",
+        "guest_login_desc": "Giriş yaparak bu sınavı kütüphanene ekleyebilir, puanını kaydedebilir ve detaylı analizlerini görebilirsin.",
+        "guest_login_btn": "Giriş Yap ve Kaydet"
     },
     "Report": {
         "report_question": "Soruyu Bildir",
@@ -343,7 +346,8 @@
     "QuizActions": {
         "download_title": "Sınavı İndir",
         "download_desc": "Sınavı PDF olarak indir.",
-        "premium_only": "Bu özellik sadece premium üyeler için mevcuttur.",
+        "premium_only": "Reklam izleyerek indirin.",
+        "download_with_ad": "Reklamla İndir",
         "share_title": "Sınavı Paylaş",
         "share_desc": "Sınavı arkadaşlarınla paylaş.",
         "share_btn": "Paylaş",

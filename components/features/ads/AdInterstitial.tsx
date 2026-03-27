@@ -60,10 +60,16 @@ export default function AdInterstitial({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-900/90 backdrop-blur-md animate-in fade-in duration-300">
+        <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-900/90 backdrop-blur-md animate-in fade-in duration-300"
+            onClick={(e) => e.stopPropagation()}
+        >
             <div className="absolute top-4 right-4 sm:top-8 sm:right-8">
                 <button
-                    onClick={onClose}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onClose();
+                    }}
                     className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-all active:scale-90"
                 >
                     <X size={24} />
@@ -98,7 +104,10 @@ export default function AdInterstitial({
 
                     <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-4">
                         <button
-                            onClick={onProceed}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onProceed();
+                            }}
                             className={`w-full sm:w-auto px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xl ${canProceed
                                 ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-600/20'
                                 : 'bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'

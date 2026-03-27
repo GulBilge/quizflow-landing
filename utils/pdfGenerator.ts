@@ -66,6 +66,8 @@ export const generateQuizPDF = async (
 
         // Footer containing small watermarks
         footer: function(currentPage: number, pageCount: number) {
+            const pageText = locale === 'tr' ? 'Sayfa' : 'Page';
+            const rightsText = locale === 'tr' ? 'Her hakkı saklıdır.' : 'All rights reserved.';
             return {
                 columns: [
                     {
@@ -77,13 +79,13 @@ export const generateQuizPDF = async (
                         margin: [40, 0, 0, 0]
                     },
                     {
-                        text: `Sayfa ${currentPage} / ${pageCount}`,
+                        text: `${pageText} ${currentPage} / ${pageCount}`,
                         alignment: 'center',
                         color: '#64748b',
                         fontSize: 10
                     },
                     {
-                        text: 'Her hakkı saklıdır.', // Right bottom
+                        text: rightsText, // Right bottom
                         color: '#94a3b8',
                         fontSize: 8,
                         alignment: 'right',
@@ -156,8 +158,9 @@ export const generateQuizPDF = async (
 
     // Answer Key
     if (includeAnswerKey && questionsToUse.length > 0) {
+        const answerKeyTitle = locale === 'tr' ? 'Cevap Anahtarı' : 'Answer Key';
         docDefinition.content.push({
-            text: 'Cevap Anahtarı',
+            text: answerKeyTitle,
             fontSize: 20,
             bold: true,
             alignment: 'center',

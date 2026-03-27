@@ -60,10 +60,6 @@ export default function QuizUpload({ onClose, isPremium = false }: QuizUploadPro
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) {
-            if (!isPremium) {
-                onClose();
-                return;
-            }
             if (selectedFile.type !== "application/pdf") {
                 setError(t("only_pdf_error"));
                 return;
