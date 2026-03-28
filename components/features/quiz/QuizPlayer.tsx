@@ -354,7 +354,7 @@ export default function QuizPlayer({ quiz, userId, isPremium = false, isShared =
                             )}
                         </div>
                         <span className="text-sm font-black text-slate-400 uppercase tracking-widest">
-                            {userId ? userData?.name : ct("user_fallback", { defaultValue: "Misafir" })}
+                            {userId ? userData?.name : ct("user_fallback")}
                         </span>
                     </motion.div>
 

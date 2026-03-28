@@ -118,7 +118,8 @@
         "ad_failed_to_load": "Reklam yüklenemedi",
         "premium_web_feature_title": "Premium Özellik",
         "premium_web_feature_desc": "Sınav oluşturma özelliği web üzerinden sadece Premium kullanıcılara özeldir. Tüm özelliklere sınırsız erişmek için lütfen mobil uygulamamız üzerinden Premium'a geçin.",
-        "premium_web_feature_btn": "Mobil Uygulamayı İndir"
+        "premium_web_feature_btn": "Mobil Uygulamayı İndir",
+        "user_fallback": "Kullanıcı"
     },
     "Header": {
         "welcome": "Hoş geldin",
@@ -132,8 +133,7 @@
         "library": "Kütüphane",
         "performance": "Performans",
         "profile": "Profil",
-        "sign_out": "Çıkış Yap",
-        "user_fallback": "Kullanıcı"
+        "sign_out": "Çıkış Yap"
     },
     "Library": {
         "title": "Kütüphane",

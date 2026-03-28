@@ -12,6 +12,7 @@ export default function Sidebar({ user }: { user: any }) {
     const router = useRouter();
     const supabase = createClient();
     const t = useTranslations('Sidebar');
+    const ct = useTranslations('Common');
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -62,7 +63,7 @@ export default function Sidebar({ user }: { user: any }) {
                             {user.email?.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-white truncate">{user.user_metadata?.full_name || t('user_fallback')}</p>
+                            <p className="text-sm font-medium text-white truncate">{user.user_metadata?.full_name || ct('user_fallback')}</p>
                             <p className="text-xs text-slate-400 truncate">{user.email}</p>
                         </div>
                     </div>

@@ -118,7 +118,8 @@
         "ad_failed_to_load": "Ad failed to load",
         "premium_web_feature_title": "Premium Feature",
         "premium_web_feature_desc": "Quiz creation is only available for Premium users on the web. Please upgrade to Premium via our mobile app for unlimited access to all features.",
-        "premium_web_feature_btn": "Download Mobile App"
+        "premium_web_feature_btn": "Download Mobile App",
+        "user_fallback": "User"
     },
     "Header": {
         "welcome": "Welcome",
@@ -132,8 +133,7 @@
         "library": "Library",
         "performance": "Performance",
         "profile": "Profile",
-        "sign_out": "Sign Out",
-        "user_fallback": "User"
+        "sign_out": "Sign Out"
     },
     "Library": {
         "title": "Library",
