@@ -8,7 +8,8 @@ import {
     Settings,
     LogOut,
     ChevronLeft,
-    Menu
+    Menu,
+    Megaphone
 } from "lucide-react";
 import BrandLogo from "@/components/layout/BrandLogo";
 import { useState } from "react";
@@ -19,6 +20,11 @@ const navItems = [
         title: "Dashboard",
         href: "/admin",
         icon: LayoutDashboard,
+    },
+    {
+        title: "Pazarlama (AI)",
+        href: "/admin/marketing",
+        icon: Megaphone,
     },
     {
         title: "Blog Yönetimi",

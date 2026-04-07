@@ -12,42 +12,351 @@ export interface Database {
       blog_posts: {
         Row: {
           id: string
-          title: string
-          slug: string
-          content: string
-          excerpt: string | null
-          cover_image_url: string | null
-          is_published: boolean | null
-          seo_keywords: string | null
-          author_id: string | null
+          campaign_id: string
+          meta_title: string
+          meta_description: string
+          og_title: string | null
+          og_description: string | null
+          outline: Json | null
+          content_markdown: string
+          content_html: string | null
+          schema_jsonld: Json | null
+          word_count: number | null
+          reading_time_min: number | null
+          version: number
+          is_current: boolean
           created_at: string
-          updated_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          campaign_id: string
+          meta_title: string
+          meta_description: string
+          og_title?: string | null
+          og_description?: string | null
+          outline?: Json | null
+          content_markdown?: string
+          content_html?: string | null
+          schema_jsonld?: Json | null
+          word_count?: number | null
+          reading_time_min?: number | null
+          version?: number
+          is_current?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          campaign_id?: string
+          meta_title?: string
+          meta_description?: string
+          og_title?: string | null
+          og_description?: string | null
+          outline?: Json | null
+          content_markdown?: string
+          content_html?: string | null
+          schema_jsonld?: Json | null
+          word_count?: number | null
+          reading_time_min?: number | null
+          version?: number
+          is_current?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      campaigns: {
+        Row: {
+          id: string
+          title: string
+          slug: string | null
+          topic_seed: string
+          target_keyword: string
+          secondary_keywords: string[] | null
+          search_volume: number | null
+          difficulty_score: number | null
+          status: string
+          pipeline_stage: string
+          target_audience: string | null
+          content_angle: string | null
+          cta_type: string | null
+          reviewer_notes: string | null
+          reviewed_by: string | null
+          reviewed_at: string | null
+          published_at: string | null
+          blog_url: string | null
+          page_views: number
+          conversions: number
+          avg_time_on_page: number | null
+          performance_score: number | null
+          n8n_execution_id: string | null
+          created_at: string
+          updated_at: string
         }
         Insert: {
           id?: string
           title: string
-          slug: string
-          content: string
-          excerpt?: string | null
-          cover_image_url?: string | null
-          is_published?: boolean | null
-          seo_keywords?: string | null
-          author_id?: string | null
+          slug?: string | null
+          topic_seed: string
+          target_keyword: string
+          secondary_keywords?: string[] | null
+          search_volume?: number | null
+          difficulty_score?: number | null
+          status?: string
+          pipeline_stage?: string
+          target_audience?: string | null
+          content_angle?: string | null
+          cta_type?: string | null
+          reviewer_notes?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          published_at?: string | null
+          blog_url?: string | null
+          page_views?: number
+          conversions?: number
+          avg_time_on_page?: number | null
+          performance_score?: number | null
+          n8n_execution_id?: string | null
           created_at?: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           id?: string
           title?: string
-          slug?: string
-          content?: string
-          excerpt?: string | null
-          cover_image_url?: string | null
-          is_published?: boolean | null
-          seo_keywords?: string | null
-          author_id?: string | null
+          slug?: string | null
+          topic_seed?: string
+          target_keyword?: string
+          secondary_keywords?: string[] | null
+          search_volume?: number | null
+          difficulty_score?: number | null
+          status?: string
+          pipeline_stage?: string
+          target_audience?: string | null
+          content_angle?: string | null
+          cta_type?: string | null
+          reviewer_notes?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          published_at?: string | null
+          blog_url?: string | null
+          page_views?: number
+          conversions?: number
+          avg_time_on_page?: number | null
+          performance_score?: number | null
+          n8n_execution_id?: string | null
           created_at?: string
-          updated_at?: string | null
+          updated_at?: string
+        }
+      }
+      social_posts: {
+        Row: {
+          id: string
+          campaign_id: string
+          platform: string
+          content: Json
+          status: string
+          scheduled_at: string | null
+          published_at: string | null
+          platform_post_id: string | null
+          platform_url: string | null
+          impressions: number
+          engagements: number
+          link_clicks: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          campaign_id: string
+          platform: string
+          content: Json
+          status?: string
+          scheduled_at?: string | null
+          published_at?: string | null
+          platform_post_id?: string | null
+          platform_url?: string | null
+          impressions?: number
+          engagements?: number
+          link_clicks?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          campaign_id?: string
+          platform?: string
+          content?: Json
+          status?: string
+          scheduled_at?: string | null
+          published_at?: string | null
+          platform_post_id?: string | null
+          platform_url?: string | null
+          impressions?: number
+          engagements?: number
+          link_clicks?: number
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      research_signals: {
+        Row: {
+          id: string
+          campaign_id: string | null
+          source: string
+          raw_data: Json
+          topic: string
+          pain_points: string[] | null
+          opportunity_score: number | null
+          is_used: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          campaign_id?: string | null
+          source: string
+          raw_data: Json
+          topic: string
+          pain_points?: string[] | null
+          opportunity_score?: number | null
+          is_used?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          campaign_id?: string | null
+          source?: string
+          raw_data?: Json
+          topic?: string
+          pain_points?: string[] | null
+          opportunity_score?: number | null
+          is_used?: boolean
+          created_at?: string
+        }
+      }
+      brand_voice_guidelines: {
+        Row: {
+          id: string
+          category: string
+          title: string
+          content: string
+          examples: Json | null
+          is_active: boolean
+          priority: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          category: string
+          title: string
+          content: string
+          examples?: Json | null
+          is_active?: boolean
+          priority?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          category?: string
+          title?: string
+          content?: string
+          examples?: Json | null
+          is_active?: boolean
+          priority?: number
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      pipeline_logs: {
+        Row: {
+          id: string
+          campaign_id: string | null
+          n8n_execution_id: string | null
+          stage: string
+          status: string
+          agent_name: string | null
+          model_used: string | null
+          input_tokens: number | null
+          output_tokens: number | null
+          latency_ms: number | null
+          error_message: string | null
+          metadata: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          campaign_id?: string | null
+          n8n_execution_id?: string | null
+          stage: string
+          status: string
+          agent_name?: string | null
+          model_used?: string | null
+          input_tokens?: number | null
+          output_tokens?: number | null
+          latency_ms?: number | null
+          error_message?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          campaign_id?: string | null
+          n8n_execution_id?: string | null
+          stage?: string
+          status?: string
+          agent_name?: string | null
+          model_used?: string | null
+          input_tokens?: number | null
+          output_tokens?: number | null
+          latency_ms?: number | null
+          error_message?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+      }
+      performance_snapshots: {
+        Row: {
+          id: string
+          campaign_id: string
+          snapshot_date: string
+          page_views: number
+          unique_visitors: number
+          avg_position: number | null
+          impressions: number
+          clicks: number
+          ctr: number | null
+          conversions: number
+          bounce_rate: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          campaign_id: string
+          snapshot_date: string
+          page_views?: number
+          unique_visitors?: number
+          avg_position?: number | null
+          impressions?: number
+          clicks?: number
+          ctr?: number | null
+          conversions?: number
+          bounce_rate?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          campaign_id?: string
+          snapshot_date?: string
+          page_views?: number
+          unique_visitors?: number
+          avg_position?: number | null
+          impressions?: number
+          clicks?: number
+          ctr?: number | null
+          conversions?: number
+          bounce_rate?: number | null
+          created_at?: string
         }
       }
       folders: {

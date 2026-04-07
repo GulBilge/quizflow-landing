@@ -3,9 +3,8 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { format } from "date-fns";
 import { tr } from "date-fns/locale";
-import { Calendar, ChevronLeft, Share2 } from "lucide-react";
+import { Calendar, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import GoogleAd from "@/components/features/ads/GoogleAd";
 
 interface Props {
@@ -16,31 +15,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const supabase = await createClient();
 
-    const { data: post } = await (supabase as any)
+    const { data: post } = await supabase
         .from("blog_posts")
-        .select("*")
-        .eq("slug", slug)
-        .eq("is_published", true)
+        .select(`
+            *,
+            campaigns!inner (
+                title,
+                slug,
+                status
+            )
+        `)
+        .eq("campaigns.slug", slug)
+        .eq("campaigns.status", "published")
+        .eq("is_current", true)
         .maybeSingle();
 
     if (!post) return { title: "Yazı Bulunamadı" };
 
+    const campaign = (post as any).campaigns;
+
     return {
-        title: `${post.title} | Quizyen Blog`,
-        description: post.excerpt,
-        keywords: post.seo_keywords,
+        title: `${post.meta_title} | Quizyen Blog`,
+        description: post.meta_description,
         openGraph: {
-            title: post.title,
-            description: post.excerpt,
-            images: post.cover_image_url ? [post.cover_image_url] : [],
+            title: post.og_title || post.meta_title,
+            description: post.og_description || post.meta_description,
+            images: [], 
             type: "article",
             publishedTime: post.created_at,
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: post.title,
-            description: post.excerpt,
-            images: post.cover_image_url ? [post.cover_image_url] : [],
         }
     };
 }
@@ -49,22 +51,32 @@ export default async function BlogDetailPage({ params }: Props) {
     const { slug } = await params;
     const supabase = await createClient();
 
-    const { data: post, error } = await (supabase as any)
+    const { data: post, error } = await supabase
         .from("blog_posts")
-        .select("*")
-        .eq("slug", slug)
-        .eq("is_published", true)
+        .select(`
+            *,
+            campaigns!inner (
+                title,
+                slug,
+                status
+            )
+        `)
+        .eq("campaigns.slug", slug)
+        .eq("campaigns.status", "published")
+        .eq("is_current", true)
         .maybeSingle();
 
     if (error || !post) {
         return notFound();
     }
 
+    const campaign = (post as any).campaigns;
+
     // Check for premium status
     const { data: { session } } = await supabase.auth.getSession();
     let isPremium = false;
     if (session?.user) {
-        const { data: profile } = await (supabase as any)
+        const { data: profile } = await supabase
             .from("profiles")
             .select("is_pro")
             .eq("id", session.user.id)
@@ -92,25 +104,12 @@ export default async function BlogDetailPage({ params }: Props) {
                         </span>
                     </div>
                     <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                        {post.title}
+                        {campaign.title}
                     </h1>
                 </div>
             </div>
 
-            {/* Cover Image */}
-            {post.cover_image_url && (
-                <div className="max-w-5xl mx-auto px-4 md:px-8 mb-12">
-                    <div className="aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl">
-                        <img
-                            src={post.cover_image_url}
-                            alt={post.title}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                </div>
-            )}
-
-            {/* Content Switched to Prose */}
+            {/* Content Area */}
             <div className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Left Sidebar Ad - Desktop Only */}
@@ -128,10 +127,16 @@ export default async function BlogDetailPage({ params }: Props) {
 
                     {/* Main Content Area */}
                     <div className="flex-1 max-w-4xl mx-auto lg:mx-0">
-                        <div
-                            className="prose prose-indigo lg:prose-xl max-w-none prose-headings:font-bold prose-a:text-indigo-600 mb-12"
-                            dangerouslySetInnerHTML={{ __html: post.content }}
-                        />
+                        {post.content_html ? (
+                            <div
+                                className="prose prose-indigo lg:prose-xl max-w-none prose-headings:font-bold prose-a:text-indigo-600 mb-12"
+                                dangerouslySetInnerHTML={{ __html: post.content_html }}
+                            />
+                        ) : (
+                            <div className="prose prose-indigo lg:prose-xl max-w-none whitespace-pre-wrap font-sans text-slate-700">
+                                {post.content_markdown}
+                            </div>
+                        )}
 
                         {/* Mobile Ad - In Content Flow */}
                         <div className="lg:hidden my-12 py-8 border-y border-slate-100">
@@ -143,19 +148,6 @@ export default async function BlogDetailPage({ params }: Props) {
                                 isPremium={isPremium}
                             />
                         </div>
-
-                        {post.seo_keywords && (
-                            <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap gap-2">
-                                {post.seo_keywords.split(",").map((tag: string) => (
-                                    <span
-                                        key={tag}
-                                        className="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full font-medium"
-                                    >
-                                        #{tag.trim()}
-                                    </span>
-                                ))}
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>

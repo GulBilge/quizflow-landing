@@ -81,9 +81,11 @@ export async function updateSession(request: NextRequest, response?: NextRespons
                 .map((e) => e.trim().replace(/['"]+/g, '').toLowerCase());
             const userEmail = (user.email || "").trim().toLowerCase();
 
-            console.log("Admin Auth Check:", { userEmail, adminEmails });
+            const superAdminEmail = (process.env.SUPERADMIN_EMAIL || "").trim().toLowerCase();
 
-            if (!adminEmails.includes(userEmail)) {
+            console.log("Admin Auth Check:", { userEmail, adminEmails, superAdminEmail });
+
+            if (!adminEmails.includes(userEmail) && userEmail !== superAdminEmail) {
                 console.log("User not authorized. Redirecting to home.");
                 const redirectResponse = NextResponse.redirect(new URL("/", request.url));
                 res.cookies.getAll().forEach((cookie) => {

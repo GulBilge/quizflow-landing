@@ -30,8 +30,9 @@ const checkAdminAccess = async (): Promise<ActionResult<boolean>> => {
             .map((e: string) => e.trim().replace(/['"]+/g, '').toLowerCase());
 
         const userEmail = (user.email || "").trim().toLowerCase();
+        const superAdminEmail = (env.SUPERADMIN_EMAIL || "").trim().toLowerCase();
 
-        if (!adminEmails.includes(userEmail)) {
+        if (!adminEmails.includes(userEmail) && userEmail !== superAdminEmail) {
             return { data: null, error: "Unauthorized Access" };
         }
         return { data: true, error: null };

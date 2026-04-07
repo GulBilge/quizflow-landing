@@ -9,10 +9,10 @@ import { ArrowRight, Calendar, User } from "lucide-react";
 const BlogCard = ({ post }: { post: any }) => (
     <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col h-full">
         <div className="relative aspect-video overflow-hidden">
-            {post.cover_image_url ? (
+            {post.og_image_url || post.campaigns?.og_image_url ? (
                 <img
-                    src={post.cover_image_url}
-                    alt={post.title}
+                    src={post.og_image_url || post.campaigns?.og_image_url}
+                    alt={post.campaigns?.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
             ) : (
@@ -29,13 +29,13 @@ const BlogCard = ({ post }: { post: any }) => (
                 </span>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors line-clamp-2">
-                {post.title}
+                {post.campaigns?.title || "Başlıksız Yazı"}
             </h3>
             <p className="text-gray-500 text-sm line-clamp-3 mb-4 flex-grow">
-                {post.excerpt}
+                {post.meta_description}
             </p>
             <Link
-                href={`/blog/${post.slug}`}
+                href={`/blog/${post.campaigns?.slug}`}
                 className="inline-flex items-center gap-2 text-sm font-bold text-indigo-600 hover:gap-3 transition-all"
             >
                 Devamını Oku
@@ -48,10 +48,19 @@ const BlogCard = ({ post }: { post: any }) => (
 export default async function BlogPage() {
     const supabase = await createClient();
 
+    // Fetch blog posts joined with their campaigns (must be published)
     const { data: posts } = await supabase
         .from("blog_posts")
-        .select("*")
-        .eq("is_published", true)
+        .select(`
+            *,
+            campaigns!inner (
+                title,
+                slug,
+                status
+            )
+        `)
+        .eq("campaigns.status", "published")
+        .eq("is_current", true)
         .order("created_at", { ascending: false });
 
     return (
