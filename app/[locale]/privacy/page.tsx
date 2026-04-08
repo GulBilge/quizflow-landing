@@ -198,6 +198,10 @@ export default function PrivacyPolicy() {
                             Privacy Policy
                         </Link>
                         <span className="text-neutral-700">•</span>
+                        <Link href="/terms" className="text-neutral-500 hover:text-indigo-400 transition-colors">
+                            Terms of Service
+                        </Link>
+                        <span className="text-neutral-700">•</span>
                         <Link href="/delete-account" className="text-neutral-500 hover:text-red-400 transition-colors">
                             Delete Account
                         </Link>

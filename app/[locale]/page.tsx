@@ -689,17 +689,17 @@ export default function Home() {
             <div className="col-span-1">
               <h4 className="font-bold text-slate-900 mb-4">{t('footer.company')}</h4>
               <ul className="space-y-2 text-sm text-slate-500">
-                <li><a href="#" className="hover:text-indigo-600">{t('footer.about_us')}</a></li>
+                <li><a href="#features" className="hover:text-indigo-600">{t('footer.about_us')}</a></li>
                 <li><Link href="/blog" className="hover:text-indigo-600">{t('nav.blog')}</Link></li>
-                <li><a href="#" className="hover:text-indigo-600">{t('footer.contact')}</a></li>
+                <li><a href="https://x.com/bilgegulko1" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600">{t('footer.contact')}</a></li>
               </ul>
             </div>
 
             <div className="col-span-1">
               <h4 className="font-bold text-slate-900 mb-4">{t('footer.legal')}</h4>
               <ul className="space-y-2 text-sm text-slate-500">
-                <li><a href="#" className="hover:text-indigo-600">{t('footer.privacy_policy')}</a></li>
-                <li><a href="#" className="hover:text-indigo-600">{t('footer.terms_of_service')}</a></li>
+                <li><Link href="/privacy" className="hover:text-indigo-600">{t('footer.privacy_policy')}</Link></li>
+                <li><Link href="/terms" className="hover:text-indigo-600">{t('footer.terms_of_service')}</Link></li>
               </ul>
             </div>
           </div>
