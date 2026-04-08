@@ -143,7 +143,13 @@ export default function DashboardContent({ user, profile, recentActivity: initia
 
                 {/* Mobile full-width upload button */}
                 <button
-                    onClick={() => setIsUploadOpen(true)}
+                    onClick={() => {
+                        if (!profile?.is_pro && (recentActivity && recentActivity.length > 0)) {
+                            router.push("/mobile?reason=limit");
+                            return;
+                        }
+                        setIsUploadOpen(true);
+                    }}
                     className="flex md:hidden w-full items-center justify-center gap-3 py-4 rounded-2xl font-bold text-base text-white shadow-lg shadow-indigo-600/25 active:scale-[0.97] transition-all bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700"
                 >
                     <span className="flex items-center justify-center w-7 h-7 bg-white/20 rounded-xl">
@@ -155,7 +161,13 @@ export default function DashboardContent({ user, profile, recentActivity: initia
 
                 <div className="hidden md:flex gap-3">
                     <button
-                        onClick={() => setIsUploadOpen(true)}
+                        onClick={() => {
+                            if (!profile?.is_pro && (recentActivity && recentActivity.length > 0)) {
+                                router.push("/mobile?reason=limit");
+                                return;
+                            }
+                            setIsUploadOpen(true);
+                        }}
                         className="flex items-center gap-2 px-6 py-3.5 bg-indigo-600 text-white rounded-2xl font-bold text-sm hover:bg-indigo-700 transition-all hover:shadow-lg hover:shadow-indigo-600/20 active:scale-95"
                     >
                         <Plus size={18} />

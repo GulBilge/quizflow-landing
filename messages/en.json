@@ -236,7 +236,9 @@
             "title": "Smart Exam Preparation",
             "subtitle": "Fast, synced, and modern. We're reinventing study habits with Quizyen mobile.",
             "footer_rights": "© 2026 Quizyen. All rights reserved."
-        }
+        },
+        "limit_reached_title": "Web Limit Reached",
+        "limit_reached_desc": "You have reached the trial limit on the web version. Download our mobile app for unlimited and free access to all features!"
     },
     "Auth": {
         "title": "Quizyen",

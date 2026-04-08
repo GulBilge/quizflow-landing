@@ -1,15 +1,24 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
-import { Smartphone, Zap, Cloud, ShieldCheck, Download, Star, CheckCircle2, ArrowRight, BookOpen, Layers, Target, Search, Menu, Plus, ChevronRight, Play, Check, X, Trophy, Calendar } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
+import { Smartphone, Zap, Cloud, ShieldCheck, Download, Star, CheckCircle2, ArrowRight, BookOpen, Layers, Target, Search, Menu, Plus, ChevronRight, Play, Check, X, Trophy, Calendar, AlertCircle } from 'lucide-react';
 import { Link } from '@/i18n/routing';
-import { use } from 'react';
+import { use, useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export default function MobileClientPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = use(params);
     const t = useTranslations('MobilePage');
+    const searchParams = useSearchParams();
+    const [showLimitNotice, setShowLimitNotice] = useState(false);
+
+    useEffect(() => {
+        if (searchParams.get('reason')) {
+            setShowLimitNotice(true);
+        }
+    }, [searchParams]);
 
     const fadeIn = {
         initial: { opacity: 0, y: 20 },
@@ -75,6 +84,31 @@ export default function MobileClientPage({ params }: { params: Promise<{ locale:
                     </a>
                 </div>
             </nav>
+
+            {/* Limit Notice (Web Redirect) */}
+            <AnimatePresence>
+                {showLimitNotice && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        className="fixed top-24 left-0 w-full z-[60] px-6"
+                    >
+                        <div className="max-w-xl mx-auto bg-[#5e5ce6] text-white p-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/20">
+                            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0 text-white">
+                                <AlertCircle size={20} />
+                            </div>
+                            <div className="flex-1">
+                                <p className="font-black text-sm uppercase tracking-tighter">{t('limit_reached_title')}</p>
+                                <p className="text-xs font-bold opacity-90 leading-tight">{t('limit_reached_desc')}</p>
+                            </div>
+                            <button onClick={() => setShowLimitNotice(false)} className="p-2 hover:bg-white/20 rounded-lg text-white">
+                                <X size={20} />
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Hero */}
             <section className="pt-40 pb-20 px-6 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">

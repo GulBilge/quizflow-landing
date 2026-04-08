@@ -236,7 +236,9 @@
             "title": "Akıllı Sınav Hazırlığı",
             "subtitle": "Hızlı, senkronize ve modern. Quizyen mobil ile çalışma alışkanlıklarını baştan yaratıyoruz.",
             "footer_rights": "© 2026 Quizyen. Tüm hakları saklıdır."
-        }
+        },
+        "limit_reached_title": "Web Limitine Ulaşıldı",
+        "limit_reached_desc": "Web sürümünde deneme kullanım sınırına ulaştınız. Tüm özelliklere sınırsız ve ücretsiz erişmek için mobil uygulamamızı indirin!"
     },
     "Auth": {
         "title": "Quizyen",

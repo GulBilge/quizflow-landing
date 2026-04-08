@@ -39,6 +39,19 @@ export default async function QuizPage({ params, searchParams }: QuizPageProps) 
         isPremium = !!(profileData as any)?.is_pro;
     }
 
+    // Restriction: Free users can only play 1 trial quiz on web
+    if (user && !isPremium && !isShared) {
+        const { count } = await supabase
+            .from("quiz_attempts")
+            .select("*", { count: "exact", head: true })
+            .eq("user_id", user.id)
+            .eq("status", "completed");
+
+        if (count && count >= 1) {
+            redirect("/mobile?reason=play_limit");
+        }
+    }
+
     return (
         <div className="bg-transparent">
             <QuizPlayer
