@@ -74,9 +74,7 @@
             "desc": "Saniyeler içinde üye olun ve farkı bugün görün.",
             "btn_start": "Ücretsiz Başla",
             "mobile_app": "Mobil Uygulamayı İndir",
-            "feature_card": "Kredi Kartı Gerekmez",
-            "feature_setup": "Saniyeler İçinde Kurulum",
-            "feature_unlimited": "Sınırsız PDF Analizi"
+            "feature_setup": "Saniyeler İçinde Kurulum"
         }
     },
     "Common": {

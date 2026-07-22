@@ -586,15 +586,7 @@ export default function Home() {
             <div className="pt-8 flex flex-wrap justify-center gap-x-8 gap-y-4 opacity-40">
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={18} />
-                <span className="text-sm font-medium">{t('cta_new.feature_card')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={18} />
                 <span className="text-sm font-medium">{t('cta_new.feature_setup')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={18} />
-                <span className="text-sm font-medium">{t('cta_new.feature_unlimited')}</span>
               </div>
             </div>
           </div>
