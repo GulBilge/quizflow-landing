@@ -228,26 +228,6 @@ export default function Home() {
                 {t('hero.how_it_works_btn')}
               </button>
             </div>
-
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 text-sm text-slate-500 font-medium">
-              <div className="flex items-center gap-4">
-                <div className="flex -space-x-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center text-xs overflow-hidden shadow-sm">
-                      <img src={`https://ui-avatars.com/api/?name=User+${i}&background=random&color=6366f1`} alt="User" />
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-col items-start leading-tight">
-                  <div className="flex text-yellow-400 mb-0.5">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Sparkles key={i} size={12} fill="currentColor" />
-                    ))}
-                  </div>
-                  <p>{t('hero.users_count')}</p>
-                </div>
-              </div>
-            </div>
           </motion.div>
 
           {/* Visual / Phone Mockup */}
@@ -481,49 +461,6 @@ export default function Home() {
               </div>
             </motion.div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="py-24 bg-white overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
-              {t('testimonials.title')}
-            </h2>
-            <p className="text-lg text-slate-500">
-              {t('testimonials.subtitle')}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { name: t('testimonials.a1_name'), role: t('testimonials.a1_role'), text: t('testimonials.a1_text'), avatar: "https://ui-avatars.com/api/?name=Ayse+Y&background=random" },
-              { name: t('testimonials.e1_name'), role: t('testimonials.e1_role'), text: t('testimonials.e1_text'), avatar: "https://ui-avatars.com/api/?name=Emre+K&background=random" },
-              { name: t('testimonials.s1_name'), role: t('testimonials.s1_role'), text: t('testimonials.s1_text'), avatar: "https://ui-avatars.com/api/?name=Selin+B&background=random" }
-            ].map((testimonial, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex flex-col hover:bg-white hover:shadow-xl hover:border-indigo-100 transition-all duration-300"
-              >
-                <div className="flex text-yellow-500 gap-1 mb-6">
-                  {[1,2,3,4,5].map(star => <Sparkles key={star} size={14} fill="currentColor" />)}
-                </div>
-                <p className="text-slate-600 text-lg italic mb-8 leading-relaxed">"{testimonial.text}"</p>
-                <div className="mt-auto flex items-center gap-4">
-                  <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full ring-2 ring-white shadow-md" />
-                  <div>
-                    <h4 className="font-bold text-slate-900">{testimonial.name}</h4>
-                    <p className="text-sm text-slate-500">{testimonial.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 

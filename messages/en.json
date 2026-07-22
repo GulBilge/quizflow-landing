@@ -14,8 +14,7 @@
         "hero": {
             "ai_badge": "Future of Learning Tech",
             "try_free": "Start for Free Now",
-            "how_it_works_btn": "See How It Works",
-            "users_count": "Join 1000+ Successful Students"
+            "how_it_works_btn": "See How It Works"
         },
         "problem": {
             "old_way": "The Slow, Classic Way",
@@ -68,24 +67,11 @@
             "social_media": "Social Media",
             "copyright": "© 2026 Quizyen. All rights reserved."
         },
-        "testimonials": {
-            "title": "What Do Students Say?",
-            "subtitle": "Thousands of successful students are preparing for their exams with Quizyen.",
-            "a1_name": "Ayşe Y.",
-            "a1_role": "Medical Student",
-            "a1_text": "Turning my hundreds of pages of notes into quizzes during the TUS preparation process saved my life. I definitely recommend it!",
-            "e1_name": "Emre K.",
-            "e1_role": "Law Student",
-            "e1_text": "It's great to analyze complex law texts and ask questions. Thanks to active learning, I now remember more with less effort.",
-            "s1_name": "Selin B.",
-            "s1_role": "University Entrance Prep",
-            "s1_text": "I use it to quickly test my own notes before mock exams. The AI asks really accurate questions."
-        },
         "cta_new": {
             "badge": "Ready to Surpass Your Limits?",
             "title": "End Exam Stress, Study {akillica}.",
             "akillica": "Smarter",
-            "desc": "Thousands of students gamify their PDFs with Quizyen every day. Sign up in seconds and see the difference today.",
+            "desc": "Sign up in seconds and see the difference today.",
             "btn_start": "Start for Free",
             "mobile_app": "Download Mobile App",
             "feature_card": "No Credit Card Required",
