@@ -14,8 +14,7 @@
         "hero": {
             "ai_badge": "Geleceğin Öğrenme Teknolojisi",
             "try_free": "Hemen Ücretsiz Başla",
-            "how_it_works_btn": "Nasıl Çalışır?",
-            "users_count": "1000+ Başarılı Öğrenci Arasına Katılın"
+            "how_it_works_btn": "Nasıl Çalışır?"
         },
         "problem": {
             "old_way": "Klasik ve Yavaş Yöntem",
@@ -68,24 +67,11 @@
             "social_media": "Sosyal Medya",
             "copyright": "© 2026 Quizyen. Tüm hakları saklıdır."
         },
-        "testimonials": {
-            "title": "Öğrenciler Ne Diyor?",
-            "subtitle": "Binlerce başarılı öğrenci sınavlarına Quizyen ile hazırlanıyor.",
-            "a1_name": "Ayşe Y.",
-            "a1_role": "Tıp Fakültesi Öğrencisi",
-            "a1_text": "TUS hazırlık sürecinde yüzlerce sayfalık notlarımı quiz haline getirmek hayatımı kurtardı. Kesinlikle tavsiye ederim!",
-            "e1_name": "Emre K.",
-            "e1_role": "Hukuk Öğrencisi",
-            "e1_text": "Karmaşık kanun metinlerini analiz edip soru sorması harika. Aktif öğrenme sayesinde artık daha az eforla daha çok şey hatırlıyorum.",
-            "s1_name": "Selin B.",
-            "s1_role": "YKS Hazırlık",
-            "s1_text": "Deneme sınavlarından önce kendi notlarımı hızlıca test etmek için kullanıyorum. Yapay zeka gerçekten çok isabetli sorular soruyor."
-        },
         "cta_new": {
             "badge": "Sınırlarını Aşmaya Hazır mısın?",
             "title": "Sınav Stresine Son Verin, {akillica} Çalışın.",
             "akillica": "Akıllıca",
-            "desc": "Binlerce öğrenci her gün Quizyen ile PDF'lerini oyunlaştırıyor. Saniyeler içinde üye olun ve farkı bugün görün.",
+            "desc": "Saniyeler içinde üye olun ve farkı bugün görün.",
             "btn_start": "Ücretsiz Başla",
             "mobile_app": "Mobil Uygulamayı İndir",
             "feature_card": "Kredi Kartı Gerekmez",
